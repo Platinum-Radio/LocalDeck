@@ -16,7 +16,7 @@ Use the following English copy in the GitHub repository settings.
 
 ## Social preview
 
-Upload `.github/assets/localdeck-github-social-preview.png` under **Settings → General → Social preview**.
+Upload `.github/assets/localdeck-github-social-preview.jpg` under **Settings → General → Social preview**. The optimized JPEG is below GitHub's 1 MB upload limit; the lossless PNG remains available for the README.
 
 ## Short promotional description
 
