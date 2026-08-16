@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 const LOCALDECK_SITE_ROOT = __DIR__ . '/..';
 const LOCALDECK_SITE_VERSION = '1.0.0';
+const LOCALDECK_CONTACT_RECIPIENT = 'chatgpt@platinumradio.nl';
+const LOCALDECK_MAIL_SENDER = 'website@localdeck.nl';
 
 $requestedLanguage = strtolower((string) ($_GET['lang'] ?? $_COOKIE['localdeck_site_language'] ?? 'nl'));
 $language = $requestedLanguage === 'en' ? 'en' : 'nl';
@@ -161,4 +163,74 @@ function nav_active(string $page, string $current): string
 function request_is_local(): bool
 {
     return in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true);
+}
+
+function mail_header_value(string $value): string
+{
+    return trim((string) preg_replace('/[\r\n]+/', ' ', $value));
+}
+
+function community_submission_email(array $submission): array
+{
+    $typeLabels = [
+        'question' => 'Vraag of hulp',
+        'bug' => 'Foutmelding',
+        'idea' => 'Idee of verbetering',
+        'docs' => 'Wiki of documentatie',
+    ];
+    $type = (string) ($submission['type'] ?? 'question');
+    $title = mail_header_value((string) ($submission['title'] ?? 'Zonder titel'));
+    $email = trim((string) ($submission['email'] ?? ''));
+    $subjectText = '[LocalDeck website] ' . ($typeLabels[$type] ?? 'Bericht') . ': ' . $title;
+    $subject = function_exists('mb_encode_mimeheader')
+        ? mb_encode_mimeheader($subjectText, 'UTF-8', 'B', "\r\n")
+        : $subjectText;
+
+    $body = implode("\r\n", [
+        'Er is een nieuw bericht binnengekomen via LocalDeck.nl.',
+        '',
+        'Categorie: ' . ($typeLabels[$type] ?? $type),
+        'Titel: ' . (string) ($submission['title'] ?? ''),
+        'Naam: ' . (string) ($submission['name'] ?? 'Anoniem'),
+        'E-mail: ' . ($email !== '' ? $email : 'Niet opgegeven'),
+        'Taal: ' . strtoupper((string) ($submission['language'] ?? 'nl')),
+        'Ontvangen: ' . (string) ($submission['createdAt'] ?? ''),
+        'Bericht-ID: ' . (string) ($submission['id'] ?? ''),
+        'Website: ' . site_origin(),
+        '',
+        'Bericht:',
+        str_replace(["\r\n", "\r"], "\n", (string) ($submission['message'] ?? '')),
+    ]);
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit',
+        'From: LocalDeck Website <' . LOCALDECK_MAIL_SENDER . '>',
+        'X-Mailer: LocalDeck Website/' . LOCALDECK_SITE_VERSION,
+    ];
+    if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match('/[\r\n]/', $email)) {
+        $headers[] = 'Reply-To: ' . mail_header_value($email);
+    }
+
+    return [
+        'to' => LOCALDECK_CONTACT_RECIPIENT,
+        'subject' => $subject,
+        'body' => $body,
+        'headers' => implode("\r\n", $headers),
+    ];
+}
+
+function send_community_submission_email(array $submission, ?callable $transport = null): bool
+{
+    $email = community_submission_email($submission);
+    $transport ??= static fn (string $to, string $subject, string $body, string $headers): bool =>
+        mail($to, $subject, $body, $headers);
+
+    try {
+        return $transport($email['to'], $email['subject'], $email['body'], $email['headers']) === true;
+    } catch (Throwable $error) {
+        error_log('LocalDeck community-mail kon niet worden aangeboden: ' . $error->getMessage());
+        return false;
+    }
 }

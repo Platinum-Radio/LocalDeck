@@ -8,13 +8,13 @@ Dit is het lokale websiteproject voor LocalDeck. Het draait zonder Composer- of 
 
 De productsite, wiki en updatefeed horen direct bij de LocalDeck-versie. Een zelfstandige site houdt deze inhoud in versiebeheer, beperkt plug-inonderhoud en maakt de JSON-updateketen eenvoudig controleerbaar. WordPress met bbPress is bruikbaar wanneer niet-technische redacteuren alles via één CMS moeten beheren, maar voegt voor deze productsite een extra kern, thema en plug-ins toe die doorlopend bijgewerkt en geback-upt moeten worden.
 
-Voor het uiteindelijke openbare forum is een afzonderlijke Flarum-installatie op bijvoorbeeld `community.localdeck.nl` de aanbevolen route. Flarum sluit aan op PHP/MySQL en bevat een beheerdashboard, gebruikers, groepen en rechten. De huidige communitypagina is een veilige lokale intake-preview en pretendeert geen volledig publiek forum te zijn.
+Voor een eventueel openbaar forum blijft een afzonderlijke Flarum-installatie op bijvoorbeeld `community.localdeck.nl` een logische vervolgstap. De huidige communitypagina is een direct contactformulier en pretendeert geen volledig publiek forum te zijn.
 
 ## Onderdelen
 
 - `index.php` — productwebsite.
 - `wiki.php` en `inc/content.php` — tweetalige wiki.
-- `community.php` — lokale intake voor vragen, fouten, ideeën en documentatie.
+- `community.php` — beveiligd contactformulier voor vragen, fouten, ideeën en documentatie; e-mailt naar de vaste beheerinbox en houdt een lokale afleverkopie bij.
 - `downloads.php` — de nieuwste release bovenaan en een downloadbaar archief van oudere versies, beide met aantallen per versie en uitvoering.
 - `download.php` — gevalideerde downloadroute en privacyvriendelijke teller.
 - `downloads/windows.json` — updatefeed voor de desktopapp.
@@ -36,7 +36,7 @@ Voor publicatie zijn minimaal nodig:
 
 1. Een definitief domein en HTTPS-hosting met PHP 8.2+.
 2. Een schrijfbare maar via HTTP geblokkeerde `private`-map.
-3. Een apart Flarum-forum met eigen database, SMTP, anti-spam, back-ups en moderators.
+3. Werkende servermail voor `website@localdeck.nl`, inclusief SPF/DKIM voor het domein; test de aflevering naar de vaste beheerinbox.
 4. Definitief privacybeleid, forumregels, contactadres en bewaartermijnen.
 5. Authenticode-codecertificaat en exacte vertrouwde uitgever in LocalDeck.
 6. Alleen gevalideerde output uit `Publish-LocalDeck.ps1 -Finalize` naar `Publish-WebsiteRelease.ps1` doorgeven.

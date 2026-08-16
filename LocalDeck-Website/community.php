@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $formError = t('Vul een geldig e-mailadres in of laat het veld leeg.', 'Enter a valid email address or leave the field empty.');
     } else {
-        save_community_submission([
+        $submission = [
             'id' => bin2hex(random_bytes(12)),
             'type' => $type,
             'title' => $title,
@@ -65,13 +65,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'name' => $name === '' ? t('Anoniem', 'Anonymous') : mb_substr($name, 0, 80),
             'email' => $email,
             'language' => $language,
-            'status' => 'pending',
             'createdAt' => (new DateTimeImmutable())->format(DATE_ATOM),
-        ]);
+        ];
         $_SESSION['community_last_submission'] = time();
-        $_SESSION['community_csrf'] = bin2hex(random_bytes(24));
-        header('Location: ' . with_language('community.php?submitted=1') . '#new-topic', true, 303);
-        exit;
+        $mailAccepted = send_community_submission_email($submission);
+        $submission['status'] = $mailAccepted ? 'sent' : 'delivery_failed';
+        $submission['delivery'] = [
+            'channel' => 'email',
+            'attemptedAt' => (new DateTimeImmutable())->format(DATE_ATOM),
+            'accepted' => $mailAccepted,
+        ];
+        $backupSaved = false;
+        try {
+            save_community_submission($submission);
+            $backupSaved = true;
+        } catch (Throwable $error) {
+            error_log('LocalDeck community-back-up kon niet worden opgeslagen: ' . $error->getMessage());
+        }
+
+        if (!$mailAccepted) {
+            $formError = $backupSaved
+                ? t(
+                    'Je bericht kon nu niet per e-mail worden afgeleverd. De inhoud is als noodkopie bewaard; probeer het over enkele minuten opnieuw.',
+                    'Your message could not be delivered by email right now. A fallback copy was saved; please try again in a few minutes.'
+                )
+                : t(
+                    'Je bericht kon nu niet worden afgeleverd of bewaard. De ingevulde inhoud staat nog in het formulier; probeer het over enkele minuten opnieuw.',
+                    'Your message could not be delivered or saved right now. Your input is still in the form; please try again in a few minutes.'
+                );
+        } else {
+            $_SESSION['community_csrf'] = bin2hex(random_bytes(24));
+            header('Location: ' . with_language('community.php?submitted=1') . '#new-topic', true, 303);
+            exit;
+        }
     }
 }
 
@@ -82,12 +108,12 @@ require __DIR__ . '/inc/header.php';
 ?>
 <section class="page-hero community-hero">
     <div class="shell hero-grid small">
-        <div><span class="eyebrow"><i></i>LOCALDECK COMMUNITY</span><h1><?= e(t('Samen maken we lokaal ontwikkelen beter.', 'Together, we make local development better.')) ?></h1><p><?= e(t('Stel een vraag, meld een fout of deel een idee. Inzendingen uit deze lokale preview komen eerst in een moderatiewachtrij.', 'Ask a question, report a bug, or share an idea. Submissions from this local preview first enter a moderation queue.')) ?></p><a class="button primary" href="#new-topic"><?= e(t('Nieuw onderwerp insturen', 'Submit a new topic')) ?> <span>↓</span></a></div>
+        <div><span class="eyebrow"><i></i>LOCALDECK COMMUNITY</span><h1><?= e(t('Samen maken we lokaal ontwikkelen beter.', 'Together, we make local development better.')) ?></h1><p><?= e(t('Stel een vraag, meld een fout of deel een idee. Je bericht wordt rechtstreeks per e-mail naar het LocalDeck-team gestuurd.', 'Ask a question, report a bug, or share an idea. Your message is sent directly to the LocalDeck team by email.')) ?></p><a class="button primary" href="#new-topic"><?= e(t('Nieuw onderwerp insturen', 'Submit a new topic')) ?> <span>↓</span></a></div>
         <div class="community-orbit" aria-hidden="true"><span class="orbit-center"><img src="assets/logo.png" alt=""></span><i class="orbit-item one">?</i><i class="orbit-item two">!</i><i class="orbit-item three">✦</i><i class="orbit-item four">⌘</i></div>
     </div>
 </section>
 <section class="section shell">
-    <div class="notice-banner"><span>ℹ</span><div><b><?= e(t('Community-preview', 'Community preview')) ?></b><p><?= e(t('Het intakeformulier werkt lokaal en bewaart geen IP-adressen. Voor openbare discussies, accounts, e-mailverificatie en moderatie koppelen we bij publicatie een afzonderlijk Flarum-forum.', 'The intake form works locally and stores no IP addresses. For public discussions, accounts, email verification, and moderation, a separate Flarum forum will be connected at publication.')) ?></p></div></div>
+    <div class="notice-banner"><span>ℹ</span><div><b><?= e(t('Rechtstreeks contact', 'Direct contact')) ?></b><p><?= e(t('Het formulier stuurt je bericht naar het LocalDeck-team en bewaart een lokale afleverkopie. Er worden geen IP-adressen opgeslagen.', 'The form sends your message to the LocalDeck team and keeps a local delivery copy. No IP addresses are stored.')) ?></p></div></div>
     <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('Kies een categorie', 'Choose a category')) ?></span><h2><?= e(t('Waar kunnen we mee helpen?', 'How can we help?')) ?></h2></div>
     <div class="category-grid">
         <a href="#new-topic" data-topic-type="question"><span class="category-icon violet">?</span><div><h3><?= e(t('Vragen & hulp', 'Questions & help')) ?></h3><p><?= e(t('Installatie, services, projecten en dagelijks gebruik.', 'Installation, services, projects, and daily use.')) ?></p></div><b>→</b></a>
@@ -105,16 +131,16 @@ require __DIR__ . '/inc/header.php';
             <ul class="check-list"><li><?= e(t('Geen wachtwoord of geheime sleutel meesturen', 'Never include a password or secret key')) ?></li><li><?= e(t('Diagnoserapporten eerst op persoonsgegevens controleren', 'Check diagnostic reports for personal data first')) ?></li><li><?= e(t('Inzendingen worden vóór publicatie beoordeeld', 'Submissions are reviewed before publication')) ?></li></ul>
         </div>
         <form class="topic-form" method="post" action="<?= e(with_language('community.php')) ?>#new-topic">
-            <?php if (isset($_GET['submitted'])): ?><div class="form-message success" role="status">✓ <?= e(t('Bedankt. Je onderwerp staat in de lokale moderatiewachtrij.', 'Thank you. Your topic is in the local moderation queue.')) ?></div><?php endif; ?>
+            <?php if (isset($_GET['submitted'])): ?><div class="form-message success" role="status">✓ <?= e(t('Bedankt. Je bericht is per e-mail naar het LocalDeck-team verzonden.', 'Thank you. Your message was emailed to the LocalDeck team.')) ?></div><?php endif; ?>
             <?php if ($formError !== ''): ?><div class="form-message error" role="alert"><?= e($formError) ?></div><?php endif; ?>
             <input type="hidden" name="csrf" value="<?= e((string) $_SESSION['community_csrf']) ?>">
             <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-            <label><span><?= e(t('Categorie', 'Category')) ?></span><select name="type" data-topic-select required><option value="question"><?= e(t('Vraag of hulp', 'Question or help')) ?></option><option value="bug"><?= e(t('Foutmelding', 'Bug report')) ?></option><option value="idea"><?= e(t('Idee of verbetering', 'Idea or improvement')) ?></option><option value="docs"><?= e(t('Wiki of documentatie', 'Wiki or documentation')) ?></option></select></label>
+            <label><span><?= e(t('Categorie', 'Category')) ?></span><select name="type" data-topic-select required><option value="question"<?= (string) ($_POST['type'] ?? '') === 'question' ? ' selected' : '' ?>><?= e(t('Vraag of hulp', 'Question or help')) ?></option><option value="bug"<?= (string) ($_POST['type'] ?? '') === 'bug' ? ' selected' : '' ?>><?= e(t('Foutmelding', 'Bug report')) ?></option><option value="idea"<?= (string) ($_POST['type'] ?? '') === 'idea' ? ' selected' : '' ?>><?= e(t('Idee of verbetering', 'Idea or improvement')) ?></option><option value="docs"<?= (string) ($_POST['type'] ?? '') === 'docs' ? ' selected' : '' ?>><?= e(t('Wiki of documentatie', 'Wiki or documentation')) ?></option></select></label>
             <label><span><?= e(t('Titel', 'Title')) ?></span><input name="title" minlength="6" maxlength="120" required value="<?= e((string) ($_POST['title'] ?? '')) ?>" placeholder="<?= e(t('Vat het onderwerp kort samen', 'Summarize the topic briefly')) ?>"></label>
             <label><span><?= e(t('Uitleg', 'Description')) ?></span><textarea name="message" minlength="20" maxlength="5000" rows="8" required placeholder="<?= e(t('Wat verwachtte je, wat gebeurde er en hoe kunnen we het herhalen?', 'What did you expect, what happened, and how can we reproduce it?')) ?>"><?= e((string) ($_POST['message'] ?? '')) ?></textarea></label>
             <div class="form-two"><label><span><?= e(t('Naam (optioneel)', 'Name (optional)')) ?></span><input name="name" maxlength="80" value="<?= e((string) ($_POST['name'] ?? '')) ?>"></label><label><span><?= e(t('E-mail (optioneel)', 'Email (optional)')) ?></span><input type="email" name="email" maxlength="160" value="<?= e((string) ($_POST['email'] ?? '')) ?>"></label></div>
             <button class="button primary" type="submit"><?= e(t('Onderwerp insturen', 'Submit topic')) ?> <span>→</span></button>
-            <small><?= e(t('Dit is geen accountregistratie. De preview bewaart de inzending alleen lokaal voor beoordeling.', 'This is not account registration. The preview stores the submission locally for review only.')) ?></small>
+            <small><?= e(t('Dit is geen accountregistratie. Je gegevens worden alleen gebruikt om je bericht te behandelen en eventueel te beantwoorden.', 'This is not account registration. Your details are used only to handle your message and, when possible, reply to it.')) ?></small>
         </form>
     </div>
 </section>
