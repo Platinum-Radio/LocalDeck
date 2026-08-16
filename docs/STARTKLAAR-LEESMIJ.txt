@@ -1,0 +1,32 @@
+LOCALDECK STARTKLAAR - WINDOWS
+==============================
+
+Starten
+1. Dubbelklik op LocalDeck.exe.
+   De interne testmap gebruikt hiervoor een ongewijzigde Electron-host die door streng Windows-toepassingsbeheer wordt toegestaan.
+2. Klik in het dashboard op Alles starten, of start Apache, PHP, MySQL en de andere services afzonderlijk.
+3. Open localhost vanuit het dashboard.
+
+Websites
+- Alle websites blijven in de map websites naast LocalDeck.exe.
+- De meegeleverde testsite staat in websites\voorbeeld-website.
+- Die site is bereikbaar via http://localhost/voorbeeld-website/ zodra Apache en PHP actief zijn.
+- Met Nieuw project > Nieuwe PHP-website maakt LocalDeck offline een nieuwe submap aan.
+- De knop Websites-map opent de juiste map direct in Verkenner.
+
+Databasebeheer
+- Start MySQL en phpMyAdmin afzonderlijk of gebruik Alles starten.
+- Open phpMyAdmin vanuit het dashboard.
+- Databases en wachtwoorden blijven in de lokale map runtime.
+
+Afsluiten
+- Gebruik het LocalDeck-pictogram in het Windows-systeemvak en kies Afsluiten.
+- In app-modus stopt LocalDeck daarna ook alle gestarte services.
+- Bij Windows-service-modus blijven de gekozen services zelfstandig draaien.
+
+Verplaatsen
+- Sluit LocalDeck eerst volledig af.
+- Verplaats daarna de complete map LocalDeck-Startklaar.
+- Verplaats nooit alleen LocalDeck.exe; runtime, data en websites horen erbij.
+
+Deze map is een interne testomgeving. Er is bewust nog geen nieuwe installer of ZIP gemaakt.

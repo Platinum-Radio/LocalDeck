@@ -1,0 +1,12 @@
+{
+  "version": "0.6.1",
+  "channel": "stable",
+  "title": "LocalDeck 0.6.1 is beschikbaar",
+  "notes": "Volledig ingebouwde offline Windows-runtime, DPAPI-fix en betrouwbare afsluiting van alle services.",
+  "downloadUrl": "https://example.com/LocalDeck-0.6.1-Windows-Setup-x64.exe",
+  "publishedAt": "2026-08-15T00:00:00Z",
+  "sha256": "VUL_HIER_DE_SHA256_VAN_DE_INSTALLER_IN",
+  "rollbackVersion": "0.5.1",
+  "rollbackUrl": "https://example.com/LocalDeck-0.5.1-Windows-Setup-x64.exe",
+  "rollbackSha256": "VUL_HIER_DE_SHA256_VAN_DE_VORIGE_INSTALLER_IN"
+}

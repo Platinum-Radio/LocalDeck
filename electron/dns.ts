@@ -1,0 +1,11 @@
+import dgram from'node:dgram';
+import{readFileSync}from'node:fs';
+import path from'node:path';
+
+function questionName(message:Buffer){let offset=12;const labels:string[]=[];while(offset<message.length){const length=message[offset++];if(!length)break;if(length>63||offset+length>message.length)return null;labels.push(message.subarray(offset,offset+length).toString('ascii'));offset+=length}if(offset+4>message.length)return null;return{name:labels.join('.').toLowerCase(),type:message.readUInt16BE(offset),end:offset+4}}
+
+export function buildDnsResponse(message:Buffer,domains:Set<string>){if(message.length<12)return null;const question=questionName(message);if(!question)return null;const known=domains.has(question.name),isA=question.type===1,isAAAA=question.type===28,answer=known&&(isA||isAAAA),header=Buffer.alloc(12);message.copy(header,0,0,2);header.writeUInt16BE(answer?0x8180:known?0x8180:0x8183,2);header.writeUInt16BE(1,4);header.writeUInt16BE(answer?1:0,6);const query=message.subarray(12,question.end);if(!answer)return Buffer.concat([header,query]);const address=isA?Buffer.from([127,0,0,1]):Buffer.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]),record=Buffer.alloc(12);record.writeUInt16BE(0xc00c,0);record.writeUInt16BE(question.type,2);record.writeUInt16BE(1,4);record.writeUInt32BE(30,6);record.writeUInt16BE(address.length,10);return Buffer.concat([header,query,record,address])}
+
+function loadDomains(runtimeDirectory:string){try{const state=JSON.parse(readFileSync(path.join(runtimeDirectory,'state.json'),'utf8'));return new Set<string>((state.projects??[]).map((project:{domain?:string})=>String(project.domain||'').toLowerCase()).filter((domain:string)=>domain.endsWith('.test')))}catch{return new Set<string>()}}
+
+export function startLocalDns(runtimeDirectory:string,port=53){let domains=loadDomains(runtimeDirectory),lastLoad=0;const server=dgram.createSocket('udp4');server.on('message',(message,remote)=>{if(Date.now()-lastLoad>2000){domains=loadDomains(runtimeDirectory);lastLoad=Date.now()}const response=buildDnsResponse(message,domains);if(response)server.send(response,remote.port,remote.address)});return new Promise<ReturnType<typeof dgram.createSocket>>((resolve,reject)=>{server.once('error',reject);server.bind(port,'127.0.0.1',()=>{server.off('error',reject);resolve(server)})})}

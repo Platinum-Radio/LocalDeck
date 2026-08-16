@@ -1,0 +1,108 @@
+# LocalDeck Project Capsule — veilig deelbaar, zonder geheime waarden
+schemaVersion: 3
+kind: LocalDeckProjectCapsule
+exportedBy: LocalDeck 0.10.0
+name: LocalDeck
+domain: localdeck.localhost
+documentRoot: .
+php:
+  version: "8.5"
+  extensions: &a1
+    - mysqli
+    - pdo_mysql
+    - mbstring
+    - openssl
+    - curl
+    - zip
+  xdebug: off
+web:
+  server: apache
+  https: true
+  httpPort: 10082
+  httpsPort: 10083
+database:
+  engine: mysql
+  version: "8.4"
+  branching: true
+services:
+  mail: capture
+  scheduler: false
+  redis: true
+production:
+  php: "8.5"
+  database: mysql:8.4
+  webServer: apache
+  requiredEnv:
+    - APP_DEBUG
+    - APP_ENV
+environment: development
+env: &a2
+  APP_ENV: local
+  APP_DEBUG: "true"
+secrets: []
+template: custom
+repository: {}
+profile:
+  webServer: apache
+  phpExtensions: *a1
+  environment: development
+  databaseEngine: mysql
+  databaseVersion: "8.4"
+  mailMode: capture
+  debugToolbar: true
+  isolated: false
+  runtimeLocked: true
+  xdebugMode: off
+  schedulerEnabled: false
+  env: *a2
+  httpPort: 10082
+  httpsPort: 10083
+tasks:
+  - id: composer-install
+    name: Composer install
+    command: composer
+    args:
+      - install
+      - --no-interaction
+    category: composer
+    safe: true
+  - id: composer-audit
+    name: Composer audit
+    command: composer
+    args:
+      - audit
+      - --format=plain
+    category: composer
+    safe: true
+  - id: npm-install
+    name: npm install
+    command: npm
+    args:
+      - install
+    category: node
+    safe: true
+  - id: npm-test
+    name: npm test
+    command: npm
+    args:
+      - test
+      - --
+      - --run
+    category: test
+    safe: true
+  - id: phpunit
+    name: PHPUnit
+    command: php
+    args:
+      - vendor/bin/phpunit
+    category: test
+    safe: true
+  - id: artisan-migrate
+    name: Artisan migrate
+    command: php
+    args:
+      - artisan
+      - migrate
+      - --force
+    category: framework
+    safe: false

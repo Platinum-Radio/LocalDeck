@@ -1,0 +1,83 @@
+# Dependencies and bundled development toolchains
+node_modules/
+tools/node/
+
+# Build and test output
+dist/
+dist-electron/
+release/
+out/
+coverage/
+*.tsbuildinfo
+
+# LocalDeck validation, packaging, and deployment workspaces
+.build-cache/
+.deployment/
+.release-work/
+.run-work/
+.validation/
+LocalDeck-Startklaar/
+downloads/
+
+# Redistributable runtime binaries are shipped with official downloads,
+# but are not stored in the source repository.
+runtime-packages/*
+!runtime-packages/offline-runtime.json
+LocalDeck-Website/downloads/releases/
+
+# Local website state, submissions, download statistics, and sessions
+LocalDeck-Website/private/
+
+# Local projects and runtime data
+websites/
+runtime/
+data/
+logs/
+backups/
+certificates/
+mysql-data/
+mail-data/
+/.localdeck.json
+/.localdeck.lock.json
+
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+*.jks
+
+# Generated archives and executables
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.msi
+*.exe
+*.dll
+*.pdb
+*.phar
+*.asar
+
+# Logs, temporary files, and operating-system metadata
+*.log
+*.tmp
+*.bak
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE settings
+.idea/
+.vscode/
+
+# Internal workspace notes
+/AGENTS.md
+/README-WERKMAP.md

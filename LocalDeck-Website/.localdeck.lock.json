@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 3,
+  "capsuleSchemaVersion": 3,
+  "blueprintHash": "2e173e34896ca2b03529ed735cc7c4eb4d0948041068fcb0b59696b649d7ad79",
+  "localDeckVersion": "0.10.0",
+  "lockedAt": "2026-08-16T09:05:35.026Z",
+  "runtime": {
+    "php": "8.5",
+    "webServer": "apache",
+    "database": "mysql:8.4"
+  }
+}

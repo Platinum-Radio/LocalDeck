@@ -1,0 +1,136 @@
+﻿{
+    "schemaVersion":  2,
+    "createdAt":  "2026-08-15T11:06:14.1671100+02:00",
+    "packages":  [
+                     {
+                         "id":  "apache",
+                         "displayName":  "Apache HTTP Server",
+                         "version":  "2.4.68",
+                         "required":  true,
+                         "name":  "apache.zip",
+                         "sha256":  "EAC38A9F8D21B6BA0817CD1576A3D291CC771AFD3C6A210D120BDEA6F4AA4AEB",
+                         "bytes":  13602524,
+                         "source":  "winget:ApacheLounge.httpd@2.4.68"
+                     },
+                     {
+                         "id":  "php-8.5",
+                         "displayName":  "PHP 8.5",
+                         "version":  "8.5.9",
+                         "required":  true,
+                         "name":  "php.zip",
+                         "sha256":  "6A8AF9F5D2A35B81CD9F1DB04BD4037C3609828DB62F81589E29E13FAFFD45F9",
+                         "bytes":  36150664,
+                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.5-Win32-vs17-x64-latest.zip"
+                     },
+                     {
+                         "id":  "php-8.2",
+                         "displayName":  "PHP 8.2",
+                         "version":  "8.2.33",
+                         "required":  true,
+                         "name":  "php-8.2.zip",
+                         "sha256":  "7D2568DFAAD6AC1391E57994F52C8AED835BAF9E6D89F4328770E2843311291C",
+                         "bytes":  33562144,
+                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.2-Win32-vs16-x64-latest.zip"
+                     },
+                     {
+                         "id":  "php-8.3",
+                         "displayName":  "PHP 8.3",
+                         "version":  "8.3.33",
+                         "required":  true,
+                         "name":  "php-8.3.zip",
+                         "sha256":  "B089E370FF99EB7038B0D22617DEC2F3A1D0E93CA26B11FD218F2F5B60422271",
+                         "bytes":  34001105,
+                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.3-Win32-vs16-x64-latest.zip"
+                     },
+                     {
+                         "id":  "php-8.4",
+                         "displayName":  "PHP 8.4",
+                         "version":  "8.4.24",
+                         "required":  true,
+                         "name":  "php-8.4.zip",
+                         "sha256":  "7B57FC9840273AB153834D0E2BD06E0BCF4FEAD36E381182B4B8FE9CEDFF3174",
+                         "bytes":  35103633,
+                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.4-Win32-vs17-x64-latest.zip"
+                     },
+                     {
+                         "id":  "mysql",
+                         "displayName":  "MySQL Server",
+                         "version":  "8.4.10",
+                         "required":  true,
+                         "name":  "mysql.zip",
+                         "sha256":  "3B950DB31C33FB59252568C012BD9EE5FAC50811E778CA7C8F1A0DC91686CD6F",
+                         "bytes":  280672277,
+                         "source":  "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.10-winx64.zip"
+                     },
+                     {
+                         "id":  "phpmyadmin",
+                         "displayName":  "phpMyAdmin",
+                         "version":  "5.2.3",
+                         "required":  true,
+                         "name":  "phpmyadmin.zip",
+                         "sha256":  "2D2E13C735366D318425C78E4EE2CC8FC648D77FABA3DDEA2CD516E43885733F",
+                         "bytes":  16431330,
+                         "source":  "https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip"
+                     },
+                     {
+                         "id":  "mailpit",
+                         "displayName":  "Mailpit",
+                         "version":  "1.30.7",
+                         "required":  true,
+                         "name":  "mailpit.zip",
+                         "sha256":  "E4815D2C961A4AD024F4D942D0D286FD7B7DA49C49FC7F01C565FF296BD3FDCE",
+                         "bytes":  10507924,
+                         "source":  "https://github.com/axllent/mailpit/releases/download/v1.30.7/mailpit-windows-amd64.zip"
+                     },
+                     {
+                         "id":  "redis",
+                         "displayName":  "Redis for Windows",
+                         "version":  "5.0.14.1",
+                         "required":  true,
+                         "name":  "redis.zip",
+                         "sha256":  "018EA18A35876383CBB5F4CD0258ADFC87747CF9D619BCE1CF73A2E36F720CCF",
+                         "bytes":  12617669,
+                         "source":  "https://github.com/tporadowski/redis/releases/download/v5.0.14.1/Redis-x64-5.0.14.1.zip"
+                     },
+                     {
+                         "id":  "winsw",
+                         "displayName":  "Windows Service Wrapper",
+                         "version":  "2.12.0",
+                         "required":  true,
+                         "name":  "WinSW.NET4.exe",
+                         "sha256":  "923111C7142B3DC783A3C722B19B8A21BCB78222D7A136AC33F0CA8A29F4CB66",
+                         "bytes":  852480,
+                         "source":  "https://github.com/winsw/winsw/releases/download/v2.12.0/WinSW.NET4.exe"
+                     },
+                     {
+                         "id":  "composer",
+                         "displayName":  "Composer",
+                         "version":  "2.10.2",
+                         "required":  true,
+                         "name":  "composer.phar",
+                         "sha256":  "5EE7125F8A30A34D246CEFDC0BC85B8A783B28F2AEC968994118512350D28027",
+                         "bytes":  3639279,
+                         "source":  "https://getcomposer.org/download/latest-stable/composer.phar"
+                     },
+                     {
+                         "id":  "vc-runtime",
+                         "displayName":  "Microsoft Visual C++ Runtime",
+                         "version":  "14.51.36247.0",
+                         "required":  true,
+                         "name":  "vc_redist.x64.exe",
+                         "sha256":  "843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C",
+                         "bytes":  18731856,
+                         "source":  "https://aka.ms/vc14/vc_redist.x64.exe"
+                     },
+                     {
+                         "id":  "mkcert",
+                         "displayName":  "mkcert",
+                         "version":  "1.4.4",
+                         "required":  true,
+                         "name":  "mkcert.exe",
+                         "sha256":  "D2660B50A9ED59EADA480750561C96ABC2ED4C9A38C6A24D93E30E0977631398",
+                         "bytes":  4896256,
+                         "source":  "https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-windows-amd64.exe"
+                     }
+                 ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "policy": {
+    "networkDownloads": false,
+    "signatureRequired": true,
+    "sha256Required": true,
+    "note": "Componentpakketten worden pas na licentie- en beveiligingscontrole als afzonderlijke offline download uitgegeven."
+  },
+  "packs": [
+    {"id":"mariadb","name":"MariaDB","category":"database","status":"planned","license":"GPL-2.0"},
+    {"id":"postgresql","name":"PostgreSQL","category":"database","status":"planned","license":"PostgreSQL"},
+    {"id":"nginx","name":"Nginx","category":"webserver","status":"planned","license":"BSD-2-Clause"},
+    {"id":"caddy","name":"Caddy","category":"webserver","status":"planned","license":"Apache-2.0"},
+    {"id":"mail-server","name":"Lokale SMTP/IMAP-server","category":"mail","status":"planned","license":"Nog vast te leggen"}
+  ]
+}
+

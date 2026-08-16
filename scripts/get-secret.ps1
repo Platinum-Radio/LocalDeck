@@ -1,0 +1,2 @@
+﻿[CmdletBinding()]param([Parameter(Mandatory=$true)][string]$SecretsFile)
+$ErrorActionPreference='Stop';Add-Type -AssemblyName System.Security;$data=Get-Content $SecretsFile -Raw|ConvertFrom-Json;if($data.mysqlRootProtected){$bytes=[Convert]::FromBase64String($data.mysqlRootProtected);$plain=[System.Security.Cryptography.ProtectedData]::Unprotect($bytes,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser);[System.Text.Encoding]::UTF8.GetString($plain)}elseif($data.mysqlRoot){$data.mysqlRoot}else{throw 'MySQL-geheim ontbreekt.'}

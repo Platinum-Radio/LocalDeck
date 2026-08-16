@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LocalDeck — lokale omgeving</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="logo"><img src="favicon.svg" alt=""></div>
+      <div><strong>LocalDeck</strong><small>Windows developer environment</small></div>
+      <i><b></b> Apache is actief</i><button class="languageToggle" id="language-toggle" type="button">EN</button>
+    </header>
+    <section class="hero">
+      <p class="eyebrow">LOKALE ONTWIKKELOMGEVING</p>
+      <h1>Alles draait.<br><em>Tijd om te bouwen.</em></h1>
+      <p class="intro">Apache, PHP, MySQL en je ontwikkeltools zijn lokaal beschikbaar. Deze pagina bevestigt dat de webserver correct werkt op localhost en 127.0.0.1.</p>
+      <div class="actions">
+        <a class="primary" data-link="phpmyadmin" href="http://127.0.0.1:8080" target="_blank">Open phpMyAdmin <span>↗</span></a>
+        <a data-link="localhost" href="http://localhost">Ververs localhost <span>↻</span></a>
+      </div>
+    </section>
+    <section class="grid">
+      <article><div class="icon">A</div><span>Webserver</span><h2>Apache</h2><p id="apache-address">localhost · poort 80</p></article>
+      <article><div class="icon">P</div><span>Runtime</span><h2>PHP</h2><p id="php-address">FastCGI · poort 9000</p></article>
+      <article><div class="icon">M</div><span>Database</span><h2>MySQL</h2><p id="mysql-address">127.0.0.1 · poort 3306</p></article>
+      <article><div class="icon">DB</div><span>Beheer</span><h2>phpMyAdmin</h2><p id="phpmyadmin-address">127.0.0.1 · poort 8080</p></article>
+    </section>
+    <section class="tips">
+      <div><b>Websites-map</b><p>Maak of bewerk websites in de map <code>websites</code>. Een submap is direct bereikbaar via <code>localhost/mapnaam</code>.</p></div>
+      <div><b>Snelle adressen</b><p><a data-link="localhost" href="http://localhost">localhost</a> · <a data-link="loopback" href="http://127.0.0.1">127.0.0.1</a> · <a data-link="phpmyadmin" href="http://127.0.0.1:8080">phpMyAdmin</a></p></div>
+    </section>
+    <footer><span>LocalDeck voor Windows</span><span>Alle verbindingen blijven op deze computer.</span></footer>
+  </main>
+  <script>
+    const translations={
+      'Windows developer environment':'Windows developer environment','Apache is actief':'Apache is running','LOKALE ONTWIKKELOMGEVING':'LOCAL DEVELOPMENT ENVIRONMENT','Alles draait.':'Everything is running.','Tijd om te bouwen.':'Time to build.','Apache, PHP, MySQL en je ontwikkeltools zijn lokaal beschikbaar. Deze pagina bevestigt dat de webserver correct werkt op localhost en 127.0.0.1.':'Apache, PHP, MySQL and your development tools are available locally. This page confirms that the web server works correctly on localhost and 127.0.0.1.','Open phpMyAdmin':'Open phpMyAdmin','Ververs localhost':'Refresh localhost','Webserver':'Web server','Beheer':'Management','Websites-map':'Websites folder','Maak of bewerk websites in de map':'Create or edit websites in the','Een submap is direct bereikbaar via':'A subfolder is immediately available at','Snelle adressen':'Quick addresses','LocalDeck voor Windows':'LocalDeck for Windows','Alle verbindingen blijven op deze computer.':'All connections remain on this computer.'
+    };
+    let language='nl',ports={apache:80,php:9000,mysql:3306,phpmyadmin:8080};const originals=new WeakMap();
+    const translate=value=>language==='en'?(translations[value]||value):value;
+    function applyLanguage(){document.documentElement.lang=language;document.title=language==='en'?'LocalDeck — local environment':'LocalDeck — lokale omgeving';document.querySelectorAll('body *').forEach(element=>{if(['SCRIPT','STYLE','CODE'].includes(element.tagName))return;for(const node of element.childNodes)if(node.nodeType===Node.TEXT_NODE&&node.textContent.trim()){if(!originals.has(node))originals.set(node,node.textContent);const source=originals.get(node),trimmed=source.trim(),leading=source.match(/^\s*/)[0],trailing=source.match(/\s*$/)[0];node.textContent=leading+translate(trimmed)+trailing}});document.getElementById('language-toggle').textContent=language==='nl'?'EN':'NL';renderPorts()}
+    function renderPorts(){const portWord=language==='en'?'port':'poort';document.getElementById('apache-address').textContent=`localhost · ${portWord} ${ports.apache}`;document.getElementById('php-address').textContent=`FastCGI · ${portWord} ${ports.php}`;document.getElementById('mysql-address').textContent=`127.0.0.1 · ${portWord} ${ports.mysql}`;document.getElementById('phpmyadmin-address').textContent=`127.0.0.1 · ${portWord} ${ports.phpmyadmin}`}
+    document.getElementById('language-toggle').addEventListener('click',()=>{language=language==='nl'?'en':'nl';localStorage.setItem('localdeck-language',language);applyLanguage()});
+    fetch('localdeck-runtime.json',{cache:'no-store'}).then(response=>response.json()).then(value=>{ports={...ports,...value};language=localStorage.getItem('localdeck-language')||value.language||(navigator.language.toLowerCase().startsWith('nl')?'nl':'en');const address=(host,port)=>`http://${host}${Number(port)===80?'':`:${port}`}`;document.querySelectorAll('[data-link="localhost"]').forEach(link=>link.href=address('localhost',ports.apache));document.querySelectorAll('[data-link="loopback"]').forEach(link=>link.href=address('127.0.0.1',ports.apache));document.querySelectorAll('[data-link="phpmyadmin"]').forEach(link=>link.href=address('127.0.0.1',ports.phpmyadmin));applyLanguage()}).catch(()=>{language=localStorage.getItem('localdeck-language')||(navigator.language.toLowerCase().startsWith('nl')?'nl':'en');applyLanguage()});
+  </script>
+</body>
+</html>
