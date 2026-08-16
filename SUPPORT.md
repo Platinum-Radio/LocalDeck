@@ -1,11 +1,12 @@
-# Ondersteuning
+# Support
 
-Open in LocalDeck **Product Doctor** en voer eerst **Alles controleren** uit. Gebruik veilig herstel bij een projectfout. Maak daarna zo nodig een **Veilige supportbundel**; die bevat systeeminformatie, geschoonde configuratie en de laatste logregels, maar geen project- of database-inhoud.
+Open **Product Doctor** in LocalDeck and run **Check all** first. Use **Safe repair** when LocalDeck detects a project problem. If required, create a **Safe support bundle**; it contains system information, sanitized configuration, and recent log lines, but no project or database contents.
 
-Vermeld bij een melding:
+Include the following information in a report:
 
-- Windows-versie en of LocalDeck geïnstalleerd of uitgepakt is;
-- app-modus of Windows-servicemodus;
-- de zichtbare foutmelding en het tijdstip;
-- het support-ZIP-bestand, uitsluitend wanneer je de inhoud zelf hebt gecontroleerd.
+- your Windows version and whether LocalDeck was installed or extracted from the ZIP package;
+- app mode or Windows service mode;
+- the visible error message and approximate time of the error;
+- the support ZIP only after you have reviewed its contents yourself.
 
+Use [GitHub Issues](https://github.com/Platinum-Radio/LocalDeck/issues) for reproducible bugs and the [LocalDeck community](https://localdeck.nl/community.php?lang=en) for general questions and ideas.
