@@ -8,15 +8,20 @@ Dit is het lokale websiteproject voor LocalDeck. Het draait zonder Composer- of 
 
 De productsite, wiki en updatefeed horen direct bij de LocalDeck-versie. Een zelfstandige site houdt deze inhoud in versiebeheer, beperkt plug-inonderhoud en maakt de JSON-updateketen eenvoudig controleerbaar. WordPress met bbPress is bruikbaar wanneer niet-technische redacteuren alles via één CMS moeten beheren, maar voegt voor deze productsite een extra kern, thema en plug-ins toe die doorlopend bijgewerkt en geback-upt moeten worden.
 
-Voor een eventueel openbaar forum blijft een afzonderlijke Flarum-installatie op bijvoorbeeld `community.localdeck.nl` een logische vervolgstap. De huidige communitypagina is een direct contactformulier en pretendeert geen volledig publiek forum te zijn.
+Voor een eventueel openbaar forum blijft een afzonderlijke Flarum-installatie op bijvoorbeeld `community.localdeck.nl` een logische vervolgstap. De huidige supportpagina is een direct contactformulier en pretendeert geen volledig publiek forum te zijn.
 
 ## Onderdelen
 
 - `index.php` — productwebsite.
 - `wiki.php` en `inc/content.php` — tweetalige wiki.
-- `community.php` — beveiligd contactformulier voor vragen, fouten, ideeën en documentatie; e-mailt naar de vaste beheerinbox en houdt een lokale afleverkopie bij.
+- `guides.php` en de afzonderlijke gidsroutes — praktische, tweetalige zoekmachinevriendelijke handleidingen.
+- `compare.php` — transparante productvergelijking met verwijzingen naar officiële bronnen.
+- `community.php` — beveiligd supportformulier voor vragen, fouten, ideeën en documentatie; e-mailt naar de vaste beheerinbox en houdt maximaal 180 dagen een lokale afleverkopie bij.
 - `downloads.php` — de nieuwste release bovenaan en een downloadbaar archief van oudere versies, beide met aantallen per versie en uitvoering.
 - `download.php` — gevalideerde downloadroute en privacyvriendelijke teller.
+- `security.php` — veiligheidsmodel en kwetsbaarheden melden.
+- `status.php` en `api/status.php` — live componentcontrole in HTML en JSON.
+- `sitemap.php` — tweetalige XML-sitemap, publiek beschikbaar als `sitemap.xml`.
 - `downloads/windows.json` — updatefeed voor de desktopapp.
 - `downloads/releases.json` — releasecatalogus voor website en teller.
 - `private/download-stats.json` — aantallen; via Apache niet publiek leesbaar.
@@ -30,16 +35,16 @@ De releasecatalogus wordt op semantisch versienummer aflopend gesorteerd; de vol
 
 De JSON-opslag gebruikt een exclusieve file lock en is geschikt voor de release-candidatefase en een bescheiden downloadsite. Bij veel gelijktijdig verkeer kan dezelfde functie zonder wijziging aan de publieke URL naar een SQL-tabel worden verplaatst.
 
-## Openbare publicatie
+## Productiebeheer
 
 Voor publicatie zijn minimaal nodig:
 
-1. Een definitief domein en HTTPS-hosting met PHP 8.2+.
-2. Een schrijfbare maar via HTTP geblokkeerde `private`-map.
-3. Werkende servermail voor `website@localdeck.nl`, inclusief SPF/DKIM voor het domein; test de aflevering naar de vaste beheerinbox.
-4. Definitief privacybeleid, forumregels, contactadres en bewaartermijnen.
-5. Authenticode-codecertificaat en exacte vertrouwde uitgever in LocalDeck.
+1. Behoud HTTPS-hosting met PHP 8.2+ en controleer `status.php` na iedere uitrol.
+2. Houd de `private`-map schrijfbaar voor PHP, maar geblokkeerd via HTTP.
+3. Bewaak servermail voor `website@localdeck.nl`, inclusief SPF/DKIM; test periodiek de aflevering naar de vaste beheerinbox.
+4. Controleer privacytekst en bewaartermijnen wanneer de support- of statistiekopslag verandert.
+5. Voeg bij een toekomstige ondertekende release de exacte vertrouwde Authenticode-uitgever toe aan LocalDeck.
 6. Alleen gevalideerde output uit `Publish-LocalDeck.ps1 -Finalize` naar `Publish-WebsiteRelease.ps1` doorgeven.
 7. De publieke updatefeed-URL in LocalDeck instellen en een volledige updateproef uitvoeren.
 
-Tijdens normaal ontwikkelwerk blijven installer-, portable- en ZIP-bestanden afwezig.
+Tijdens normaal ontwikkelwerk worden geen nieuwe installer-, ZIP- of andere distributiebestanden gemaakt.

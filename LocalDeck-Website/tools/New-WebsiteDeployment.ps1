@@ -30,7 +30,27 @@ New-Item -ItemType Directory -Path $stage -Force | Out-Null
 foreach ($directory in @('api', 'assets', 'downloads', 'inc', 'private')) {
     Copy-Item -LiteralPath (Join-Path $websiteRoot $directory) -Destination (Join-Path $stage $directory) -Recurse -Force
 }
-foreach ($file in @('.htaccess', 'community.php', 'download.php', 'downloads.php', 'index.php', 'privacy.php', 'robots.txt', 'status.php', 'wiki.php')) {
+foreach ($file in @(
+    '.htaccess',
+    'community.php',
+    'compare.php',
+    'download.php',
+    'downloads.php',
+    'guides.php',
+    'index.php',
+    'local-https.php',
+    'local-wordpress.php',
+    'migrate-xampp.php',
+    'php-85-windows.php',
+    'php-per-project.php',
+    'privacy.php',
+    'robots.txt',
+    'security.php',
+    'sitemap.php',
+    'status.php',
+    'wiki.php',
+    'xampp-alternative.php'
+)) {
     Copy-Item -LiteralPath (Join-Path $websiteRoot $file) -Destination (Join-Path $stage $file) -Force
 }
 

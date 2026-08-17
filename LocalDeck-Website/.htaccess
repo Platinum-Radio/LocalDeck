@@ -1,7 +1,16 @@
 Options -Indexes
 DirectoryIndex index.php
 
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+</IfModule>
+
 <FilesMatch "(^\.|\.(md|ps1|lock|log)$)">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(guide\.php)$">
     Require all denied
 </FilesMatch>
 
@@ -9,10 +18,19 @@ DirectoryIndex index.php
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "DENY"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
 </IfModule>
 
 <IfModule mod_headers.c>
     <FilesMatch "\.(json)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate"
     </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
 </IfModule>

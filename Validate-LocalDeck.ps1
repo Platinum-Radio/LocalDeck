@@ -36,6 +36,20 @@ try{
   }
   Write-Host '[controle] Alle PowerShell-scripts hebben geldige syntax' -ForegroundColor Green
 
+  $php=Join-Path $root 'LocalDeck-Startklaar\runtime\php\php.exe'
+  $websiteRoot=Join-Path $root 'LocalDeck-Website'
+  if(!(Test-Path -LiteralPath $php)){throw 'De meegeleverde PHP-runtime voor de websitetests ontbreekt.'}
+  $phpFiles=Get-ChildItem -LiteralPath $websiteRoot -Filter '*.php' -Recurse -File
+  foreach($phpFile in $phpFiles){
+    $lintOutput=& $php -l $phpFile.FullName 2>&1
+    if($LASTEXITCODE-ne0){throw "PHP-syntaxfout in $($phpFile.FullName): $lintOutput"}
+  }
+  foreach($testFile in Get-ChildItem -LiteralPath (Join-Path $websiteRoot 'tests') -Filter '*.test.php' -File){
+    & $php $testFile.FullName
+    if($LASTEXITCODE-ne0){throw "Websitetest $($testFile.Name) is mislukt met code $LASTEXITCODE."}
+  }
+  Write-Host "[controle] $($phpFiles.Count) websitebestanden en alle websitetests zijn geldig" -ForegroundColor Green
+
   Invoke-Node @('node_modules/typescript/bin/tsc','-p','tsconfig.electron.json') 'Electron-hoofdproces en gedeelde types'
   Invoke-Node @('node_modules/typescript/bin/tsc','--noEmit') 'TypeScript-interface'
   Invoke-Node @('node_modules/vitest/vitest.mjs','run') 'Automatische tests'

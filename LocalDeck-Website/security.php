@@ -1,0 +1,26 @@
+<?php
+declare(strict_types=1);
+require __DIR__ . '/inc/bootstrap.php';
+$pageKey = 'security';
+$pageTitle = t('Veiligheid en vertrouwen — LocalDeck', 'Security and trust — LocalDeck');
+$pageDescription = t('Hoe LocalDeck lokale gegevens, downloads, updates en projectverwijdering beschermt.', 'How LocalDeck protects local data, downloads, updates, and project removal.');
+$structuredData = ['@type' => 'WebPage', 'name' => $pageTitle, 'description' => $pageDescription];
+require __DIR__ . '/inc/header.php';
+?>
+<section class="page-hero compact"><div class="shell"><span class="eyebrow"><i></i>SECURITY BY DESIGN</span><h1><?= e(t('Controle over je omgeving en je gegevens.', 'Control over your environment and your data.')) ?></h1><p><?= e(t('LocalDeck werkt lokaal, vereist geen account en maakt zichtbaar wanneer een handeling administratorstoegang, internet of verwijdering nodig heeft.', 'LocalDeck works locally, requires no account, and makes it clear when an action needs administrator access, internet, or removal.')) ?></p></div></section>
+<section class="section shell trust-principles">
+    <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('Uitgangspunten', 'Principles')) ?></span><h2><?= e(t('Veilig zonder verborgen afhankelijkheden.', 'Safe without hidden dependencies.')) ?></h2></div>
+    <div class="principle-grid">
+        <article><span>01</span><h3><?= e(t('Geen account of activatie', 'No account or activation')) ?></h3><p><?= e(t('De standaardomgeving start zonder LocalDeck-account, licentiesleutel of cloudkoppeling.', 'The standard environment starts without a LocalDeck account, license key, or cloud connection.')) ?></p></article>
+        <article><span>02</span><h3><?= e(t('Loopback als standaard', 'Loopback by default')) ?></h3><p><?= e(t('Beheerinterfaces en ontwikkelservices luisteren standaard alleen lokaal en worden niet automatisch op het netwerk gepubliceerd.', 'Management interfaces and development services listen locally by default and are not automatically exposed to the network.')) ?></p></article>
+        <article><span>03</span><h3><?= e(t('Controleerbare downloads', 'Verifiable downloads')) ?></h3><p><?= e(t('Iedere release bevat een SHA-256-hash. De updateketen weigert een bestand dat niet met de gepubliceerde hash overeenkomt.', 'Every release includes a SHA-256 hash. The update chain rejects a file that does not match the published hash.')) ?></p></article>
+        <article><span>04</span><h3><?= e(t('Expliciete verwijdering', 'Explicit removal')) ?></h3><p><?= e(t('Bestanden, databases, certificaten en projectmetadata worden pas verwijderd na een duidelijke inventaris en bevestiging met de projectnaam.', 'Files, databases, certificates, and project metadata are removed only after a clear inventory and confirmation using the project name.')) ?></p></article>
+    </div>
+</section>
+<section class="section security-details"><div class="shell legal-copy">
+    <section><h2><?= e(t('Welke internetverbindingen gebruikt LocalDeck?', 'Which internet connections does LocalDeck use?')) ?></h2><p><?= e(t('Alleen expliciete online acties gebruiken internet, zoals updatecontrole, een Git-clone, Composer-pakketten of een online projectsjabloon. Lokale services, projecten, databases, testmail en certificaten blijven op de computer.', 'Only explicit online actions use the internet, such as update checks, a Git clone, Composer packages, or an online project template. Local services, projects, databases, test mail, and certificates remain on the computer.')) ?></p></section>
+    <section><h2><?= e(t('Waar staan gegevens?', 'Where is data stored?')) ?></h2><p><?= e(t('De ZIP-uitvoering bewaart de omgeving in de uitgepakte LocalDeck-map. De installatie-uitvoering gebruikt de gekozen installatie- en gegevenslocaties. Het dashboard toont de werkelijke paden voordat back-ups, exports of verwijderingen worden uitgevoerd.', 'The ZIP edition keeps the environment in the extracted LocalDeck folder. The installer edition uses the selected installation and data locations. The dashboard shows actual paths before backups, exports, or removals are performed.')) ?></p></section>
+    <section><h2><?= e(t('Kwetsbaarheid melden', 'Report a vulnerability')) ?></h2><p><?= e(t('Publiceer beveiligingsdetails niet in een openbaar issue. Gebruik GitHub Private Vulnerability Reporting zodat technische informatie eerst privé kan worden beoordeeld.', 'Do not publish security details in a public issue. Use GitHub Private Vulnerability Reporting so technical information can be reviewed privately first.')) ?></p><a class="button secondary" href="<?= e(LOCALDECK_GITHUB_URL) ?>/security/advisories/new" target="_blank" rel="noopener"><?= e(t('Privé beveiligingsmelding', 'Private security report')) ?> ↗</a></section>
+    <section><h2><?= e(t('Geen productieserver', 'Not a production server')) ?></h2><p><?= e(t('LocalDeck is bedoeld voor ontwikkeling op een eigen Windows-computer. Publiceer de lokale Apache-, MySQL-, phpMyAdmin-, Mailpit- of Redis-poorten niet rechtstreeks op internet.', 'LocalDeck is intended for development on your own Windows computer. Do not expose local Apache, MySQL, phpMyAdmin, Mailpit, or Redis ports directly to the internet.')) ?></p></section>
+</div></section>
+<?php require __DIR__ . '/inc/footer.php'; ?>

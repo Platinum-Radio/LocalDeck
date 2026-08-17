@@ -29,12 +29,12 @@ return [
         ],
     ],
     'installatie' => [
-        'title' => ['Installatie en portable gebruik', 'Installation and portable use'],
+        'title' => ['Installatie en ZIP-uitvoering', 'Installation and ZIP edition'],
         'summary' => ['LocalDeck werkt als Windows-installatie of volledig vanuit één map.', 'LocalDeck works as a Windows installation or entirely from one folder.'],
         'minutes' => 8,
         'sections' => [
             [
-                'title' => ['Portable map', 'Portable folder'],
+                'title' => ['ZIP uitpakken', 'Extract the ZIP'],
                 'paragraphs' => [
                     ['De startklare map bevat het dashboard, de offline runtimes, configuratie en de map websites. Verplaats de volledige map als één geheel; absolute projectpaden worden bij de volgende start opnieuw gekoppeld.', 'The ready-to-run folder contains the dashboard, offline runtimes, configuration, and the websites folder. Move the whole folder as one unit; absolute project paths are relinked on the next launch.'],
                     ['Kies de EXE voor de normale Windows-installatie of pak de ZIP uit in een map naar keuze en start LocalDeck.exe.', 'Choose the EXE for the regular Windows installation, or extract the ZIP to any folder and start LocalDeck.exe.'],
@@ -163,6 +163,59 @@ return [
                 'title' => ['Failed to fetch', 'Failed to fetch'],
                 'paragraphs' => [
                     ['Deze melding betekent meestal dat Webbeheer zijn lokale API niet bereikt, dat Apache nog herstart, of dat een browsercertificaat niet wordt vertrouwd. Controleer de servicestatus en vernieuw daarna de pagina.', 'This message usually means Web Management cannot reach its local API, Apache is still restarting, or a browser certificate is not trusted. Check service status and then refresh the page.'],
+                ],
+            ],
+        ],
+    ],
+    'windows-beveiliging' => [
+        'title' => ['Windows-beveiliging en downloadcontrole', 'Windows security and download verification'],
+        'summary' => ['Controleer herkomst en integriteit voordat je LocalDeck start.', 'Verify origin and integrity before starting LocalDeck.'],
+        'minutes' => 7,
+        'sections' => [
+            [
+                'title' => ['Controleer eerst de download', 'Verify the download first'],
+                'paragraphs' => [
+                    ['Download LocalDeck alleen via LocalDeck.nl of de officiële GitHub-repository. Vergelijk daarna de volledige SHA-256 met de waarde op de downloadpagina.', 'Download LocalDeck only through LocalDeck.nl or the official GitHub repository. Then compare the complete SHA-256 with the value on the download page.'],
+                    ['Verwijder het bestand en meld het via Support wanneer de hash niet exact overeenkomt. Start een bestand met een afwijkende hash nooit.', 'Delete the file and report it through Support when the hash does not match exactly. Never run a file with a different hash.'],
+                ],
+                'commands' => ['Get-FileHash -Algorithm SHA256 ".\\LocalDeck-1.0.0-Windows-Setup-x64.exe"'],
+            ],
+            [
+                'title' => ['Windows-waarschuwing beoordelen', 'Review a Windows warning'],
+                'paragraphs' => [
+                    ['Windows kan bij een nieuwe download een reputatie- of beveiligingsmelding tonen. Controleer vóór iedere beslissing de domeinherkomst, bestandsnaam en SHA-256 en voer bij twijfel niets uit.', 'Windows may show a reputation or security notice for a new download. Before making any decision, verify the source domain, file name, and SHA-256, and do not run anything when in doubt.'],
+                    ['Een waarschuwing verdwijnt niet door LocalDeck in een ander archief te plaatsen. Een vertrouwde Authenticode-handtekening blijft de structurele oplossing voor toekomstige releases.', 'A warning does not disappear by placing LocalDeck in a different archive. A trusted Authenticode signature remains the structural solution for future releases.'],
+                ],
+            ],
+        ],
+    ],
+    'foutcodes' => [
+        'title' => ['Foutmeldingen en oplossingen', 'Error messages and solutions'],
+        'summary' => ['Herken veelvoorkomende meldingen en voer de juiste controle uit.', 'Recognize common messages and run the correct check.'],
+        'minutes' => 10,
+        'sections' => [
+            [
+                'title' => ['Service is niet geïnstalleerd', 'Service is not installed'],
+                'paragraphs' => [
+                    ['Controleer of het offline runtimepakket aanwezig en volledig is. Gebruik daarna Runtime controleren of Veilig herstellen. LocalDeck mag in een verpakte Windows-build nooit stilzwijgend een ontbrekende service simuleren.', 'Check that the offline runtime package exists and is complete. Then use Check runtime or Safe repair. LocalDeck must never silently simulate a missing service in a packaged Windows build.'],
+                ],
+            ],
+            [
+                'title' => ['Failed to fetch', 'Failed to fetch'],
+                'paragraphs' => [
+                    ['Controleer of Webbeheer met de actuele lokale toegangstoken is geopend, of de API op 127.0.0.1 luistert en of Apache tijdens een herstart tijdelijk niet beschikbaar is.', 'Check whether Web Management was opened with the current local access token, whether the API is listening on 127.0.0.1, and whether Apache is temporarily unavailable during a restart.'],
+                ],
+            ],
+            [
+                'title' => ['Poort is bezet', 'Port is occupied'],
+                'paragraphs' => [
+                    ['Open Poorten controleren om procesnaam en PID te zien. Laat Poort Autopilot een vrije poort kiezen of stop het conflicterende programma bewust. LocalDeck werkt de gekoppelde configuratie als één wijziging bij.', 'Open Check ports to see the process name and PID. Let Port Autopilot choose a free port or deliberately stop the conflicting program. LocalDeck updates linked configuration as one change.'],
+                ],
+            ],
+            [
+                'title' => ['Lokaal domein opent niet', 'Local domain does not open'],
+                'paragraphs' => [
+                    ['Controleer projectstatus, Apache, PHP, het gekozen domein en certificaatvertrouwen. Gebruik daarna Domeinen & HTTPS herstellen om vhost en certificaatkoppeling opnieuw te maken.', 'Check project status, Apache, PHP, the selected domain, and certificate trust. Then use Repair domains & HTTPS to recreate the virtual host and certificate link.'],
                 ],
             ],
         ],

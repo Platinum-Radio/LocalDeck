@@ -35,6 +35,7 @@ assert_true($captured['to'] === 'chatgpt@platinumradio.nl', 'De ontvanger is nie
 assert_true(str_contains($captured['headers'], 'From: LocalDeck Website <website@localdeck.nl>'), 'De veilige afzender ontbreekt.');
 assert_true(str_contains($captured['headers'], 'Reply-To: reply@example.com'), 'Reply-To ontbreekt voor een geldig adres.');
 assert_true(!str_contains($captured['subject'], "\r\nBcc:"), 'Het onderwerp bevat een geïnjecteerde header.');
+assert_true(str_contains($captured['subject'], 'test-message-1'), 'Het ticketnummer ontbreekt in het onderwerp.');
 assert_true(str_contains($captured['body'], 'test-message-1'), 'Het bericht-ID ontbreekt in de e-mail.');
 assert_true(!str_contains($captured['body'], 'REMOTE_ADDR'), 'Technische clientgegevens horen niet in de e-mail.');
 

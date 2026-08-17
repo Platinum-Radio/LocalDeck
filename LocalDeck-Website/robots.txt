@@ -3,4 +3,6 @@ Allow: /
 Disallow: /private/
 Disallow: /tools/
 Disallow: /inc/
-
+Disallow: /tests/
+Disallow: /guide.php
+Sitemap: https://localdeck.nl/sitemap.xml

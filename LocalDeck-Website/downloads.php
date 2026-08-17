@@ -2,8 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/inc/bootstrap.php';
 
-$catalog = release_catalog();
-$releases = sorted_releases($catalog['releases'] ?? []);
+$releases = published_releases();
 $latest = $releases[0] ?? ['version' => '1.0.0', 'published' => false, 'artifacts' => []];
 $olderReleases = array_slice($releases, 1);
 $artifactPresentation = [
@@ -26,18 +25,16 @@ require __DIR__ . '/inc/header.php';
         <div class="version-card">
             <span><?= e(t('NIEUWSTE VERSIE', 'LATEST VERSION')) ?></span>
             <strong><?= e((string) $latest['version']) ?></strong>
-            <i class="preview-badge"><?= e(($latest['published'] ?? false) ? t('STABIEL', 'STABLE') : t('INTERNE PREVIEW', 'INTERNAL PREVIEW')) ?></i>
+            <i class="preview-badge"><?= e(($latest['published'] ?? false) ? t('ACTUEEL', 'CURRENT') : t('NIET BESCHIKBAAR', 'UNAVAILABLE')) ?></i>
             <small><?= e(format_release_date($latest['releasedAt'] ?? null)) ?></small>
         </div>
     </div>
 </section>
 
 <section class="section shell">
-    <div class="download-summary">
-        <div>
-            <span class="download-stat"><b><?= e((string) download_count((string) $latest['version'])) ?></b><?= e(t('gestarte downloads van deze versie', 'downloads initiated for this version')) ?></span>
-            <span class="download-stat"><b><?= e((string) (download_statistics()['total'] ?? 0)) ?></b><?= e(t('gestarte downloads in totaal', 'downloads initiated in total')) ?></span>
-        </div>
+    <?php $totalDownloads = (int) (download_statistics()['total'] ?? 0); ?>
+    <div class="download-summary<?= $totalDownloads === 0 ? ' new-release' : '' ?>">
+        <?php if ($totalDownloads > 0): ?><div><span class="download-stat"><b><?= e((string) download_count((string) $latest['version'])) ?></b><?= e(t('gestarte downloads van deze versie', 'downloads initiated for this version')) ?></span><span class="download-stat"><b><?= e((string) $totalDownloads) ?></b><?= e(t('gestarte downloads in totaal', 'downloads initiated in total')) ?></span></div><?php else: ?><div class="new-release-label"><span>✦</span><b><?= e(t('Nieuwe publieke release', 'New public release')) ?></b></div><?php endif; ?>
         <p><?= e(t('De teller registreert alleen een downloadstart nadat het gekozen releasebestand werkelijk bestaat. Er worden geen IP-adressen of trackingcookies opgeslagen.', 'The counter records a download start only after the selected release file actually exists. No IP addresses or tracking cookies are stored.')) ?></p>
     </div>
 
@@ -68,15 +65,23 @@ require __DIR__ . '/inc/header.php';
                 <?php else: ?>
                     <span class="button disabled" aria-disabled="true"><?= e(t('Nog niet gepubliceerd', 'Not published yet')) ?></span>
                 <?php endif; ?>
-                <small><?= $artifact && !empty($artifact['sha256']) ? 'SHA-256: ' . e(substr((string) $artifact['sha256'], 0, 16)) . '…' : e(t('Hash verschijnt na definitieve publicatie.', 'Hash appears after final publication.')) ?></small>
+                <?php if ($artifact && !empty($artifact['sha256'])): ?><div class="hash-box"><span>SHA-256</span><code><?= e((string) $artifact['sha256']) ?></code><button type="button" data-copy="<?= e((string) $artifact['sha256']) ?>"><?= e(t('Kopiëren', 'Copy')) ?></button></div><?php else: ?><small><?= e(t('Hash verschijnt na definitieve publicatie.', 'Hash appears after final publication.')) ?></small><?php endif; ?>
             </article>
         <?php endforeach; ?>
     </div>
 
+    <div class="release-notes-panel"><div><span class="eyebrow"><i></i><?= e(t('Release notes', 'Release notes')) ?></span><h2><?= e(t('Nieuw in LocalDeck ', 'New in LocalDeck ')) ?><?= e((string) $latest['version']) ?></h2><p><?= e((string) ($latest['notes'] ?? '')) ?></p></div><a class="button secondary" href="<?= e(LOCALDECK_GITHUB_URL) ?>/blob/main/CHANGELOG.md" target="_blank" rel="noopener"><?= e(t('Volledig changelog', 'Full changelog')) ?> ↗</a></div>
+
+    <div class="requirements-panel"><div><span>▣</span><b>Windows 11 x64</b><small><?= e(t('Windows 10 x64 blijft compatibel', 'Windows 10 x64 remains compatible')) ?></small></div><div><span>◫</span><b><?= e(t('Minimaal 4 GB vrij', 'At least 4 GB free')) ?></b><small><?= e(t('Voor runtime en tijdelijke extractie', 'For runtime and temporary extraction')) ?></small></div><div><span>○</span><b><?= e(t('Geen account nodig', 'No account required')) ?></b><small><?= e(t('Geen activatie of licentiesleutel', 'No activation or license key')) ?></small></div><div><span>↻</span><b><?= e(t('Eenmalige eerste start', 'One-time first start')) ?></b><small><?= e(t('Configuratie en certificaatvertrouwen', 'Configuration and certificate trust')) ?></small></div></div>
+
+    <div class="verify-panel"><div><span class="eyebrow"><i></i><?= e(t('Zelf controleren', 'Verify it yourself')) ?></span><h2><?= e(t('Vergelijk de SHA-256 in PowerShell.', 'Compare the SHA-256 in PowerShell.')) ?></h2><p><?= e(t('Open PowerShell in de downloadmap, voer de opdracht uit en vergelijk de volledige waarde met de hash hierboven.', 'Open PowerShell in the download folder, run the command, and compare the complete value with the hash above.')) ?></p></div><div class="verify-commands"><?php foreach ($artifactPresentation as $id => $_presentation): ?><?php $artifact = find_release_artifact($latest, $id); if (!$artifact || empty($artifact['file'])) continue; $filename = basename(str_replace('\\', '/', (string) $artifact['file'])); ?><div><code>Get-FileHash -Algorithm SHA256 ".\<?= e($filename) ?>"</code><button type="button" data-copy="Get-FileHash -Algorithm SHA256 &quot;.\<?= e($filename) ?>&quot;"><?= e(t('Kopiëren', 'Copy')) ?></button></div><?php endforeach; ?></div></div>
+
+    <div class="notice-banner download-help"><span>?</span><div><b><?= e(t('Windows toont een beveiligingsmelding?', 'Windows shows a security notice?')) ?></b><p><?= e(t('Controleer eerst of het bestand van LocalDeck.nl komt en of de SHA-256 klopt. Bekijk daarna de stappen voor Windows-beveiliging in de wiki.', 'First verify that the file came from LocalDeck.nl and that its SHA-256 matches. Then review the Windows security steps in the wiki.')) ?></p><a href="<?= e(with_language('wiki.php?article=windows-beveiliging')) ?>"><?= e(t('Open de veilige uitleg', 'Open the security guide')) ?> →</a></div></div>
+
     <div class="integrity-grid">
         <article><span>1</span><div><b><?= e(t('Bestand aanwezig', 'File present')) ?></b><p><?= e(t('De teller weigert ontbrekende of onbekende bestanden.', 'The counter rejects missing or unknown files.')) ?></p></div></article>
         <article><span>2</span><div><b>SHA-256</b><p><?= e(t('LocalDeck vergelijkt het bestand met de hash uit de feed.', 'LocalDeck compares the file with the hash in the feed.')) ?></p></div></article>
-        <article><span>3</span><div><b>Windows x64</b><p><?= e(t('De EXE en ZIP zijn gereed voor Windows 10 en Windows 11.', 'The EXE and ZIP are ready for Windows 10 and Windows 11.')) ?></p></div></article>
+        <article><span>3</span><div><b>Windows x64</b><p><?= e(t('Windows 11 is het primaire platform; Windows 10 x64 blijft compatibel.', 'Windows 11 is the primary platform; Windows 10 x64 remains compatible.')) ?></p></div></article>
     </div>
 </section>
 
@@ -113,7 +118,7 @@ require __DIR__ . '/inc/header.php';
                             <span class="archive-version"><b>LocalDeck <?= e($version) ?></b><small><?= e(format_release_date($release['releasedAt'] ?? null)) ?></small></span>
                             <span class="archive-channel"><?= e(ucfirst((string) ($release['channel'] ?? 'stable'))) ?></span>
                             <span class="archive-download-total"><b><?= e((string) download_count($version)) ?></b><small><?= e(t('downloads', 'downloads')) ?></small></span>
-                            <span class="archive-status <?= $availableCount > 0 ? 'available' : 'unavailable' ?>"><i></i><?= e($availableCount > 0 ? t('Beschikbaar', 'Available') : (($release['published'] ?? false) ? t('Bestand ontbreekt', 'File missing') : t('Preview', 'Preview'))) ?></span>
+                            <span class="archive-status <?= $availableCount > 0 ? 'available' : 'unavailable' ?>"><i></i><?= e($availableCount > 0 ? t('Beschikbaar', 'Available') : t('Bestand ontbreekt', 'File missing')) ?></span>
                         </summary>
                         <div class="archive-release-body">
                             <?php if (!empty($release['notes'])): ?><p class="archive-notes"><?= e((string) $release['notes']) ?></p><?php endif; ?>

@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 const LOCALDECK_SITE_ROOT = __DIR__ . '/..';
 const LOCALDECK_SITE_VERSION = '1.0.0';
+const LOCALDECK_DOCUMENTATION_VERSION = '1.0.0';
 const LOCALDECK_CONTACT_RECIPIENT = 'chatgpt@platinumradio.nl';
 const LOCALDECK_MAIL_SENDER = 'website@localdeck.nl';
+const LOCALDECK_GITHUB_URL = 'https://github.com/Platinum-Radio/LocalDeck';
 
 $requestedLanguage = strtolower((string) ($_GET['lang'] ?? $_COOKIE['localdeck_site_language'] ?? 'nl'));
 $language = $requestedLanguage === 'en' ? 'en' : 'nl';
@@ -21,6 +23,10 @@ if (isset($_GET['lang'])) {
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+header('Cross-Origin-Opener-Policy: same-origin');
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+}
 header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
 
 function e(string $value): string
@@ -112,6 +118,19 @@ function find_release_artifact(array $release, string $artifactId): ?array
     return null;
 }
 
+function published_releases(): array
+{
+    return array_values(array_filter(
+        sorted_releases(release_catalog()['releases'] ?? []),
+        static fn (array $release): bool => !empty($release['published'])
+    ));
+}
+
+function latest_published_release(): array
+{
+    return published_releases()[0] ?? ['version' => LOCALDECK_SITE_VERSION, 'published' => false, 'artifacts' => []];
+}
+
 function release_artifact_is_available(array $release, array $artifact): bool
 {
     if (empty($release['published']) || empty($artifact['file'])) {
@@ -123,7 +142,8 @@ function release_artifact_is_available(array $release, array $artifact): bool
 
     return $downloadsRoot !== false
         && $absoluteFile !== false
-        && is_file($absoluteFile)
+        && file_exists($absoluteFile)
+        && in_array(strtolower(pathinfo($absoluteFile, PATHINFO_EXTENSION)), ['exe', 'zip'], true)
         && str_starts_with(strtolower($absoluteFile), strtolower($downloadsRoot . DIRECTORY_SEPARATOR));
 }
 
@@ -165,6 +185,36 @@ function request_is_local(): bool
     return in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true);
 }
 
+function website_health_checks(): array
+{
+    $articles = is_file(LOCALDECK_SITE_ROOT . '/inc/content.php')
+        ? require LOCALDECK_SITE_ROOT . '/inc/content.php'
+        : [];
+    $latest = latest_published_release();
+    $feed = read_json_file(LOCALDECK_SITE_ROOT . '/downloads/windows.json');
+    $artifacts = array_values(array_filter($latest['artifacts'] ?? [], 'is_array'));
+    $availableArtifacts = array_filter(
+        $artifacts,
+        static fn (array $artifact): bool => release_artifact_is_available($latest, $artifact)
+            && preg_match('/^[a-f0-9]{64}$/i', (string) ($artifact['sha256'] ?? '')) === 1
+    );
+    $statisticsPath = LOCALDECK_SITE_ROOT . '/private/download-stats.json';
+    $statisticsWritable = is_file($statisticsPath)
+        ? is_writable($statisticsPath)
+        : is_writable(dirname($statisticsPath));
+    $isHttps = parse_url(site_origin(), PHP_URL_SCHEME) === 'https';
+
+    return [
+        ['id' => 'website', 'name' => t('Website', 'Website'), 'healthy' => is_file(LOCALDECK_SITE_ROOT . '/index.php'), 'detail' => t('PHP-pagina en gedeelde layout beschikbaar', 'PHP page and shared layout available')],
+        ['id' => 'wiki', 'name' => t('Documentatie', 'Documentation'), 'healthy' => count($articles) >= 8, 'detail' => count($articles) . ' ' . t('doorzoekbare onderwerpen', 'searchable topics')],
+        ['id' => 'updates', 'name' => t('Updatefeed', 'Update feed'), 'healthy' => ($feed['version'] ?? null) === ($latest['version'] ?? null), 'detail' => 'LocalDeck ' . (string) ($feed['version'] ?? '—')],
+        ['id' => 'downloads', 'name' => t('Downloads', 'Downloads'), 'healthy' => $artifacts !== [] && count($availableArtifacts) === count($artifacts), 'detail' => count($availableArtifacts) . '/' . count($artifacts) . ' ' . t('bestanden met geldige metadata', 'files with valid metadata')],
+        ['id' => 'counter', 'name' => t('Downloadteller', 'Download counter'), 'healthy' => $statisticsWritable, 'detail' => (string) (download_statistics()['total'] ?? 0) . ' ' . t('privacyvriendelijke registraties', 'privacy-friendly records')],
+        ['id' => 'support', 'name' => t('Supportformulier', 'Support form'), 'healthy' => function_exists('mail') && filter_var(LOCALDECK_CONTACT_RECIPIENT, FILTER_VALIDATE_EMAIL) !== false, 'detail' => t('Vaste beheerinbox en lokale noodkopie geconfigureerd', 'Fixed administration inbox and local fallback copy configured')],
+        ['id' => 'https', 'name' => 'HTTPS', 'healthy' => $isHttps || request_is_local(), 'detail' => $isHttps ? t('Publieke verbinding versleuteld', 'Public connection encrypted') : t('Lokale ontwikkelcontrole', 'Local development check')],
+    ];
+}
+
 function mail_header_value(string $value): string
 {
     return trim((string) preg_replace('/[\r\n]+/', ' ', $value));
@@ -181,7 +231,8 @@ function community_submission_email(array $submission): array
     $type = (string) ($submission['type'] ?? 'question');
     $title = mail_header_value((string) ($submission['title'] ?? 'Zonder titel'));
     $email = trim((string) ($submission['email'] ?? ''));
-    $subjectText = '[LocalDeck website] ' . ($typeLabels[$type] ?? 'Bericht') . ': ' . $title;
+    $ticket = mail_header_value((string) ($submission['id'] ?? 'zonder-ticket'));
+    $subjectText = '[LocalDeck website][' . $ticket . '] ' . ($typeLabels[$type] ?? 'Bericht') . ': ' . $title;
     $subject = function_exists('mb_encode_mimeheader')
         ? mb_encode_mimeheader($subjectText, 'UTF-8', 'B', "\r\n")
         : $subjectText;
