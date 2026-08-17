@@ -68,6 +68,10 @@ foreach ($developmentFile in @(
 if ($CodeOnly) {
     Get-ChildItem -LiteralPath (Join-Path $stage 'downloads\releases') -Recurse -Force -File -ErrorAction SilentlyContinue |
         Remove-Item -Force
+    $sessionPath = Join-Path $stage 'private\sessions'
+    if (Test-Path -LiteralPath $sessionPath) {
+        Remove-Item -LiteralPath $sessionPath -Recurse -Force
+    }
     foreach ($dynamicFile in @('private\community-submissions.json', 'private\download-stats.json')) {
         $path = Join-Path $stage $dynamicFile
         if (Test-Path -LiteralPath $path) {
