@@ -17,7 +17,7 @@ coverage/
 .run-work/
 .validation/
 LocalDeck-Startklaar/
-downloads/
+/downloads/
 
 # Redistributable runtime binaries are shipped with official downloads,
 # but are not stored in the source repository.

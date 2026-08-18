@@ -88,6 +88,7 @@ $structuredData = array_values(array_filter([
         </button>
         <nav id="main-navigation" class="main-nav" aria-label="<?= e(t('Hoofdnavigatie', 'Main navigation')) ?>">
             <a<?= nav_active('home', $pageKey) ?> href="<?= e(with_language('index.php')) ?>"><?= e(t('Overzicht', 'Overview')) ?></a>
+            <a<?= nav_active('updates', $pageKey) ?> href="<?= e(with_language('updates.php')) ?>"><?= e(t('Updates', 'Updates')) ?></a>
             <a<?= nav_active('wiki', $pageKey) ?> href="<?= e(with_language('wiki.php')) ?>">Wiki</a>
             <a<?= nav_active('support', $pageKey) ?> href="<?= e(with_language('community.php')) ?>"><?= e(t('Support', 'Support')) ?></a>
             <a<?= nav_active('downloads', $pageKey) ?> href="<?= e(with_language('downloads.php')) ?>">Downloads</a>

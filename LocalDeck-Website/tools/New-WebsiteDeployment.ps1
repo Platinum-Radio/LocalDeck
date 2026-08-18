@@ -7,8 +7,14 @@ $ErrorActionPreference = 'Stop'
 $websiteRoot = [IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $masterRoot = [IO.Path]::GetFullPath((Split-Path -Parent $websiteRoot))
 $deploymentRoot = [IO.Path]::GetFullPath((Join-Path $masterRoot '.deployment'))
-$deploymentName = if ($CodeOnly) { 'localdeck-site-1.0.0-code' } else { 'localdeck-site-1.0.0' }
-$archiveName = if ($CodeOnly) { 'LocalDeck-Website-1.0.0-Code.zip' } else { 'LocalDeck-Website-1.0.0.zip' }
+$bootstrap = Get-Content -LiteralPath (Join-Path $websiteRoot 'inc\bootstrap.php') -Raw
+$siteVersionMatch = [regex]::Match($bootstrap, "LOCALDECK_SITE_VERSION\s*=\s*'([^']+)'", [Text.RegularExpressions.RegexOptions]::CultureInvariant)
+if (-not $siteVersionMatch.Success) {
+    throw 'LOCALDECK_SITE_VERSION kon niet uit inc\bootstrap.php worden gelezen.'
+}
+$siteVersion = $siteVersionMatch.Groups[1].Value
+$deploymentName = if ($CodeOnly) { "localdeck-site-$siteVersion-code" } else { "localdeck-site-$siteVersion" }
+$archiveName = if ($CodeOnly) { "LocalDeck-Website-$siteVersion-Code.zip" } else { "LocalDeck-Website-$siteVersion.zip" }
 $stage = [IO.Path]::GetFullPath((Join-Path $deploymentRoot $deploymentName))
 $archive = [IO.Path]::GetFullPath((Join-Path $deploymentRoot $archiveName))
 $allowedPrefix = $masterRoot.TrimEnd('\') + '\'

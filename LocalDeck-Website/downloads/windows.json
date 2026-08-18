@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "title": "LocalDeck 1.0.0",
+  "notes": "Eerste publieke Windows-release met een volledig ingebouwde offline runtime, PHP 8.2–8.5, Apache, MySQL, phpMyAdmin, Mailbeheer, Redis, lokaal HTTPS en Nederlands/Engels.",
+  "downloadUrl": "https://localdeck.nl/download.php?version=1.0.0&artifact=setup-x64",
+  "publishedAt": "2026-08-16T13:33:52.8636493+02:00",
+  "channel": "stable",
+  "sha256": "991330615cd9e250bdf50536dc87b946a5864f36d1f9cb51182c8510e3787b30"
+}

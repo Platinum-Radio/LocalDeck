@@ -31,7 +31,7 @@ $websiteRoot = Split-Path -Parent $scriptDirectory
 $downloadsDirectory = Join-Path $websiteRoot 'downloads'
 $releaseDirectory = Join-Path $downloadsDirectory (Join-Path 'releases' $Version)
 $catalogPath = Join-Path $downloadsDirectory 'releases.json'
-$feedPath = Join-Path $downloadsDirectory 'windows.json'
+$feedPath = Join-Path $downloadsDirectory $(if ($Channel -eq 'beta') { 'beta.json' } else { 'windows.json' })
 $BaseUrl = $BaseUrl.TrimEnd('/')
 $Title = if ($Title) { $Title } else { "LocalDeck $Version" }
 
@@ -88,6 +88,10 @@ foreach ($source in $sourceArtifacts) {
         signed = $releaseSigned
     }
 }
+
+$artifacts |
+    ForEach-Object { "$($_.sha256)  $([IO.Path]::GetFileName($_.file))" } |
+    Set-Content -LiteralPath (Join-Path $releaseDirectory 'SHA256SUMS.txt') -Encoding ascii
 
 $release = [pscustomobject]@{
     version = $Version

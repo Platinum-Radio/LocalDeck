@@ -5,6 +5,7 @@ require __DIR__ . '/inc/bootstrap.php';
 $releases = published_releases();
 $latest = $releases[0] ?? ['version' => '1.0.0', 'published' => false, 'artifacts' => []];
 $olderReleases = array_slice($releases, 1);
+$latestIsPrerelease = ($latest['channel'] ?? 'stable') !== 'stable';
 $artifactPresentation = [
     'setup-x64' => [t('LocalDeck installeren — EXE', 'Install LocalDeck — EXE'), t('Start het EXE-bestand en doorloop de Windows-installatiewizard.', 'Run the EXE file and follow the Windows installation wizard.'), '↓', 'EXE · INSTALLEREN'],
     'zip-x64' => [t('Zonder installatie — ZIP uitpakken', 'No installation — extract ZIP'), t('Pak het ZIP-bestand uit in een map naar keuze en start daarna LocalDeck.exe.', 'Extract the ZIP file to any folder and then start LocalDeck.exe.'), '◇', 'ZIP · UITPAKKEN'],
@@ -25,7 +26,7 @@ require __DIR__ . '/inc/header.php';
         <div class="version-card">
             <span><?= e(t('NIEUWSTE VERSIE', 'LATEST VERSION')) ?></span>
             <strong><?= e((string) $latest['version']) ?></strong>
-            <i class="preview-badge"><?= e(($latest['published'] ?? false) ? t('ACTUEEL', 'CURRENT') : t('NIET BESCHIKBAAR', 'UNAVAILABLE')) ?></i>
+            <i class="preview-badge"><?= e(($latest['published'] ?? false) ? ($latestIsPrerelease ? t('TESTVERSIE', 'PRERELEASE') : t('ACTUEEL', 'CURRENT')) : t('NIET BESCHIKBAAR', 'UNAVAILABLE')) ?></i>
             <small><?= e(format_release_date($latest['releasedAt'] ?? null)) ?></small>
         </div>
     </div>
@@ -37,6 +38,8 @@ require __DIR__ . '/inc/header.php';
         <?php if ($totalDownloads > 0): ?><div><span class="download-stat"><b><?= e((string) download_count((string) $latest['version'])) ?></b><?= e(t('gestarte downloads van deze versie', 'downloads initiated for this version')) ?></span><span class="download-stat"><b><?= e((string) $totalDownloads) ?></b><?= e(t('gestarte downloads in totaal', 'downloads initiated in total')) ?></span></div><?php else: ?><div class="new-release-label"><span>✦</span><b><?= e(t('Nieuwe publieke release', 'New public release')) ?></b></div><?php endif; ?>
         <p><?= e(t('De teller registreert alleen een downloadstart nadat het gekozen releasebestand werkelijk bestaat. Er worden geen IP-adressen of trackingcookies opgeslagen.', 'The counter records a download start only after the selected release file actually exists. No IP addresses or tracking cookies are stored.')) ?></p>
     </div>
+
+    <?php if (!empty($latest['warning'])): ?><div class="notice-banner download-help"><span>i</span><div><b><?= e(t('Testversie voor vroege gebruikers', 'Test release for early adopters')) ?></b><p><?= e((string) $latest['warning']) ?></p><a href="<?= e(with_language('updates.php')) ?>"><?= e(t('Bekijk alle wijzigingen', 'See all changes')) ?> →</a></div></div><?php endif; ?>
 
     <div class="section-heading">
         <span class="eyebrow"><i></i><?= e(t('Nieuwste versie', 'Latest version')) ?></span>
@@ -70,7 +73,7 @@ require __DIR__ . '/inc/header.php';
         <?php endforeach; ?>
     </div>
 
-    <div class="release-notes-panel"><div><span class="eyebrow"><i></i><?= e(t('Release notes', 'Release notes')) ?></span><h2><?= e(t('Nieuw in LocalDeck ', 'New in LocalDeck ')) ?><?= e((string) $latest['version']) ?></h2><p><?= e((string) ($latest['notes'] ?? '')) ?></p></div><a class="button secondary" href="<?= e(LOCALDECK_GITHUB_URL) ?>/blob/main/CHANGELOG.md" target="_blank" rel="noopener"><?= e(t('Volledig changelog', 'Full changelog')) ?> ↗</a></div>
+    <div class="release-notes-panel"><div><span class="eyebrow"><i></i><?= e(t('Release notes', 'Release notes')) ?></span><h2><?= e(t('Nieuw in LocalDeck ', 'New in LocalDeck ')) ?><?= e((string) $latest['version']) ?></h2><p><?= e((string) ($latest['notes'] ?? '')) ?></p></div><a class="button secondary" href="<?= e(with_language('updates.php')) ?>"><?= e(t('Alle updates', 'All updates')) ?> →</a></div>
 
     <div class="requirements-panel"><div><span>▣</span><b>Windows 11 x64</b><small><?= e(t('Windows 10 x64 blijft compatibel', 'Windows 10 x64 remains compatible')) ?></small></div><div><span>◫</span><b><?= e(t('Minimaal 4 GB vrij', 'At least 4 GB free')) ?></b><small><?= e(t('Voor runtime en tijdelijke extractie', 'For runtime and temporary extraction')) ?></small></div><div><span>○</span><b><?= e(t('Geen account nodig', 'No account required')) ?></b><small><?= e(t('Geen activatie of licentiesleutel', 'No activation or license key')) ?></small></div><div><span>↻</span><b><?= e(t('Eenmalige eerste start', 'One-time first start')) ?></b><small><?= e(t('Configuratie en certificaatvertrouwen', 'Configuration and certificate trust')) ?></small></div></div>
 

@@ -8,6 +8,7 @@
         </div>
         <div>
             <strong><?= e(t('Ontdekken', 'Explore')) ?></strong>
+            <a href="<?= e(with_language('updates.php')) ?>"><?= e(t('Laatste updates', 'Latest updates')) ?></a>
             <a href="<?= e(with_language('wiki.php')) ?>">Wiki</a>
             <a href="<?= e(with_language('guides.php')) ?>"><?= e(t('Handleidingen', 'Guides')) ?></a>
             <a href="<?= e(with_language('compare.php')) ?>"><?= e(t('Vergelijken', 'Compare')) ?></a>
@@ -19,7 +20,8 @@
             <a href="<?= e(with_language('privacy.php')) ?>">Privacy</a>
             <a href="<?= e(with_language('security.php')) ?>"><?= e(t('Veiligheid', 'Security')) ?></a>
             <a href="<?= e(with_language('status.php')) ?>"><?= e(t('Systeemstatus', 'System status')) ?></a>
-            <a href="downloads/windows.json">Updatefeed JSON</a>
+            <a href="downloads/windows.json"><?= e(t('Stabiele updatefeed', 'Stable update feed')) ?> JSON</a>
+            <a href="downloads/beta.json">Beta updatefeed JSON</a>
             <a href="<?= e(LOCALDECK_GITHUB_URL) ?>" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
         <div class="footer-note">
