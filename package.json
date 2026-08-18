@@ -1,6 +1,6 @@
 {
   "name": "localdeck",
-  "version": "1.0.0",
+  "version": "1.1.0-test.1",
   "private": true,
   "description": "A modern local PHP development environment for Windows 10 and 11",
   "author": "LocalDeck",
@@ -21,16 +21,11 @@
     "dist:win": "npm run build && electron-builder --win nsis"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "electron-store": "^10.0.1",
-    "lucide-react": "^0.468.0",
     "qrcode": "1.5.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vite": "^6.0.7",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "@types/node": "^22.10.5",
     "@types/qrcode": "~1.5.6",
     "@types/react": "^19.0.3",
@@ -39,7 +34,11 @@
     "cross-env": "^7.0.3",
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.7.2",
+    "vite": "^6.0.7",
     "vitest": "^2.1.8",
     "wait-on": "^8.0.1"
   },
@@ -52,7 +51,15 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
+      "!dist-electron/**/*.d.ts",
+      "!dist-electron/**/*.test.js",
       "package.json"
+    ],
+    "compression": "maximum",
+    "electronLanguages": [
+      "en-US",
+      "en-GB",
+      "nl"
     ],
     "extraResources": [
       {
@@ -62,6 +69,13 @@
           "*.ps1",
           "*.vbs",
           "*.json",
+          "!build-release.ps1",
+          "!new-component-pack.ps1",
+          "!Optimize-RuntimePackages.ps1",
+          "!prepare-offline-runtime.ps1",
+          "!Test-ReleaseReadiness.ps1",
+          "!Update-RuntimeManifest.ps1",
+          "!update-feed.example.json",
           "startpage/**/*",
           "web-control/**/*"
         ]

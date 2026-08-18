@@ -27,4 +27,6 @@ $packages+=Save-Package 'composer.phar' 'https://getcomposer.org/download/latest
 $packages+=Save-Package 'vc_redist.x64.exe' 'https://aka.ms/vc14/vc_redist.x64.exe'
 $packages+=Save-GitHubAsset 'mkcert.exe' 'FiloSottile/mkcert' '*windows-amd64.exe'
 [ordered]@{schemaVersion=1;createdAt=(Get-Date).ToString('o');packages=$packages}|ConvertTo-Json -Depth 5|Set-Content (Join-Path $OutputDir 'offline-runtime.json') -Encoding UTF8
+& (Join-Path $PSScriptRoot 'Optimize-RuntimePackages.ps1') -PackageDirectory $OutputDir
+if($LASTEXITCODE-ne0){throw 'De offline runtime kon niet compact worden gemaakt.'}
 Write-Host "Offline runtime gereed: $OutputDir" -ForegroundColor Green

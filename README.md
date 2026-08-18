@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="https://localdeck.nl/?lang=en">Website</a> ·
+  <a href="https://localdeck.nl/updates.php?lang=en">Latest updates</a> ·
   <a href="https://localdeck.nl/downloads.php?lang=en">Downloads</a> ·
   <a href="https://localdeck.nl/wiki.php?lang=en">Documentation</a> ·
   <a href="https://localdeck.nl/community.php?lang=en">Community</a>
@@ -18,7 +19,7 @@
 <p align="center">
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%26%2011-1677ff?style=flat-square&logo=windows11&logoColor=white">
   <img alt="PHP 8.2 through 8.5" src="https://img.shields.io/badge/PHP-8.2%E2%80%938.5-777bb4?style=flat-square&logo=php&logoColor=white">
-  <img alt="LocalDeck 1.0.0" src="https://img.shields.io/badge/release-1.0.0-7c5cff?style=flat-square">
+  <img alt="LocalDeck 1.1.0 test 1" src="https://img.shields.io/badge/prerelease-1.1.0--test.1-7c5cff?style=flat-square">
   <img alt="Offline-first" src="https://img.shields.io/badge/runtime-offline--first-18bfe8?style=flat-square">
 </p>
 
@@ -102,6 +103,8 @@ LocalDeck for Windows is published in two formats:
 
 The newest release is always shown first, while older versions remain available from the [release archive](https://localdeck.nl/downloads.php?lang=en).
 
+For a concise, human-readable overview of every notable change, see [Latest updates](UPDATES.md).
+
 ## Requirements
 
 - Windows 10 or Windows 11, 64-bit
@@ -133,6 +136,7 @@ The large redistributable runtime bundles are included in the official LocalDeck
 ## Documentation and support
 
 - [Documentation and troubleshooting](https://localdeck.nl/wiki.php?lang=en)
+- [Latest product updates](https://localdeck.nl/updates.php?lang=en)
 - [Questions, bug reports, and ideas](https://localdeck.nl/community.php?lang=en)
 - [Windows downloads and older releases](https://localdeck.nl/downloads.php?lang=en)
 

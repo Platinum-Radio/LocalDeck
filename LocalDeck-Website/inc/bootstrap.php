@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 const LOCALDECK_SITE_ROOT = __DIR__ . '/..';
-const LOCALDECK_SITE_VERSION = '1.0.0';
+const LOCALDECK_SITE_VERSION = '1.1.0-test.1';
 const LOCALDECK_DOCUMENTATION_VERSION = '1.0.0';
 const LOCALDECK_CONTACT_RECIPIENT = 'chatgpt@platinumradio.nl';
 const LOCALDECK_MAIL_SENDER = 'website@localdeck.nl';
@@ -131,6 +131,17 @@ function latest_published_release(): array
     return published_releases()[0] ?? ['version' => LOCALDECK_SITE_VERSION, 'published' => false, 'artifacts' => []];
 }
 
+function latest_published_release_for_channel(string $channel): array
+{
+    foreach (published_releases() as $release) {
+        if (($release['channel'] ?? 'stable') === $channel) {
+            return $release;
+        }
+    }
+
+    return [];
+}
+
 function release_artifact_is_available(array $release, array $artifact): bool
 {
     if (empty($release['published']) || empty($artifact['file'])) {
@@ -191,7 +202,10 @@ function website_health_checks(): array
         ? require LOCALDECK_SITE_ROOT . '/inc/content.php'
         : [];
     $latest = latest_published_release();
-    $feed = read_json_file(LOCALDECK_SITE_ROOT . '/downloads/windows.json');
+    $stableRelease = latest_published_release_for_channel('stable');
+    $betaRelease = latest_published_release_for_channel('beta');
+    $stableFeed = read_json_file(LOCALDECK_SITE_ROOT . '/downloads/windows.json');
+    $betaFeed = read_json_file(LOCALDECK_SITE_ROOT . '/downloads/beta.json');
     $artifacts = array_values(array_filter($latest['artifacts'] ?? [], 'is_array'));
     $availableArtifacts = array_filter(
         $artifacts,
@@ -207,7 +221,7 @@ function website_health_checks(): array
     return [
         ['id' => 'website', 'name' => t('Website', 'Website'), 'healthy' => is_file(LOCALDECK_SITE_ROOT . '/index.php'), 'detail' => t('PHP-pagina en gedeelde layout beschikbaar', 'PHP page and shared layout available')],
         ['id' => 'wiki', 'name' => t('Documentatie', 'Documentation'), 'healthy' => count($articles) >= 8, 'detail' => count($articles) . ' ' . t('doorzoekbare onderwerpen', 'searchable topics')],
-        ['id' => 'updates', 'name' => t('Updatefeed', 'Update feed'), 'healthy' => ($feed['version'] ?? null) === ($latest['version'] ?? null), 'detail' => 'LocalDeck ' . (string) ($feed['version'] ?? '—')],
+        ['id' => 'updates', 'name' => t('Updatefeeds', 'Update feeds'), 'healthy' => ($stableFeed['version'] ?? null) === ($stableRelease['version'] ?? null) && ($betaFeed['version'] ?? null) === ($betaRelease['version'] ?? null), 'detail' => t('Stabiel ', 'Stable ') . (string) ($stableFeed['version'] ?? '—') . ' · Beta ' . (string) ($betaFeed['version'] ?? '—')],
         ['id' => 'downloads', 'name' => t('Downloads', 'Downloads'), 'healthy' => $artifacts !== [] && count($availableArtifacts) === count($artifacts), 'detail' => count($availableArtifacts) . '/' . count($artifacts) . ' ' . t('bestanden met geldige metadata', 'files with valid metadata')],
         ['id' => 'counter', 'name' => t('Downloadteller', 'Download counter'), 'healthy' => $statisticsWritable, 'detail' => (string) (download_statistics()['total'] ?? 0) . ' ' . t('privacyvriendelijke registraties', 'privacy-friendly records')],
         ['id' => 'support', 'name' => t('Supportformulier', 'Support form'), 'healthy' => function_exists('mail') && filter_var(LOCALDECK_CONTACT_RECIPIENT, FILTER_VALIDATE_EMAIL) !== false, 'detail' => t('Vaste beheerinbox en lokale noodkopie geconfigureerd', 'Fixed administration inbox and local fallback copy configured')],

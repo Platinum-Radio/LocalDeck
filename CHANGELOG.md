@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0-test.1 — Publieke Windows-testversie
+
+- Nieuwe eenvoudige en geavanceerde interfacemodus.
+- Projectwerkplek voor website, database, mail, snapshots, debug en herstel.
+- Slimme wizard voor nieuwe websites, bestaande mappen en Git-projecten.
+- LocalDeck Fix en een samengevoegde Debug Inbox.
+- Automatische projectinrichting met PHP, MySQL, HTTPS, Project Capsule en IDE-configuratie.
+- Testkopieën, tijdelijke LAN-deellinks en verbeterde Nederlands/Engelse teksten.
+- Responsieve vensterindeling voor gangbare Windows-schermresoluties.
+- Windows-pakketten bevatten geen Vite-, esbuild- of Rollup-buildtools meer; alleen de benodigde Nederlandse en Engelse Electron-talen worden opgenomen.
+- MySQL-, Redis- en Apache-archieven gebruiken een gecontroleerd runtime-only profiel zonder symbolen en SDK-bestanden; phpMyAdmin blijft ongewijzigd voor maximale compatibiliteit.
+- De compacte offline runtime blijft volledig ingebouwd en wordt bij iedere validatie op vereiste bestanden, SHA-256 en uitgesloten ballast gecontroleerd.
+- De testversie gebruikt een apart bèta-updatekanaal, zodat de stabiele 1.0-feed ongewijzigd blijft.
+- Een nieuwe tweetalige updatepagina op LocalDeck.nl en `UPDATES.md` op GitHub tonen de belangrijkste wijzigingen per versie.
+
 ## 1.0.0 — Eerste publieke Windows-release
 
 - Installer, portable EXE, uitpak-ZIP en broncode worden als vaste versie gepubliceerd met een los SHA-256-controlebestand.

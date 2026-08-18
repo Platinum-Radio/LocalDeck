@@ -371,3 +371,53 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.updates-hero { overflow: hidden; }
+.updates-hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: 56px; align-items: center; }
+.updates-hero h1 { max-width: 760px; }
+.updates-hero p { max-width: 710px; }
+.updates-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.update-version-panel { position: relative; display: grid; gap: 10px; padding: 34px; border: 1px solid rgba(139, 92, 246, .34); border-radius: 22px; background: radial-gradient(circle at 80% 10%, rgba(25, 200, 237, .14), transparent 34%), linear-gradient(145deg, rgba(119, 75, 255, .13), #0c121e 62%); box-shadow: 0 25px 70px rgba(0, 0, 0, .28); }
+.update-version-panel::after { content: ''; position: absolute; inset: 10px; pointer-events: none; border: 1px solid rgba(255, 255, 255, .035); border-radius: 16px; }
+.update-version-panel > span { color: #9aa8bd; font-size: 10px; font-weight: 850; letter-spacing: 1.1px; }
+.update-version-panel strong { margin-top: 10px; color: #fff; font-size: clamp(29px, 4vw, 47px); letter-spacing: -2px; }
+.update-version-panel i,
+.update-channel { justify-self: start; padding: 7px 10px; border: 1px solid rgba(25, 200, 237, .25); border-radius: 30px; color: #8ae8f7; background: rgba(25, 200, 237, .07); font-size: 9px; font-style: normal; font-weight: 850; letter-spacing: .65px; }
+.update-version-panel small { margin-top: 8px; color: #6f7d93; }
+.update-release { padding-top: 74px; }
+.update-release-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; }
+.update-release-heading h2 { margin: 14px 0 0; font-size: clamp(29px, 4vw, 45px); letter-spacing: -1.6px; }
+.update-channel { margin-top: 5px; color: #bda9ff; border-color: rgba(139, 92, 246, .3); background: rgba(139, 92, 246, .08); }
+.update-lead { max-width: 850px; margin: 18px 0 42px; color: #9aa7bb; font-size: 15px; line-height: 1.75; }
+.updates-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.updates-summary-grid article { min-height: 220px; padding: 27px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg, #111827, #0c121e); }
+.updates-summary-grid article > span { color: #725dbc; font-size: 10px; font-weight: 850; letter-spacing: 1px; }
+.updates-summary-grid h3 { margin: 30px 0 10px; font-size: 19px; }
+.updates-summary-grid p { margin: 0; color: #7f8da2; font-size: 12px; line-height: 1.65; }
+.update-checks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+.update-checks > div { display: grid; padding: 20px; border: 1px solid rgba(57, 217, 138, .16); border-radius: 14px; background: rgba(57, 217, 138, .035); }
+.update-checks strong { color: #7be3ad; font-size: 24px; letter-spacing: -1px; }
+.update-checks span { margin-top: 4px; color: #728097; font-size: 10px; }
+.update-notice { margin-top: 22px; }
+.update-history { border-top: 1px solid var(--line); background: #090e18; }
+.update-history-card { display: flex; align-items: center; gap: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 18px; background: #0e1421; }
+.update-history-card > div { margin-right: auto; }
+.update-history-card > div > span { color: #8c74d2; font-size: 10px; font-weight: 850; letter-spacing: 1px; }
+.update-history-card h3 { margin: 10px 0 7px; font-size: 21px; }
+.update-history-card p { max-width: 760px; margin: 0; color: #7e8ba0; font-size: 12px; }
+
+@media (max-width: 900px) {
+    .updates-hero-grid { grid-template-columns: 1fr; }
+    .updates-summary-grid { grid-template-columns: 1fr 1fr; }
+    .update-checks { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 620px) {
+    .updates-summary-grid,
+    .update-checks { grid-template-columns: 1fr; }
+    .update-release-heading,
+    .update-history-card { align-items: flex-start; flex-direction: column; }
+    .updates-actions { flex-direction: column; }
+    .updates-actions .button,
+    .update-history-card .button { width: 100%; }
+}

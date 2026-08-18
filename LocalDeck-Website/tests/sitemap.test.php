@@ -14,7 +14,7 @@ if (!str_starts_with($xml, '<?xml version="1.0" encoding="UTF-8"?>')) {
 if (substr_count($xml, '<url>') < 40) {
     throw new RuntimeException('De sitemap bevat te weinig tweetalige pagina’s.');
 }
-foreach (['downloads.php?lang=nl', 'compare.php?lang=en', 'wiki.php?article=', 'xampp-alternative.php?lang=en'] as $needle) {
+foreach (['updates.php?lang=nl', 'downloads.php?lang=nl', 'compare.php?lang=en', 'wiki.php?article=', 'xampp-alternative.php?lang=en'] as $needle) {
     if (!str_contains(html_entity_decode($xml, ENT_QUOTES | ENT_XML1, 'UTF-8'), $needle)) {
         throw new RuntimeException('Sitemaproute ontbreekt: ' . $needle);
     }

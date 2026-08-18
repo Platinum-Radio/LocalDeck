@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import type {LucideIcon} from 'lucide-react';
 import type {StateAction} from './ControlCenter';
+import {InterfaceModeCard} from './EaseCenter';
 
 type SettingsTab = 'general' | 'network' | 'updates' | 'privacy';
 
@@ -141,6 +142,11 @@ export function SettingsCenter({state, action}: SettingsProps) {
 
           {activeTab === 'general' ? (
             <div className="settingsCardGrid">
+              <article className="settingsCard settingsCardWide">
+                <SettingsCardHeader icon={Settings} title="Interfacemodus" description="Kies hoeveel gereedschap je dagelijks in beeld wilt" />
+                <InterfaceModeCard state={state} action={action} />
+              </article>
+
               <article className="settingsCard">
                 <SettingsCardHeader icon={Languages} title="Taal / Language" description="Direct toepassen in alle LocalDeck-onderdelen" />
                 <label className="settingsField">

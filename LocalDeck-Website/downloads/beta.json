@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0-test.1",
+  "title": "LocalDeck 1.1.0-test.1 is beschikbaar",
+  "notes": "Publieke Windows-testversie met een eenvoudiger interface, complete projectlevenscyclus, betere herstelacties en een compactere volledig ingebouwde offline runtime.",
+  "downloadUrl": "https://localdeck.nl/download.php?version=1.1.0-test.1&artifact=setup-x64",
+  "publishedAt": "2026-08-18T17:02:29.0491591+02:00",
+  "channel": "beta",
+  "sha256": "57da12e8751c1988fcad130572475461933d838dd93507aa520b5159662b7030"
+}

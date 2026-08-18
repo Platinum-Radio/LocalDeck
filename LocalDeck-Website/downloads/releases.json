@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "product": "LocalDeck",
+  "platform": "windows",
+  "releases": [
+    {
+      "version": "1.1.0-test.1",
+      "channel": "beta",
+      "releasedAt": "2026-08-18T17:02:29.0491591+02:00",
+      "published": true,
+      "title": "LocalDeck 1.1.0-test.1",
+      "notes": "Publieke Windows-testversie met een eenvoudige en geavanceerde interface, een schaalbare indeling, complete projectlevenscyclus, automatische HTTPS, betere poort- en herstelacties, extra ontwikkelgereedschap en een compactere volledig ingebouwde offline runtime.",
+      "warning": "Dit is een prerelease voor de volgende testronde. LocalDeck 1.0.0 blijft de stabiele versie.",
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "LocalDeck installeren — EXE",
+          "file": "downloads/releases/1.1.0-test.1/LocalDeck-1.1.0-test.1-Windows-Setup-x64.exe",
+          "sizeLabel": "366.3 MB",
+          "sha256": "57da12e8751c1988fcad130572475461933d838dd93507aa520b5159662b7030"
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/1.1.0-test.1/LocalDeck-1.1.0-test.1-Windows-x64.zip",
+          "sizeLabel": "401.0 MB",
+          "sha256": "557ffee2cdf4c06faef5d51a5d2223df49a8a7c2d1e5d3e31d40d862730ec0a3"
+        }
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "channel": "stable",
+      "releasedAt": "2026-08-16T13:33:52.8636493+02:00",
+      "published": true,
+      "title": "LocalDeck 1.0.0",
+      "notes": "Eerste publieke Windows-release met een volledig ingebouwde offline runtime, PHP 8.2–8.5, Apache, MySQL, phpMyAdmin, Mailbeheer, Redis, lokaal HTTPS en Nederlands/Engels.",
+      "warning": null,
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "LocalDeck installeren — EXE",
+          "file": "downloads/releases/1.0.0/LocalDeck-1.0.0-Windows-Setup-x64.exe",
+          "sizeLabel": "635.2 MB",
+          "sha256": "991330615cd9e250bdf50536dc87b946a5864f36d1f9cb51182c8510e3787b30"
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/1.0.0/LocalDeck-1.0.0-Windows-x64.zip",
+          "sizeLabel": "705.6 MB",
+          "sha256": "0c2c1330156143b073dbf587f1b0ff72f0d76a1fbe762148d189202ad1071bc7"
+        }
+      ]
+    },
+    {
+      "version": "1.0.0-rc.1",
+      "channel": "beta",
+      "releasedAt": null,
+      "published": false,
+      "title": "LocalDeck 1.0.0-rc.1",
+      "notes": "Eerste release candidate. De download wordt pas beschikbaar na de volledige Windows-releasecontrole.",
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "Windows-installatie x64",
+          "file": "downloads/releases/1.0.0-rc.1/LocalDeck-1.0.0-rc.1-Windows-Setup-x64.exe",
+          "sizeLabel": "—",
+          "sha256": ""
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/1.0.0-rc.1/LocalDeck-1.0.0-rc.1-Windows-x64.zip",
+          "sizeLabel": "—",
+          "sha256": ""
+        }
+      ]
+    },
+    {
+      "version": "0.10.0",
+      "channel": "beta",
+      "releasedAt": null,
+      "published": false,
+      "title": "LocalDeck 0.10.0",
+      "notes": "Interne preview. Downloadbestanden worden pas toegevoegd na de definitieve releasecontrole.",
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "Windows-installatie x64",
+          "file": "downloads/releases/0.10.0/LocalDeck-0.10.0-Windows-Setup-x64.exe",
+          "sizeLabel": "—",
+          "sha256": ""
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/0.10.0/LocalDeck-0.10.0-Windows-x64.zip",
+          "sizeLabel": "—",
+          "sha256": ""
+        }
+      ]
+    }
+  ]
+}

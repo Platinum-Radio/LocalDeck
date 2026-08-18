@@ -28,6 +28,9 @@ $articles = require __DIR__ . '/../inc/content.php';
 $guides = require __DIR__ . '/../inc/guides.php';
 assert_site(count($articles) >= 10, 'De wiki bevat minder dan tien onderwerpen.');
 assert_site(count($guides) >= 6, 'De gidsensectie is niet compleet.');
+$updatesPage = file_get_contents(__DIR__ . '/../updates.php');
+assert_site($updatesPage !== false && str_contains($updatesPage, '1.1.0-test.1'), 'De laatste testrelease ontbreekt op de updatepagina.');
+assert_site(str_contains((string) $updatesPage, "t('Laatste updates'"), 'De updatepagina is niet tweetalig ingericht.');
 
 $checks = website_health_checks();
 $checkIds = array_column($checks, 'id');

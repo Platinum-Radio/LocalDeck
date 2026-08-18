@@ -8,9 +8,11 @@
                          "version":  "2.4.68",
                          "required":  true,
                          "name":  "apache.zip",
-                         "sha256":  "EAC38A9F8D21B6BA0817CD1576A3D291CC771AFD3C6A210D120BDEA6F4AA4AEB",
-                         "bytes":  13602524,
-                         "source":  "winget:ApacheLounge.httpd@2.4.68"
+                         "sha256":  "0ACE8E2DCD12822617F0A13614DF48B5A6219672E9CE81978C379A13A9397EDC",
+                         "bytes":  8670661,
+                         "source":  "winget:ApacheLounge.httpd@2.4.68",
+                         "sourceBytes":  13602524,
+                         "packaging":  "windows-x64-runtime-only"
                      },
                      {
                          "id":  "php-8.5",
@@ -58,9 +60,11 @@
                          "version":  "8.4.10",
                          "required":  true,
                          "name":  "mysql.zip",
-                         "sha256":  "3B950DB31C33FB59252568C012BD9EE5FAC50811E778CA7C8F1A0DC91686CD6F",
-                         "bytes":  280672277,
-                         "source":  "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.10-winx64.zip"
+                         "sha256":  "409AD61A89EB9C5CA3B4B0962D7EA0A0F27CE6A3733C886C317E1A363F0638B1",
+                         "bytes":  119058517,
+                         "source":  "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.10-winx64.zip",
+                         "sourceBytes":  280672277,
+                         "packaging":  "windows-x64-runtime-only"
                      },
                      {
                          "id":  "phpmyadmin",
@@ -88,9 +92,11 @@
                          "version":  "5.0.14.1",
                          "required":  true,
                          "name":  "redis.zip",
-                         "sha256":  "018EA18A35876383CBB5F4CD0258ADFC87747CF9D619BCE1CF73A2E36F720CCF",
-                         "bytes":  12617669,
-                         "source":  "https://github.com/tporadowski/redis/releases/download/v5.0.14.1/Redis-x64-5.0.14.1.zip"
+                         "sha256":  "7774F1357CAC76EF91BF52729726B5765A048CE6A8EAEE4CCBB7E0BE37115DC5",
+                         "bytes":  3248915,
+                         "source":  "https://github.com/tporadowski/redis/releases/download/v5.0.14.1/Redis-x64-5.0.14.1.zip",
+                         "sourceBytes":  12617669,
+                         "packaging":  "windows-x64-runtime-only"
                      },
                      {
                          "id":  "winsw",
@@ -132,5 +138,10 @@
                          "bytes":  4896256,
                          "source":  "https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-windows-amd64.exe"
                      }
-                 ]
+                 ],
+    "optimization":  {
+                         "profile":  "windows-x64-runtime-only",
+                         "rulesVersion":  1,
+                         "optimizedAt":  "2026-08-18T16:37:34.9008919+02:00"
+                     }
 }
