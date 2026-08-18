@@ -1,32 +1,84 @@
-﻿[CmdletBinding()]
-param([Parameter(Mandatory)][string]$OutputDir)
-$ErrorActionPreference='Stop';$ProgressPreference='SilentlyContinue';$OutputDir=[IO.Path]::GetFullPath($OutputDir);New-Item -ItemType Directory -Path $OutputDir -Force|Out-Null
-function Save-Package([string]$Name,[string]$Url){
-  $target=Join-Path $OutputDir $Name;$partial="$target.part";if(Test-Path $partial){Remove-Item -LiteralPath $partial -Force}
-  if(!(Test-Path $target)){Write-Host "[download] $Name" -ForegroundColor Cyan;Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile $partial;if((Get-Item $partial).Length-lt100KB){throw "$Name is onvolledig gedownload."};Move-Item -LiteralPath $partial -Destination $target -Force}
-  [pscustomobject]@{name=$Name;sha256=(Get-FileHash $target -Algorithm SHA256).Hash;bytes=(Get-Item $target).Length;source=$Url}
+[CmdletBinding()]
+param([Parameter(Mandatory=$true)][string]$OutputDir)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference='Stop'
+$ProgressPreference='SilentlyContinue'
+$root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$OutputDir=[IO.Path]::GetFullPath($OutputDir)
+$sourceLockFile=Join-Path $root 'runtime-packages\runtime-sources.json'
+if(!(Test-Path -LiteralPath $sourceLockFile)){throw 'De vastgezette runtimebronlijst ontbreekt.'}
+$sourceLock=Get-Content -LiteralPath $sourceLockFile -Raw|ConvertFrom-Json
+if($sourceLock.schemaVersion-ne1-or@($sourceLock.packages).Count-ne13){throw 'De runtimebronlijst heeft een onbekend formaat of onjuist pakketaantal.'}
+New-Item -ItemType Directory -Path $OutputDir -Force|Out-Null
+
+$existingManifestFile=Join-Path $OutputDir 'offline-runtime.json'
+$existingManifest=if(Test-Path -LiteralPath $existingManifestFile){Get-Content -LiteralPath $existingManifestFile -Raw|ConvertFrom-Json}else{$null}
+
+function New-PackageRecord($Spec,[string]$Sha256,[long]$Bytes){
+  $record=[ordered]@{
+    id=[string]$Spec.id
+    displayName=[string]$Spec.displayName
+    version=[string]$Spec.version
+    required=$true
+    name=[string]$Spec.name
+    sha256=$Sha256
+    bytes=$Bytes
+    source=[string]$Spec.url
+    sourceSha256=[string]$Spec.sha256
+    sourceBytes=[long]$Spec.bytes
+    license=[string]$Spec.license
+    licenseUrl=[string]$Spec.licenseUrl
+    projectUrl=[string]$Spec.projectUrl
+    sourceCodeUrl=$Spec.sourceCodeUrl
+  }
+  if($Spec.PSObject.Properties['systemLibrary']){$record.systemLibrary=[bool]$Spec.systemLibrary}
+  if($Spec.PSObject.Properties['optimizationProfile']){$record.packaging=[string]$Spec.optimizationProfile}
+  return [pscustomobject]$record
 }
-function Save-GitHubAsset([string]$Name,[string]$Repository,[string]$Pattern){$release=Invoke-RestMethod -UseBasicParsing "https://api.github.com/repos/$Repository/releases/latest" -Headers @{'User-Agent'='LocalDeck-Offline-Pack'};$asset=$release.assets|Where-Object{$_.name-like$Pattern}|Select-Object -First 1;if(!$asset){throw "Geen pakket gevonden voor $Repository ($Pattern)."};Save-Package $Name $asset.browser_download_url}
-$packages=@()
-$winget=Get-Command winget.exe -ErrorAction SilentlyContinue;if(!$winget){throw 'Windows Package Manager ontbreekt; Apache kan niet worden voorbereid.'}
-$apacheTemp=Join-Path $OutputDir '_apache';New-Item -ItemType Directory -Path $apacheTemp -Force|Out-Null
-& $winget.Source download --id ApacheLounge.httpd --version 2.4.68 --architecture x64 --download-directory $apacheTemp --accept-package-agreements --accept-source-agreements --disable-interactivity | Out-Host
-if($LASTEXITCODE-ne0){throw 'Apache-download is mislukt.'};$apache=Get-ChildItem $apacheTemp -Recurse -File -Filter '*.zip'|Select-Object -First 1;if(!$apache){throw 'Apache ZIP ontbreekt.'};Move-Item -LiteralPath $apache.FullName -Destination (Join-Path $OutputDir 'apache.zip') -Force
-$packages+=[pscustomobject]@{name='apache.zip';sha256=(Get-FileHash (Join-Path $OutputDir 'apache.zip') -Algorithm SHA256).Hash;bytes=(Get-Item (Join-Path $OutputDir 'apache.zip')).Length;source='winget:ApacheLounge.httpd@2.4.68'}
-$resolvedApache=[IO.Path]::GetFullPath($apacheTemp);if($resolvedApache.StartsWith([IO.Path]::GetFullPath($OutputDir),[StringComparison]::OrdinalIgnoreCase)){Remove-Item -LiteralPath $resolvedApache -Recurse -Force}
-$packages+=Save-Package 'php.zip' 'https://windows.php.net/downloads/releases/latest/php-8.5-Win32-vs17-x64-latest.zip'
-$packages+=Save-Package 'php-8.2.zip' 'https://windows.php.net/downloads/releases/latest/php-8.2-Win32-vs16-x64-latest.zip'
-$packages+=Save-Package 'php-8.3.zip' 'https://windows.php.net/downloads/releases/latest/php-8.3-Win32-vs16-x64-latest.zip'
-$packages+=Save-Package 'php-8.4.zip' 'https://windows.php.net/downloads/releases/latest/php-8.4-Win32-vs17-x64-latest.zip'
-$packages+=Save-Package 'mysql.zip' 'https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-8.4.10-winx64.zip'
-$packages+=Save-Package 'phpmyadmin.zip' 'https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip'
-$packages+=Save-GitHubAsset 'mailpit.zip' 'axllent/mailpit' '*windows-amd64.zip'
-$packages+=Save-GitHubAsset 'redis.zip' 'tporadowski/redis' '*x64*.zip'
-$packages+=Save-Package 'WinSW.NET4.exe' 'https://github.com/winsw/winsw/releases/download/v2.12.0/WinSW.NET4.exe'
-$packages+=Save-Package 'composer.phar' 'https://getcomposer.org/download/latest-stable/composer.phar'
-$packages+=Save-Package 'vc_redist.x64.exe' 'https://aka.ms/vc14/vc_redist.x64.exe'
-$packages+=Save-GitHubAsset 'mkcert.exe' 'FiloSottile/mkcert' '*windows-amd64.exe'
-[ordered]@{schemaVersion=1;createdAt=(Get-Date).ToString('o');packages=$packages}|ConvertTo-Json -Depth 5|Set-Content (Join-Path $OutputDir 'offline-runtime.json') -Encoding UTF8
+
+function Save-PinnedPackage($Spec){
+  $target=Join-Path $OutputDir ([string]$Spec.name)
+  if(Test-Path -LiteralPath $target){
+    $existingHash=(Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+    $existingBytes=(Get-Item -LiteralPath $target).Length
+    $prepared=if($existingManifest){$existingManifest.packages|Where-Object{$_.id-eq$Spec.id}|Select-Object -First 1}else{$null}
+    $matchesSource=$existingHash-eq[string]$Spec.sha256-and$existingBytes-eq[long]$Spec.bytes
+    $matchesPrepared=$prepared-and$existingHash-eq[string]$prepared.sha256-and$existingBytes-eq[long]$prepared.bytes
+    if(!$matchesSource-and!$matchesPrepared){throw "Bestaand runtimepakket wijkt af van zowel de bron-lock als het voorbereide manifest: $($Spec.name)"}
+    Write-Host "[aanwezig] $($Spec.name)" -ForegroundColor DarkGray
+    return New-PackageRecord $Spec $existingHash $existingBytes
+  }
+
+  $partial=Join-Path $OutputDir ('.'+[string]$Spec.name+'.download-'+[guid]::NewGuid().ToString('N')+'.tmp')
+  try{
+    Write-Host "[download] $($Spec.name) $($Spec.version)" -ForegroundColor Cyan
+    Invoke-WebRequest -UseBasicParsing -UserAgent 'LocalDeck-Runtime-Builder/1.0' -Uri ([string]$Spec.url) -OutFile $partial
+    $actualBytes=(Get-Item -LiteralPath $partial).Length
+    $actualHash=(Get-FileHash -LiteralPath $partial -Algorithm SHA256).Hash
+    if($actualBytes-ne[long]$Spec.bytes){throw "Bronlengte wijkt af voor $($Spec.name): $actualBytes in plaats van $($Spec.bytes)."}
+    if($actualHash-ne[string]$Spec.sha256){throw "Bronhash wijkt af voor $($Spec.name): $actualHash."}
+    Move-Item -LiteralPath $partial -Destination $target
+    return New-PackageRecord $Spec $actualHash $actualBytes
+  }catch{
+    if(Test-Path -LiteralPath $partial){Remove-Item -LiteralPath $partial -Force}
+    throw
+  }
+}
+
+$packages=@($sourceLock.packages|ForEach-Object{Save-PinnedPackage $_})
+[ordered]@{
+  schemaVersion=2
+  createdAt=(Get-Date).ToString('o')
+  sourceLock='runtime-sources.json'
+  packages=$packages
+}|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $existingManifestFile -Encoding UTF8
+
+$targetSourceLock=Join-Path $OutputDir 'runtime-sources.json'
+if([IO.Path]::GetFullPath($targetSourceLock)-ne[IO.Path]::GetFullPath($sourceLockFile)){
+  Copy-Item -LiteralPath $sourceLockFile -Destination $targetSourceLock -Force
+}
+
 & (Join-Path $PSScriptRoot 'Optimize-RuntimePackages.ps1') -PackageDirectory $OutputDir
 if($LASTEXITCODE-ne0){throw 'De offline runtime kon niet compact worden gemaakt.'}
-Write-Host "Offline runtime gereed: $OutputDir" -ForegroundColor Green
+Write-Host "Offline runtime gereed uit 13 vastgezette en gecontroleerde bronnen: $OutputDir" -ForegroundColor Green

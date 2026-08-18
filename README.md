@@ -21,6 +21,7 @@
   <img alt="PHP 8.2 through 8.5" src="https://img.shields.io/badge/PHP-8.2%E2%80%938.5-777bb4?style=flat-square&logo=php&logoColor=white">
   <img alt="LocalDeck 1.1.0 test 1" src="https://img.shields.io/badge/prerelease-1.1.0--test.1-7c5cff?style=flat-square">
   <img alt="Offline-first" src="https://img.shields.io/badge/runtime-offline--first-18bfe8?style=flat-square">
+  <a href="LICENSE"><img alt="Apache License 2.0" src="https://img.shields.io/badge/license-Apache--2.0-2ea44f?style=flat-square"></a>
 </p>
 
 LocalDeck brings a complete local web-development stack into one polished Windows desktop application. Start every service individually, manage projects and databases, create local domains with automatic HTTPS, inspect captured email, and choose whether the stack runs only with LocalDeck or as persistent Windows services.
@@ -113,7 +114,19 @@ For a concise, human-readable overview of every notable change, see [Latest upda
 
 ## Privacy and connectivity
 
-LocalDeck is designed for local development. Projects, databases, captured email, logs, certificates, and diagnostics remain on the computer. No LocalDeck account or activation is required. Internet access is used only for explicit online actions such as update checks, Git clones, Composer operations, or online project templates.
+LocalDeck is designed for local development. Projects, databases, captured email, logs, certificates, and diagnostics remain on the computer. No LocalDeck account or activation is required. Internet access is limited to documented features, including the configurable automatic update check and user-triggered Git, Composer, tool download, SMTP, or online template actions.
+
+See [Privacy](PRIVACY.md) for the exact network behavior of the desktop application and website.
+
+## Open source and code signing
+
+LocalDeck is open-source software under the [Apache License 2.0](LICENSE). Contributions are welcome under the rules in [CONTRIBUTING.md](CONTRIBUTING.md). Bundled runtimes retain their own licenses and are documented in [Third-party notices](THIRD-PARTY-NOTICES.md) and the machine-readable runtime source lock.
+
+LocalDeck is preparing an application to the SignPath Foundation open-source program. Existing public test releases remain unsigned until an approved trusted workflow produces verified replacements.
+
+> Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+
+The quoted attribution describes the intended sponsorship after acceptance; it is not a claim that the current release is already signed. See the [Code signing policy](CODE_SIGNING_POLICY.md), [Security policy](SECURITY.md), and [SignPath onboarding dossier](docs/SIGNPATH-ONBOARDING.md).
 
 ## Development
 
@@ -139,5 +152,7 @@ The large redistributable runtime bundles are included in the official LocalDeck
 - [Latest product updates](https://localdeck.nl/updates.php?lang=en)
 - [Questions, bug reports, and ideas](https://localdeck.nl/community.php?lang=en)
 - [Windows downloads and older releases](https://localdeck.nl/downloads.php?lang=en)
+- [Privacy](PRIVACY.md), [security](SECURITY.md), and [support policy](SUPPORT.md)
+- [License](LICENSE), [contributing](CONTRIBUTING.md), and [code signing policy](CODE_SIGNING_POLICY.md)
 
 LocalDeck is built for developers who want the convenience of an all-in-one local stack without giving up modern project isolation, automatic HTTPS, recoverability, and transparent service control.

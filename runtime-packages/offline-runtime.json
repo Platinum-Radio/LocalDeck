@@ -1,6 +1,7 @@
 ﻿{
     "schemaVersion":  2,
     "createdAt":  "2026-08-15T11:06:14.1671100+02:00",
+    "sourceLock":  "runtime-sources.json",
     "packages":  [
                      {
                          "id":  "apache",
@@ -10,7 +11,7 @@
                          "name":  "apache.zip",
                          "sha256":  "0ACE8E2DCD12822617F0A13614DF48B5A6219672E9CE81978C379A13A9397EDC",
                          "bytes":  8670661,
-                         "source":  "winget:ApacheLounge.httpd@2.4.68",
+                         "source":  "https://www.apachelounge.com/download/VS18/binaries/httpd-2.4.68-260617-Win64-VS18.zip",
                          "sourceBytes":  13602524,
                          "packaging":  "windows-x64-runtime-only"
                      },
@@ -22,7 +23,7 @@
                          "name":  "php.zip",
                          "sha256":  "6A8AF9F5D2A35B81CD9F1DB04BD4037C3609828DB62F81589E29E13FAFFD45F9",
                          "bytes":  36150664,
-                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.5-Win32-vs17-x64-latest.zip"
+                         "source":  "https://windows.php.net/downloads/releases/php-8.5.9-Win32-vs17-x64.zip"
                      },
                      {
                          "id":  "php-8.2",
@@ -32,7 +33,7 @@
                          "name":  "php-8.2.zip",
                          "sha256":  "7D2568DFAAD6AC1391E57994F52C8AED835BAF9E6D89F4328770E2843311291C",
                          "bytes":  33562144,
-                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.2-Win32-vs16-x64-latest.zip"
+                         "source":  "https://windows.php.net/downloads/releases/php-8.2.33-Win32-vs16-x64.zip"
                      },
                      {
                          "id":  "php-8.3",
@@ -42,7 +43,7 @@
                          "name":  "php-8.3.zip",
                          "sha256":  "B089E370FF99EB7038B0D22617DEC2F3A1D0E93CA26B11FD218F2F5B60422271",
                          "bytes":  34001105,
-                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.3-Win32-vs16-x64-latest.zip"
+                         "source":  "https://windows.php.net/downloads/releases/php-8.3.33-Win32-vs16-x64.zip"
                      },
                      {
                          "id":  "php-8.4",
@@ -52,7 +53,7 @@
                          "name":  "php-8.4.zip",
                          "sha256":  "7B57FC9840273AB153834D0E2BD06E0BCF4FEAD36E381182B4B8FE9CEDFF3174",
                          "bytes":  35103633,
-                         "source":  "https://windows.php.net/downloads/releases/latest/php-8.4-Win32-vs17-x64-latest.zip"
+                         "source":  "https://windows.php.net/downloads/releases/php-8.4.24-Win32-vs17-x64.zip"
                      },
                      {
                          "id":  "mysql",
@@ -74,7 +75,7 @@
                          "name":  "phpmyadmin.zip",
                          "sha256":  "2D2E13C735366D318425C78E4EE2CC8FC648D77FABA3DDEA2CD516E43885733F",
                          "bytes":  16431330,
-                         "source":  "https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip"
+                         "source":  "https://files.phpmyadmin.net/phpMyAdmin/5.2.3/phpMyAdmin-5.2.3-all-languages.zip"
                      },
                      {
                          "id":  "mailpit",
@@ -116,7 +117,7 @@
                          "name":  "composer.phar",
                          "sha256":  "5EE7125F8A30A34D246CEFDC0BC85B8A783B28F2AEC968994118512350D28027",
                          "bytes":  3639279,
-                         "source":  "https://getcomposer.org/download/latest-stable/composer.phar"
+                         "source":  "https://getcomposer.org/download/2.10.2/composer.phar"
                      },
                      {
                          "id":  "vc-runtime",
@@ -126,7 +127,7 @@
                          "name":  "vc_redist.x64.exe",
                          "sha256":  "843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C",
                          "bytes":  18731856,
-                         "source":  "https://aka.ms/vc14/vc_redist.x64.exe"
+                         "source":  "https://download.visualstudio.microsoft.com/download/pr/ebdab8e5-1d7b-4d9f-a11b-cbb1720c3b12/843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C/VC_redist.x64.exe"
                      },
                      {
                          "id":  "mkcert",

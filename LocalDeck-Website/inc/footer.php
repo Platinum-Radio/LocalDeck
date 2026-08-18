@@ -19,6 +19,7 @@
             <strong><?= e(t('Transparantie', 'Transparency')) ?></strong>
             <a href="<?= e(with_language('privacy.php')) ?>">Privacy</a>
             <a href="<?= e(with_language('security.php')) ?>"><?= e(t('Veiligheid', 'Security')) ?></a>
+            <a href="<?= e(with_language('code-signing.php')) ?>"><?= e(t('Beleid codeondertekening', 'Code signing policy')) ?></a>
             <a href="<?= e(with_language('status.php')) ?>"><?= e(t('Systeemstatus', 'System status')) ?></a>
             <a href="downloads/windows.json"><?= e(t('Stabiele updatefeed', 'Stable update feed')) ?> JSON</a>
             <a href="downloads/beta.json">Beta updatefeed JSON</a>
