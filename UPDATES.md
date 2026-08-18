@@ -52,4 +52,4 @@ This prerelease is ready for early Windows testing. It keeps the fully offline r
 
 The first public LocalDeck release introduced the all-in-one Windows stack: Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit, Redis, Composer, automatic local HTTPS, Dutch and English interfaces, EXE and ZIP distribution, and a fully offline runtime.
 
-[View LocalDeck 1.0.0 on GitHub](https://github.com/Platinum-Radio/LocalDeck/releases/tag/v1.0.0)
+[Read the LocalDeck 1.0.0 changelog](CHANGELOG.md#100--eerste-publieke-windows-release)
