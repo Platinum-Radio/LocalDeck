@@ -31,6 +31,11 @@ assert_site(count($guides) >= 6, 'De gidsensectie is niet compleet.');
 $updatesPage = file_get_contents(__DIR__ . '/../updates.php');
 assert_site($updatesPage !== false && str_contains($updatesPage, '1.1.0-test.1'), 'De laatste testrelease ontbreekt op de updatepagina.');
 assert_site(str_contains((string) $updatesPage, "t('Laatste updates'"), 'De updatepagina is niet tweetalig ingericht.');
+$signingPage = file_get_contents(__DIR__ . '/../code-signing.php');
+assert_site($signingPage !== false && str_contains($signingPage, 'Free code signing provided by SignPath.io, certificate by SignPath Foundation.'), 'De vereiste SignPath-bronvermelding ontbreekt.');
+assert_site(str_contains((string) $signingPage, 'not yet signed by SignPath Foundation'), 'De SignPath-pagina vermeldt de huidige status niet eerlijk.');
+$footer = file_get_contents(__DIR__ . '/../inc/footer.php');
+assert_site($footer !== false && str_contains($footer, 'Code signing policy'), 'De homepagefooter linkt niet herkenbaar naar het code-signingbeleid.');
 
 $checks = website_health_checks();
 $checkIds = array_column($checks, 'id');

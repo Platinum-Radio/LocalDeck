@@ -12,7 +12,7 @@ $lastModified = '2026-08-18';
 $locations = [];
 
 foreach (['nl', 'en'] as $siteLanguage) {
-    foreach (['index.php', 'updates.php', 'downloads.php', 'wiki.php', 'guides.php', 'compare.php', 'community.php', 'security.php', 'privacy.php', 'status.php'] as $page) {
+    foreach (['index.php', 'updates.php', 'downloads.php', 'wiki.php', 'guides.php', 'compare.php', 'community.php', 'security.php', 'privacy.php', 'code-signing.php', 'status.php'] as $page) {
         $locations[] = site_origin() . '/' . $page . '?lang=' . $siteLanguage;
     }
     foreach (array_keys($articles) as $slug) {

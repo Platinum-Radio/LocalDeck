@@ -23,6 +23,7 @@ LocalDeck-Startklaar/
 # but are not stored in the source repository.
 runtime-packages/*
 !runtime-packages/offline-runtime.json
+!runtime-packages/runtime-sources.json
 LocalDeck-Website/downloads/releases/
 
 # Local website state, submissions, download statistics, and sessions

@@ -1,0 +1,13 @@
+LocalDeck
+Copyright 2026 LocalDeck contributors
+
+This product is licensed under the Apache License, Version 2.0.
+
+LocalDeck distributions include third-party software under separate licenses.
+Those components are not relicensed under the LocalDeck license. See
+THIRD-PARTY-NOTICES.md, the `licenses` directory, and the license files shipped
+with each component.
+
+LocalDeck is not affiliated with or endorsed by the Apache Software Foundation,
+The PHP Group, Oracle, phpMyAdmin, Mailpit, Redis, WinSW, Composer, mkcert,
+Microsoft, Electron, React, Vite, or their respective maintainers.

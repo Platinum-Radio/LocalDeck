@@ -20,6 +20,7 @@ Voor een eventueel openbaar forum blijft een afzonderlijke Flarum-installatie op
 - `downloads.php` — de nieuwste release bovenaan en een downloadbaar archief van oudere versies, beide met aantallen per versie en uitvoering.
 - `download.php` — gevalideerde downloadroute en privacyvriendelijke teller.
 - `security.php` — veiligheidsmodel en kwetsbaarheden melden.
+- `code-signing.php` — openbare status, SignPath-bronvermelding en verificatie-instructies.
 - `status.php` en `api/status.php` — live componentcontrole in HTML en JSON.
 - `sitemap.php` — tweetalige XML-sitemap, publiek beschikbaar als `sitemap.xml`.
 - `downloads/windows.json` — updatefeed voor de desktopapp.

@@ -1,0 +1,48 @@
+name: Source integrity
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-source:
+    name: Windows source checks
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the reviewed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+
+      - name: Install Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.19.0
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify open-source and SignPath readiness
+        shell: pwsh
+        run: ./scripts/Test-SignPathReadiness.ps1
+
+      - name: Type-check and test
+        run: pnpm check
+
+      - name: Build the dashboard and Electron main process
+        run: pnpm build
