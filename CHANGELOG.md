@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- LocalDeck-broncode is nu onder Apache-2.0 gepubliceerd met een NOTICE, bijdragebeleid en expliciete licentiemetadata.
+- Openbaar code-signingbeleid, maintainerrollen en een SignPath Foundation-onboardingdossier toegevoegd.
+- Alle 13 offline runtimebronnen zijn vastgezet op exacte versies, HTTPS-adressen, bestandsgroottes, SHA-256-waarden, licenties en broncodelinks.
+- Dynamische `latest`-downloadlinks zijn uit het runtimevoorbereidingsproces verwijderd.
+- Nieuwe Windows GitHub Actions-controle gebruikt een bevroren pnpm-lock, minimale rechten en op commit vastgezette Actions.
+- CODEOWNERS, pull-requestcontrole, Dependabot en een automatische SignPath-readinesscontrole toegevoegd.
+- Het versiebeheer bevat een door CODEOWNERS beschermd SignPath-bronbeleid dat alleen GitHub-hosted runners toestaat en herstarts van signing-builds weigert.
+- De privacy- en third-partyteksten beschrijven nu precies welke netwerkacties bestaan en onder welke licenties de gebundelde onderdelen worden verspreid.
+- Automatische updatecontrole staat voor nieuwe installaties standaard uit en kan bewust in Instellingen worden aangezet.
+- De afzonderlijke LocalDeck-websitebron bevat een tweetalige code-signingpagina en duidelijke, nog niet als actief gepresenteerde SignPath-status.
+
 ## 1.1.0-test.1 — Publieke Windows-testversie
 
 - Nieuwe eenvoudige en geavanceerde interfacemodus.

@@ -2,9 +2,14 @@
   "name": "localdeck",
   "version": "1.1.0-test.1",
   "private": true,
+  "license": "Apache-2.0",
   "description": "A modern local PHP development environment for Windows 10 and 11",
   "author": "LocalDeck",
   "homepage": "https://localdeck.nl",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24.19.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Platinum-Radio/LocalDeck.git"
@@ -17,6 +22,7 @@
     "dev": "concurrently -k \"vite\" \"tsc -p tsconfig.electron.json --watch\" \"wait-on tcp:5173 dist-electron/main.js && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
     "build": "tsc -p tsconfig.electron.json && vite build",
     "test": "vitest run",
+    "check:oss": "powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/Test-SignPathReadiness.ps1",
     "check": "tsc -p tsconfig.electron.json && tsc --noEmit && vitest run",
     "dist:win": "npm run build && electron-builder --win nsis"
   },
@@ -94,6 +100,29 @@
       {
         "from": "THIRD-PARTY-NOTICES.md",
         "to": "THIRD-PARTY-NOTICES.md"
+      },
+      {
+        "from": "LICENSE",
+        "to": "LICENSE"
+      },
+      {
+        "from": "NOTICE",
+        "to": "NOTICE"
+      },
+      {
+        "from": "PRIVACY.md",
+        "to": "PRIVACY.md"
+      },
+      {
+        "from": "CODE_SIGNING_POLICY.md",
+        "to": "CODE_SIGNING_POLICY.md"
+      },
+      {
+        "from": "licenses",
+        "to": "licenses",
+        "filter": [
+          "*.txt"
+        ]
       },
       {
         "from": "build/icon.ico",

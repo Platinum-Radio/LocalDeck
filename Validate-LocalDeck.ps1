@@ -34,6 +34,9 @@ function Assert-CompactZip([string]$Name,[string[]]$ForbiddenPatterns,[string[]]
 
 Push-Location $root
 try{
+  & (Join-Path $root 'scripts\Test-SignPathReadiness.ps1')
+  if($LASTEXITCODE-ne0){throw 'De open-source- en SignPath-readinesscontrole is mislukt.'}
+
   $packageDirectory=Join-Path $root 'runtime-packages'
   $manifestFile=Join-Path $packageDirectory 'offline-runtime.json'
   if(!(Test-Path -LiteralPath $manifestFile)){throw 'Het offline-runtime-manifest ontbreekt.'}

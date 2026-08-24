@@ -108,7 +108,6 @@ if(Test-Path -LiteralPath $manifestFile){
       if(!$package.PSObject.Properties['sourceBytes']){$package|Add-Member -NotePropertyName sourceBytes -NotePropertyValue ([long]$sourceSizes[[string]$package.name])}
       $package|Add-Member -NotePropertyName packaging -NotePropertyValue 'windows-x64-runtime-only' -Force
     }else{
-      if($package.PSObject.Properties['sourceBytes']){$package.PSObject.Properties.Remove('sourceBytes')}
       if($package.PSObject.Properties['packaging']-and$package.packaging-eq'windows-x64-runtime-only'){$package.PSObject.Properties.Remove('packaging')}
     }
   }

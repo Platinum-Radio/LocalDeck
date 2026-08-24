@@ -1,0 +1,13 @@
+# Security-sensitive and release-related changes require maintainer review.
+* @Platinum-Radio
+
+/.github/ @Platinum-Radio
+/.signpath/ @Platinum-Radio
+/electron/ @Platinum-Radio
+/scripts/ @Platinum-Radio
+/runtime-packages/ @Platinum-Radio
+/package.json @Platinum-Radio
+/pnpm-lock.yaml @Platinum-Radio
+/Publish-LocalDeck.ps1 @Platinum-Radio
+/CODE_SIGNING_POLICY.md @Platinum-Radio
+/SECURITY.md @Platinum-Radio

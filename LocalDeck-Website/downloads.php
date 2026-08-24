@@ -81,6 +81,8 @@ require __DIR__ . '/inc/header.php';
 
     <div class="notice-banner download-help"><span>?</span><div><b><?= e(t('Windows toont een beveiligingsmelding?', 'Windows shows a security notice?')) ?></b><p><?= e(t('Controleer eerst of het bestand van LocalDeck.nl komt en of de SHA-256 klopt. Bekijk daarna de stappen voor Windows-beveiliging in de wiki.', 'First verify that the file came from LocalDeck.nl and that its SHA-256 matches. Then review the Windows security steps in the wiki.')) ?></p><a href="<?= e(with_language('wiki.php?article=windows-beveiliging')) ?>"><?= e(t('Open de veilige uitleg', 'Open the security guide')) ?> →</a></div></div>
 
+    <div class="notice-banner download-help"><span>✓</span><div><b><?= e(t('Open-source ondertekeningsbeleid', 'Open-source signing policy')) ?></b><p>Free code signing provided by SignPath.io, certificate by SignPath Foundation. <?= e(t('De aanvraag is in voorbereiding; deze vermelding betekent nog niet dat de huidige testrelease ondertekend is.', 'The application is being prepared; this notice does not mean that the current test release is already signed.')) ?></p><a href="<?= e(with_language('code-signing.php')) ?>"><?= e(t('Bekijk status en verificatie', 'View status and verification')) ?> →</a></div></div>
+
     <div class="integrity-grid">
         <article><span>1</span><div><b><?= e(t('Bestand aanwezig', 'File present')) ?></b><p><?= e(t('De teller weigert ontbrekende of onbekende bestanden.', 'The counter rejects missing or unknown files.')) ?></p></div></article>
         <article><span>2</span><div><b>SHA-256</b><p><?= e(t('LocalDeck vergelijkt het bestand met de hash uit de feed.', 'LocalDeck compares the file with the hash in the feed.')) ?></p></div></article>
