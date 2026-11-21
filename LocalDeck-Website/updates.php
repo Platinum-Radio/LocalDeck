@@ -9,6 +9,7 @@ $releases = published_releases();
 $latest = $releases[0] ?? [];
 $latestVersion = (string) ($latest['version'] ?? LOCALDECK_SITE_VERSION);
 $latestChannel = (string) ($latest['channel'] ?? 'stable');
+$latestComponents = array_values(array_filter($latest['components'] ?? [], 'is_array'));
 require __DIR__ . '/inc/header.php';
 ?>
 <section class="page-hero updates-hero">
@@ -30,6 +31,18 @@ require __DIR__ . '/inc/header.php';
         </aside>
     </div>
 </section>
+
+<?php if ($latestComponents !== []): ?>
+<section class="section shell release-component-overview">
+    <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('ONDERDELEN VAN DEZE RELEASE', 'COMPONENTS IN THIS RELEASE')) ?></span><h2><?= e(t('Precies zichtbaar wat 1.2.0 bijwerkt.', 'See exactly what 1.2.0 updates.')) ?></h2><p><?= e(t('De desktop-app en serverruntime worden afzonderlijk beoordeeld. Je ziet vooraf welke app-onderdelen wijzigen en of de ingebouwde PHP-omgeving opnieuw is opgebouwd.', 'The desktop app and server runtime are assessed separately. You can see which app components change and whether the bundled PHP environment was rebuilt.')) ?></p></div>
+    <div class="release-component-strip">
+        <?php foreach ($latestComponents as $component): ?>
+            <article><span><?= e(($component['status'] ?? '') === 'added' ? '+' : (($component['status'] ?? '') === 'unchanged' ? '✓' : '↑')) ?></span><div><b><?= e((string) ($component['name'] ?? 'Onderdeel')) ?></b><small><?php if (!empty($component['currentVersion']) && $component['currentVersion'] !== ($component['targetVersion'] ?? '')): ?><?= e((string) $component['currentVersion']) ?> → <?php endif; ?><?= e((string) ($component['targetVersion'] ?? '')) ?></small></div></article>
+        <?php endforeach; ?>
+    </div>
+    <div class="release-component-meta"><span><?= e(t('Updatestrategie', 'Update strategy')) ?><b><?= e((string) ($latest['updateStrategy'] ?? 'component-aware')) ?></b></span><span><?= e(t('Serverruntime', 'Server runtime')) ?><b><?= e(!empty($latest['runtimeChanged']) ? t('Bijgewerkt', 'Updated') : t('Ongewijzigd en gecontroleerd', 'Unchanged and verified')) ?></b></span><span><?= e(t('Pakketgrootte', 'Package size')) ?><b><?= e(!empty($latest['packageBytes']) ? number_format(((int) $latest['packageBytes']) / 1048576, 1, ',', '.') . ' MB' : '—') ?></b></span></div>
+</section>
+<?php endif; ?>
 
 <section class="section shell update-system-overview">
     <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('HOE HET WERKT', 'HOW IT WORKS')) ?></span><h2><?= e(t('Controleren, begrijpen en veilig bijwerken.', 'Check, understand, and update safely.')) ?></h2><p><?= e(t('Het Updatecentrum in LocalDeck blijft accountloos en gebruikt alleen de gekozen HTTPS-updatefeed.', 'The LocalDeck Update Center remains account-free and only uses the selected HTTPS update feed.')) ?></p></div>

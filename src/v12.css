@@ -1,0 +1,85 @@
+/* LocalDeck 1.2 — refined Windows workspace and component-aware updates */
+:root {
+  color-scheme: dark;
+  --surface-glass: color-mix(in srgb, #151a23 91%, transparent);
+  --focus-ring: #a69dff;
+}
+
+.app > aside {
+  background:
+    radial-gradient(circle at 15% 4%, #4f468429, transparent 24%),
+    linear-gradient(180deg, #11151d 0%, #0c1016 100%);
+  box-shadow: 12px 0 40px #05070b42;
+}
+
+.app > main { width: 100%; }
+.panel, .updateReleaseCard, .updateFacts article { backdrop-filter: blur(12px); }
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.updateComposition {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) minmax(300px, .9fr);
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid #343059;
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 8% 12%, #6259b52b, transparent 32%),
+    linear-gradient(135deg, #151725, #10151c 70%);
+}
+
+.updateCompositionIntro { display: flex; gap: 15px; align-items: flex-start; }
+.updateCompositionIntro > span { width: 45px; height: 45px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 12px; color: #aaa1ff; background: #292441; box-shadow: inset 0 0 0 1px #5b5294; }
+.updateCompositionIntro > span svg { width: 21px; }
+.updateCompositionIntro small { color: #8177e7; font-size: 8px; font-weight: 900; letter-spacing: .13em; }
+.updateCompositionIntro h3 { margin: 7px 0 5px; font-size: 15px; }
+.updateCompositionIntro p { max-width: 560px; color: #818b9c; font-size: 10px; line-height: 1.55; }
+.updateCompositionFacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.updateCompositionFacts article { min-width: 0; display: flex; gap: 9px; align-items: center; padding: 11px; border: 1px solid #2a3140; border-radius: 10px; background: #0e131acc; }
+.updateCompositionFacts svg { width: 16px; flex: 0 0 auto; color: #8d84ec; }
+.updateCompositionFacts small, .updateCompositionFacts b { display: block; }
+.updateCompositionFacts small { margin-bottom: 3px; color: #626d7e; font-size: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; }
+.updateCompositionFacts b { overflow: hidden; color: #b7becb; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.updateComponentList { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; padding-top: 15px; border-top: 1px solid #292f3d; }
+.updateComponentList article { min-width: 0; display: flex; gap: 9px; align-items: center; padding: 9px 11px; border: 1px solid #272e3a; border-radius: 9px; background: #10151c; }
+.updateComponentList article > span { width: 23px; height: 23px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 7px; color: #a9a1ff; background: #27233f; font-size: 11px; font-weight: 900; }
+.updateComponentList article > span.added { color: #70ddb0; background: #173328; }
+.updateComponentList article > span.unchanged { color: #92a0b5; background: #202630; }
+.updateComponentList b, .updateComponentList small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.updateComponentList b { font-size: 9px; }
+.updateComponentList small { margin-top: 2px; color: #717c8d; font: 8px ui-monospace, Consolas, monospace; }
+.updateComponentEmpty { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; padding-top: 14px; border-top: 1px solid #292f3d; color: #7f8b9d; font-size: 9px; }
+.updateComponentEmpty svg { width: 14px; color: #6fd5a8; }
+
+@media (min-width: 1800px) {
+  .app { grid-template-columns: 242px minmax(0, 1fr); }
+  .app > aside { width: 242px; }
+  main { padding-right: 44px; padding-left: 44px; }
+}
+
+@media (max-width: 1280px) {
+  .updateComposition { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 1020px) {
+  .updateCompositionFacts { grid-template-columns: 1fr; }
+}
+
+@media (max-height: 720px) {
+  main { padding-top: 52px; padding-bottom: 28px; }
+  .updateHero, .projectFocus { padding-top: 22px; padding-bottom: 22px; }
+  aside nav button { min-height: 31px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

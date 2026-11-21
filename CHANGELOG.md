@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0 — Moderne Windows-release (21 november 2026)
+
+- De desktopbasis is vernieuwd naar Electron 45.4.1, React 19.3.1, Vite 8.3.8 en TypeScript 7.0.2.
+- Het Updatecentrum toont voortaan de pakketgrootte, gekozen updatestrategie, impact op de serverruntime en ieder bijgewerkt onderdeel.
+- Alle app-afhankelijkheden zijn opnieuw vastgezet en gecontroleerd; `pnpm audit` rapporteert geen bekende kwetsbaarheden.
+- GitHub voert bij iedere wijziging naast typechecks en 70 tests ook een afhankelijkheidsaudit en uitgebreide CodeQL-analyse uit.
+- De interface is verder verfijnd voor compacte 1280×720-schermen, gangbare laptops, 1080p, ultrawide en 4K; toetsenbordfocus en beperkte animatie worden beter ondersteund.
+- De zijbalk gebruikt nu altijd het echte versienummer uit de applicatiestatus in plaats van vaste tekst.
+- De updatefeed bevat machineleesbare componentinformatie, runtime-impact en pakketgrootte en blijft iedere download met SHA-256 controleren.
+- De ingebouwde serverstack is opnieuw gecontroleerd en blijft actueel: Apache 2.4.71, PHP 8.2.36/8.3.37/8.4.28/8.5.13/8.6.0, MySQL 8.4.13 LTS, phpMyAdmin 5.2.3, Mailpit 1.34.0, Redis 8.10.3 en Composer 2.11.2.
+- De EXE-installatie en uitpak-ZIP worden vanuit exact dezelfde gecontroleerde kandidaat gebouwd en gepubliceerd op LocalDeck.nl en GitHub.
+
 ## 1.1.0 — Officiële Windows-release (21 november 2026)
 
 - Offline runtime bijgewerkt naar Apache 2.4.71, PHP 8.2.36/8.3.37/8.4.28/8.5.13, MySQL 8.4.13 LTS, Mailpit 1.34.0 en Composer 2.11.2.

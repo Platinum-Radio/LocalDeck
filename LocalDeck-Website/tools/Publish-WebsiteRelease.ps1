@@ -26,6 +26,13 @@ param(
     [string[]]$Changes = @(),
     [string[]]$ChangesEn = @(),
 
+    [ValidateSet('full', 'application-only', 'component-aware')]
+    [string]$UpdateStrategy = 'component-aware',
+
+    [bool]$RuntimeChanged = $false,
+
+    [object[]]$Components = @(),
+
     [switch]$AllowUnsigned
 )
 
@@ -110,6 +117,10 @@ $release = [pscustomobject]@{
     notesEn = $NotesEn
     changes = @($Changes)
     changesEn = @($ChangesEn)
+    packageBytes = [int64] (Get-Item -LiteralPath $SetupPath).Length
+    runtimeChanged = $RuntimeChanged
+    updateStrategy = $UpdateStrategy
+    components = @($Components)
     warning = if ($Channel -eq 'beta' -and -not $releaseSigned) { 'Windows SmartScreen of Smart App Control kan bij deze testversie waarschuwen of blokkeren.' } else { $null }
     artifacts = $artifacts
 }
@@ -150,6 +161,10 @@ $feed = [ordered]@{
     sha256 = $setup.sha256
     signed = $releaseSigned
     publisher = if ($releaseSigned) { $signatureResults[0].Subject } else { 'Niet digitaal ondertekend' }
+    packageBytes = $release.packageBytes
+    runtimeChanged = $release.runtimeChanged
+    updateStrategy = $release.updateStrategy
+    components = @($release.components)
     history = $history
 }
 if ($previous -and $previousSetup -and $previousSetup.sha256) {

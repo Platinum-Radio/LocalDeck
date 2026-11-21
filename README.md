@@ -19,7 +19,7 @@
 <p align="center">
   <img alt="Windows 11; Windows 10 compatibility" src="https://img.shields.io/badge/Windows-11%20%7C%2010%20compatibility-1677ff?style=flat-square&logo=windows11&logoColor=white">
   <img alt="PHP 8.2 through 8.6" src="https://img.shields.io/badge/PHP-8.2%E2%80%938.6-777bb4?style=flat-square&logo=php&logoColor=white">
-  <img alt="LocalDeck 1.1.0" src="https://img.shields.io/badge/release-1.1.0-22c55e?style=flat-square">
+  <img alt="LocalDeck 1.2.0" src="https://img.shields.io/badge/release-1.2.0-22c55e?style=flat-square">
   <img alt="Offline-first" src="https://img.shields.io/badge/runtime-offline--first-18bfe8?style=flat-square">
   <a href="LICENSE"><img alt="Apache License 2.0" src="https://img.shields.io/badge/license-Apache--2.0-2ea44f?style=flat-square"></a>
 </p>

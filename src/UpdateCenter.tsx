@@ -1,10 +1,15 @@
-import {ArrowRight, CalendarDays, CheckCircle2, Download, ExternalLink, FileKey2, History, RefreshCw, RotateCcw, ShieldCheck, Sparkles} from 'lucide-react';
+import {ArrowRight, CalendarDays, CheckCircle2, Download, ExternalLink, FileKey2, History, Layers3, PackageCheck, RefreshCw, RotateCcw, ShieldCheck, Sparkles} from 'lucide-react';
 import type {StateAction} from './ControlCenter';
 
 const versionDate = (value: string | undefined, language: AppSettings['language']) => {
   if (!value) return language === 'en' ? 'Date unavailable' : 'Datum onbekend';
   try {return new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'nl-NL', {day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(value));}
   catch {return value;}
+};
+
+const formatBytes = (bytes: number | undefined, language: AppSettings['language']) => {
+  if (!bytes) return language === 'en' ? 'Calculated on release' : 'Berekend bij publicatie';
+  return new Intl.NumberFormat(language === 'en' ? 'en-GB' : 'nl-NL', {style: 'unit', unit: 'megabyte', maximumFractionDigits: 1}).format(bytes / 1024 / 1024);
 };
 
 export function UpdateCenter({state, action}: {state: AppState; action: StateAction}) {
@@ -16,6 +21,7 @@ export function UpdateCenter({state, action}: {state: AppState; action: StateAct
   const history = update.history ?? [];
   const title = english ? update.titleEn || update.title : update.title;
   const notes = english ? update.notesEn || update.notes : update.notes;
+  const updateComponents = update.components ?? [];
   const statusLabel = checking ? (english ? 'Checking…' : 'Controleren…') : available ? (english ? 'Update available' : 'Update beschikbaar') : update.status === 'error' ? (english ? 'Check failed' : 'Controle mislukt') : update.status === 'current' ? (english ? 'Up to date' : 'Actueel') : (english ? 'Not checked yet' : 'Nog niet gecontroleerd');
 
   return <div className="updateCenter">
@@ -42,6 +48,16 @@ export function UpdateCenter({state, action}: {state: AppState; action: StateAct
     </section>
 
     {available ? <section className="panel updateAvailablePanel"><div><span className="eyebrow">{english ? 'READY TO DOWNLOAD' : 'KLAAR OM TE DOWNLOADEN'}</span><h3>LocalDeck {update.latestVersion}</h3><p>{notes}</p></div><button className="primary" onClick={() => void action(() => window.localdeck.downloadUpdate())}><Download />{english ? 'Create restore point & download' : 'Herstelpunt maken & downloaden'}</button></section> : null}
+
+    <section className="updateComposition" aria-label={english ? 'Release composition' : 'Samenstelling van de release'}>
+      <div className="updateCompositionIntro"><span><Layers3 /></span><div><small>{english ? 'SMART UPDATE INSIGHT' : 'SLIM UPDATE-INZICHT'}</small><h3>{english ? 'Know exactly what changes' : 'Zie precies wat er verandert'}</h3><p>{english ? 'LocalDeck separates the desktop app from the bundled server runtime, so every release is transparent before you install it.' : 'LocalDeck maakt onderscheid tussen de desktop-app en de ingebouwde serverruntime, zodat elke release vóór installatie helder is.'}</p></div></div>
+      <div className="updateCompositionFacts">
+        <article><PackageCheck /><span><small>{english ? 'Package' : 'Pakket'}</small><b>{formatBytes(update.packageBytes, language)}</b></span></article>
+        <article><ShieldCheck /><span><small>{english ? 'Server runtime' : 'Serverruntime'}</small><b>{update.runtimeChanged === undefined ? (english ? 'Checked on release' : 'Controle bij publicatie') : update.runtimeChanged ? (english ? 'Updated' : 'Bijgewerkt') : (english ? 'Unchanged and verified' : 'Ongewijzigd en gecontroleerd')}</b></span></article>
+        <article><Layers3 /><span><small>{english ? 'Strategy' : 'Strategie'}</small><b>{update.updateStrategy === 'application-only' ? (english ? 'App only' : 'Alleen app') : update.updateStrategy === 'component-aware' ? (english ? 'Component aware' : 'Componentbewust') : (english ? 'Complete package' : 'Compleet pakket')}</b></span></article>
+      </div>
+      {updateComponents.length ? <div className="updateComponentList">{updateComponents.map(component => <article key={component.id}><span className={component.status}>{component.status === 'added' ? '+' : component.status === 'unchanged' ? '✓' : '↑'}</span><div><b>{component.name}</b><small>{component.currentVersion && component.currentVersion !== component.targetVersion ? `${component.currentVersion} → ` : ''}{component.targetVersion}</small></div></article>)}</div> : <div className="updateComponentEmpty"><CheckCircle2 />{english ? `${state.runtimePackages.length || 14} offline runtime packages are locally available and verified.` : `${state.runtimePackages.length || 14} offline runtimepakketten zijn lokaal beschikbaar en gecontroleerd.`}</div>}
+    </section>
 
     <div className="updateSectionHeading"><div><span className="eyebrow">{english ? 'VERSION HISTORY' : 'VERSIEGESCHIEDENIS'}</span><h3>{english ? 'What changed in LocalDeck' : 'Wat is er gewijzigd in LocalDeck'}</h3></div><label className="updateAutoToggle"><input type="checkbox" checked={state.settings.autoUpdateCheck} onChange={event => void action(() => window.localdeck.updateSettings({autoUpdateCheck: event.target.checked}))} /><span />{english ? 'Check automatically' : 'Automatisch controleren'}</label></div>
 

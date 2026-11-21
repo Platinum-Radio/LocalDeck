@@ -2,6 +2,16 @@
 
 This page highlights the most important user-facing changes. For the complete technical history, see the [changelog](CHANGELOG.md).
 
+## 1.2.0 — November 21, 2026
+
+- A refreshed desktop foundation with Electron 45, React 19, Vite 8, and TypeScript 7.
+- Component-aware update information now shows package size, server-runtime impact, and every changed application component.
+- A refined responsive workspace for 1280×720, laptop, 1080p, ultrawide, and 4K displays, with improved keyboard focus and reduced-motion support.
+- Dependency hardening reduced the audit result to zero known vulnerabilities.
+- GitHub now runs locked Windows builds, dependency auditing, and extended CodeQL analysis for every source change.
+- The fully offline server stack remains bundled and verified, including PHP 8.2 through 8.6, Apache, MySQL, phpMyAdmin, Mailpit, Redis, and Composer.
+- The website, update feeds, download archive, EXE installer, and extract-only ZIP all use the same verified 1.2.0 release metadata.
+
 ## 1.1.0 — November 21, 2026
 
 - Apache 2.4.71, MySQL 8.4.13 LTS, Mailpit 1.34.0, Composer 2.11.2, and the latest security patch for every bundled PHP line.

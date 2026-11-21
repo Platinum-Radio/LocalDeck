@@ -40,7 +40,7 @@ let previewState:AppState={
   workers:[{id:'worker-1',projectId:'preview-project',name:'Laravel queue',command:'php',args:['artisan','queue:work'],status:'stopped',logs:[],autoRestart:true,restartCount:0}],replayCaptures:[],
  devDrive:{supported:true,drive:'C:',isDevDrive:false,status:'available',detail:'De projectmap staat niet op een Dev Drive.',securityMode:'Windows Defender standaardbeleid',checkedAt:now},
  crashRecovery:{sessionId:'preview-session',uncleanShutdownDetected:false,recoveredServices:[],status:'clean',detail:'Vorige sessie is netjes afgesloten.',checkedAt:now},
-  atomicUpdate:{status:'healthy',currentVersion:'1.1.0',lastKnownGoodVersion:'1.1.0',checkedAt:now,detail:'De actieve versie heeft de start- en runtimecontrole doorstaan.'},
+  atomicUpdate:{status:'healthy',currentVersion:'1.2.0',lastKnownGoodVersion:'1.2.0',checkedAt:now,detail:'De actieve versie heeft de start- en runtimecontrole doorstaan.'},
  releaseReadiness:{score:80,status:'warning',checkedAt:now,checks:[{id:'runtime',label:'Offline runtime',status:'ok',detail:'14/14 pakketten aanwezig.'},{id:'binary-signature',label:'Programmaundertekening',status:'warning',detail:'RC-build is nog niet ondertekend.'}]},
  inspectorEvents:[
   {id:'event-1',at:now,projectId:'preview-project',kind:'request',severity:'info',title:'GET /products',detail:'200 · Apache → PHP 8.4',durationMs:38},
@@ -65,6 +65,8 @@ let previewState:AppState={
   settings:{simulationMode:false,startWithWindows:false,minimizeToTray:true,telemetry:false,privacyMode:false,language:navigator.language.toLowerCase().startsWith('nl')?'nl':'en',dataDirectory:'C:\\LocalDeck\\runtime',projectsDirectory:'C:\\LocalDeck\\websites',folderMode:true,defaultPhpVersion:'8.5',localDomainSuffix:'localhost',autoBackup:true,backupRetention:14,runtimeMode:'application',serviceAutoStart:false,autoRestart:true,restoreServicesAfterCrash:true,atomicUpdates:true,autoUpdateCheck:false,updateChannel:'stable',updateFeedUrl:'https://localdeck.nl/downloads/windows.json',firstRunComplete:true,backupSchedule:'daily',webControlEnabled:true,webControlPort:4466,dnsMode:'hosts',mailMode:'capture',mailMaxMessages:1000,mailMaxAgeDays:30,smtpHost:'',smtpPort:587,smtpUsername:'',requireSignedUpdates:false,trustedUpdatePublisher:'',trustedPackPublisher:'AA BB CC',combinedLogs:true,securityScanOnStart:true,resourceSaver:true,idleStopMinutes:30,lanSharingEnabled:false,mcpEnabled:false,offlineFirst:true},
  logs:[{id:'log-1',at:now,level:'success',source:'Runtime',message:'Apache, PHP en MySQL zijn gestart.'},{id:'log-2',at:now,level:'info',source:'Project',message:'webshop.test gebruikt PHP 8.4.'}]
 };
+
+previewState.update={...previewState.update,currentVersion:'1.2.0',latestVersion:'1.2.0',components:[],history:[{version:'1.2.0',title:'LocalDeck 1.2.0',titleEn:'LocalDeck 1.2.0',notes:'Moderne app-shell, componentbewuste updates en extra beveiligingscontroles.',notesEn:'Modern app shell, component-aware updates, and additional security checks.',changes:['Electron 45, React 19, Vite 8 en TypeScript 7','Update-inzicht per onderdeel','Automatische audit en CodeQL'],changesEn:['Electron 45, React 19, Vite 8, and TypeScript 7','Component-level update insight','Automated audit and CodeQL'],publishedAt:now,channel:'stable'},...previewState.update.history]};
 
 const listeners=new Set<(state:AppState)=>void>();
 const publish=()=>{previewState={...previewState};listeners.forEach(listener=>listener(previewState));return previewState};
