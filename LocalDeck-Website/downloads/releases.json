@@ -4,6 +4,92 @@
   "platform": "windows",
   "releases": [
     {
+      "version": "1.2.0",
+      "channel": "stable",
+      "releasedAt": "2026-11-21T13:17:00.8384065Z",
+      "published": true,
+      "signed": false,
+      "title": "LocalDeck 1.2.0",
+      "titleEn": "LocalDeck 1.2.0",
+      "notes": "De moderne Windows-release met een vernieuwde app-shell, componentbewuste updates, extra beveiligingscontroles en de volledige offline PHP-runtime.",
+      "notesEn": "The modern Windows release with a refreshed app shell, component-aware updates, additional security checks, and the complete offline PHP runtime.",
+      "changes": [
+        "Moderne app-shell met Electron 45, React 19, Vite 8 en TypeScript 7.",
+        "Componentbewust Updatecentrum met pakketgrootte en runtime-impact.",
+        "Afhankelijkheden opnieuw vastgezet en gecontroleerd: nul bekende kwetsbaarheden.",
+        "Responsieve interface voor 1280×720, laptops, 1080p, ultrawide en 4K.",
+        "Alle 14 offline runtimepakketten blijven volledig ingebouwd en gecontroleerd.",
+        "GitHub voert voortaan dependency-audits en uitgebreide CodeQL-analyse uit."
+      ],
+      "changesEn": [
+        "Modern app shell with Electron 45, React 19, Vite 8, and TypeScript 7.",
+        "Component-aware Update Center with package size and runtime impact.",
+        "Dependencies relocked and verified: zero known vulnerabilities.",
+        "Responsive interface for 1280×720, laptops, 1080p, ultrawide, and 4K.",
+        "All 14 offline runtime packages remain fully bundled and verified.",
+        "GitHub now performs dependency audits and extended CodeQL analysis."
+      ],
+      "packageBytes": 433667628,
+      "runtimeChanged": false,
+      "updateStrategy": "component-aware",
+      "components": [
+        {
+          "id": "electron",
+          "name": "Electron",
+          "currentVersion": "33.4.11",
+          "targetVersion": "45.4.1",
+          "status": "updated"
+        },
+        {
+          "id": "react",
+          "name": "React",
+          "currentVersion": "18.3.1",
+          "targetVersion": "19.3.1",
+          "status": "updated"
+        },
+        {
+          "id": "vite",
+          "name": "Vite",
+          "currentVersion": "6.4.3",
+          "targetVersion": "8.3.8",
+          "status": "updated"
+        },
+        {
+          "id": "typescript",
+          "name": "TypeScript",
+          "currentVersion": "5.9.3",
+          "targetVersion": "7.0.2",
+          "status": "updated"
+        },
+        {
+          "id": "electron-builder",
+          "name": "Electron Builder",
+          "currentVersion": "25.1.8",
+          "targetVersion": "26.18.0",
+          "status": "updated"
+        }
+      ],
+      "warning": null,
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "LocalDeck installeren — EXE",
+          "file": "downloads/releases/1.2.0/LocalDeck-1.2.0-Windows-Setup-x64.exe",
+          "sizeLabel": "413.6 MB",
+          "sha256": "9345d4f40c992fd31a06895622b36b301484c3253fd250cbb14cc091274c732c",
+          "signed": false
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/1.2.0/LocalDeck-1.2.0-Windows-x64.zip",
+          "sizeLabel": "450.3 MB",
+          "sha256": "ae2edce2d7ca91c1d2a31ccf01e36c8d689fe6aab125cef9fef680f607e0e6b2",
+          "signed": false
+        }
+      ]
+    },
+    {
       "version": "1.1.0",
       "channel": "stable",
       "releasedAt": "2026-11-21T11:17:05.0876777Z",

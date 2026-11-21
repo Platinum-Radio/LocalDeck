@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 const LOCALDECK_SITE_ROOT = __DIR__ . '/..';
-const LOCALDECK_SITE_VERSION = '1.1.0';
+const LOCALDECK_SITE_VERSION = '1.2.0';
 const LOCALDECK_DOCUMENTATION_VERSION = '1.0.0';
 const LOCALDECK_CONTACT_RECIPIENT = 'chatgpt@platinumradio.nl';
 const LOCALDECK_MAIL_SENDER = 'website@localdeck.nl';

@@ -1,18 +1,83 @@
 {
   "schemaVersion": 2,
-  "version": "1.1.0",
-  "title": "LocalDeck 1.1.0",
-  "titleEn": "LocalDeck 1.1.0",
-  "notes": "De officiële LocalDeck 1.1.0-release met PHP 8.6, volledig bijgewerkte runtimes en een uitgebreid gecontroleerde offline Windows-omgeving.",
-  "notesEn": "The official LocalDeck 1.1.0 release with PHP 8.6, fully refreshed runtimes, and a thoroughly verified offline Windows environment.",
-  "downloadUrl": "https://localdeck.nl/download.php?version=1.1.0&artifact=setup-x64",
+  "version": "1.2.0",
+  "title": "LocalDeck 1.2.0",
+  "titleEn": "LocalDeck 1.2.0",
+  "notes": "De moderne Windows-release met een vernieuwde app-shell, componentbewuste updates, extra beveiligingscontroles en de volledige offline PHP-runtime.",
+  "notesEn": "The modern Windows release with a refreshed app shell, component-aware updates, additional security checks, and the complete offline PHP runtime.",
+  "downloadUrl": "https://localdeck.nl/download.php?version=1.2.0&artifact=setup-x64",
   "releaseNotesUrl": "https://localdeck.nl/updates.php",
-  "publishedAt": "2026-11-21T11:17:05.0876777Z",
+  "publishedAt": "2026-11-21T13:17:00.8384065Z",
   "channel": "stable",
-  "sha256": "a1f3b36f1b862f6fcd8fcb2b7bccf82f7d1a21299eaf327c35aaf20abe5c6ee5",
+  "sha256": "9345d4f40c992fd31a06895622b36b301484c3253fd250cbb14cc091274c732c",
   "signed": false,
   "publisher": "Niet digitaal ondertekend",
+  "packageBytes": 433667628,
+  "runtimeChanged": false,
+  "updateStrategy": "component-aware",
+  "components": [
+    {
+      "id": "electron",
+      "name": "Electron",
+      "currentVersion": "33.4.11",
+      "targetVersion": "45.4.1",
+      "status": "updated"
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "currentVersion": "18.3.1",
+      "targetVersion": "19.3.1",
+      "status": "updated"
+    },
+    {
+      "id": "vite",
+      "name": "Vite",
+      "currentVersion": "6.4.3",
+      "targetVersion": "8.3.8",
+      "status": "updated"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "currentVersion": "5.9.3",
+      "targetVersion": "7.0.2",
+      "status": "updated"
+    },
+    {
+      "id": "electron-builder",
+      "name": "Electron Builder",
+      "currentVersion": "25.1.8",
+      "targetVersion": "26.18.0",
+      "status": "updated"
+    }
+  ],
   "history": [
+    {
+      "version": "1.2.0",
+      "title": "LocalDeck 1.2.0",
+      "titleEn": "LocalDeck 1.2.0",
+      "notes": "De moderne Windows-release met een vernieuwde app-shell, componentbewuste updates, extra beveiligingscontroles en de volledige offline PHP-runtime.",
+      "notesEn": "The modern Windows release with a refreshed app shell, component-aware updates, additional security checks, and the complete offline PHP runtime.",
+      "changes": [
+        "Moderne app-shell met Electron 45, React 19, Vite 8 en TypeScript 7.",
+        "Componentbewust Updatecentrum met pakketgrootte en runtime-impact.",
+        "Afhankelijkheden opnieuw vastgezet en gecontroleerd: nul bekende kwetsbaarheden.",
+        "Responsieve interface voor 1280×720, laptops, 1080p, ultrawide en 4K.",
+        "Alle 14 offline runtimepakketten blijven volledig ingebouwd en gecontroleerd.",
+        "GitHub voert voortaan dependency-audits en uitgebreide CodeQL-analyse uit."
+      ],
+      "changesEn": [
+        "Modern app shell with Electron 45, React 19, Vite 8, and TypeScript 7.",
+        "Component-aware Update Center with package size and runtime impact.",
+        "Dependencies relocked and verified: zero known vulnerabilities.",
+        "Responsive interface for 1280×720, laptops, 1080p, ultrawide, and 4K.",
+        "All 14 offline runtime packages remain fully bundled and verified.",
+        "GitHub now performs dependency audits and extended CodeQL analysis."
+      ],
+      "publishedAt": "2026-11-21T13:17:00.8384065Z",
+      "channel": "stable"
+    },
     {
       "version": "1.1.0",
       "title": "LocalDeck 1.1.0",
@@ -60,7 +125,7 @@
       "channel": "stable"
     }
   ],
-  "rollbackVersion": "1.0.0",
-  "rollbackUrl": "https://localdeck.nl/download.php?version=1.0.0&artifact=setup-x64",
-  "rollbackSha256": "991330615cd9e250bdf50536dc87b946a5864f36d1f9cb51182c8510e3787b30"
+  "rollbackVersion": "1.1.0",
+  "rollbackUrl": "https://localdeck.nl/download.php?version=1.1.0&artifact=setup-x64",
+  "rollbackSha256": "a1f3b36f1b862f6fcd8fcb2b7bccf82f7d1a21299eaf327c35aaf20abe5c6ee5"
 }
