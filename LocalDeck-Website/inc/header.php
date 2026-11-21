@@ -8,6 +8,11 @@ $canonical = site_origin() . $canonicalPath . '?' . http_build_query(array_merge
 $alternateNl = site_origin() . $canonicalPath . '?' . http_build_query(array_merge($canonicalParams, ['lang' => 'nl']));
 $alternateEn = site_origin() . $canonicalPath . '?' . http_build_query(array_merge($canonicalParams, ['lang' => 'en']));
 $latestSiteRelease = latest_published_release();
+$assetVersion = static function (string $filename): string {
+    $path = __DIR__ . '/../assets/' . basename($filename);
+    $modified = is_file($path) ? (string) filemtime($path) : '0';
+    return LOCALDECK_SITE_VERSION . '-' . $modified;
+};
 $structuredData = array_values(array_filter([
     [
         '@type' => 'Organization',
@@ -68,10 +73,10 @@ $structuredData = array_values(array_filter([
     <link rel="alternate" hreflang="en" href="<?= e($alternateEn) ?>">
     <link rel="alternate" hreflang="x-default" href="<?= e($alternateEn) ?>">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
-    <link rel="stylesheet" href="/assets/site.css?v=<?= e(LOCALDECK_SITE_VERSION) ?>">
-    <?php if ($pageKey === 'downloads'): ?><link rel="stylesheet" href="/assets/downloads.css?v=<?= e(LOCALDECK_SITE_VERSION) ?>"><?php endif; ?>
-    <link rel="stylesheet" href="/assets/enhancements.css?v=<?= e(LOCALDECK_SITE_VERSION) ?>">
-    <script src="/assets/site.js?v=<?= e(LOCALDECK_SITE_VERSION) ?>" defer></script>
+    <link rel="stylesheet" href="/assets/site.css?v=<?= e($assetVersion('site.css')) ?>">
+    <?php if ($pageKey === 'downloads'): ?><link rel="stylesheet" href="/assets/downloads.css?v=<?= e($assetVersion('downloads.css')) ?>"><?php endif; ?>
+    <link rel="stylesheet" href="/assets/enhancements.css?v=<?= e($assetVersion('enhancements.css')) ?>">
+    <script src="/assets/site.js?v=<?= e($assetVersion('site.js')) ?>" defer></script>
     <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $structuredData], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
     <title><?= e($pageTitle) ?></title>
 </head>

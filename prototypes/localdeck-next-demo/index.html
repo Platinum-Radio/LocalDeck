@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>LocalDeck Ultimate — interactieve productdemo</title>
+  <link rel="icon" href="localdeck-logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <div class="demo-banner">
+    <span><i></i> LOCALDECK ULTIMATE · PRODUCTDEMO</span>
+    <p>Volledig lokaal · geen account · geen echte systeemwijzigingen</p>
+    <button id="resetDemo" type="button">Demo herstellen</button>
+  </div>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Hoofdnavigatie">
+      <div class="brand">
+        <img src="localdeck-logo.png" alt="">
+        <div><strong>LocalDeck</strong><span>ULTIMATE LAB</span></div>
+      </div>
+
+      <nav>
+        <span class="nav-label">WERKPLEK</span>
+        <button class="nav-item active" data-view="dashboard" type="button"><svg><use href="#i-home"></use></svg><span>Command Deck</span></button>
+        <button class="nav-item" data-view="projects" type="button"><svg><use href="#i-grid"></use></svg><span>Projecten</span><b id="projectCountNav">3</b></button>
+        <button class="nav-item" data-view="timeline" type="button"><svg><use href="#i-pulse"></use></svg><span>Developer Timeline</span><i>6</i></button>
+
+        <span class="nav-label">STUDIO &amp; ENGINE</span>
+        <button class="nav-item" data-view="studio" type="button"><svg><use href="#i-spark"></use></svg><span>Dev Studio</span><i class="new-badge">NIEUW</i></button>
+        <button class="nav-item" data-view="runtime" type="button"><svg><use href="#i-layers"></use></svg><span>Runtime</span></button>
+        <button class="nav-item" data-view="security" type="button"><svg><use href="#i-shield"></use></svg><span>Local Guard</span><b>100</b></button>
+        <button class="nav-item" data-view="backups" type="button"><svg><use href="#i-history"></use></svg><span>Herstelpunten</span></button>
+        <button class="nav-item" data-view="settings" type="button"><svg><use href="#i-settings"></use></svg><span>Instellingen</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+          <div class="engine-state"><i></i><div><strong>Engine gezond</strong><span id="sidebarEngineDetail">5 services · app-modus</span></div></div>
+        <div class="profile"><span>RB</span><div><strong>Lokale werkplek</strong><small>Geen account nodig</small></div><button aria-label="Meer opties">•••</button></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p id="viewEyebrow">LOCALDECK / COMMAND DECK</p>
+          <h1 id="viewTitle">Goedemiddag, Ramon</h1>
+        </div>
+        <div class="top-actions">
+          <button class="search-trigger" id="openCommand" type="button"><svg><use href="#i-search"></use></svg><span>Zoek projecten en acties</span><kbd>Ctrl K</kbd></button>
+          <button class="mode-pill" id="modePill" type="button"><i></i><span><small>UITVOERMODUS</small><strong>App-modus</strong></span><svg><use href="#i-chevron"></use></svg></button>
+          <button class="icon-button" id="themeToggle" type="button" aria-label="Thema wisselen"><svg><use href="#i-sun"></use></svg></button>
+          <button class="activity-button" id="openActivity" type="button"><svg><use href="#i-bell"></use></svg><span id="activityBadge">2</span></button>
+          <button class="primary compact" id="quickNewProject" type="button"><svg><use href="#i-plus"></use></svg>Nieuw project</button>
+        </div>
+      </header>
+
+      <section class="view active" data-page="dashboard">
+        <div class="welcome-card ultimate-hero">
+          <div class="welcome-copy">
+            <span class="eyebrow-pill"><svg><use href="#i-spark"></use></svg> JE LOKALE DEVELOPMENT OS</span>
+            <h2>Bouwen zonder stackgedoe.</h2>
+            <p>Open je project. LocalDeck stelt de juiste runtime samen, bewaakt poorten, maakt HTTPS vertrouwd en brengt database, mail, logs en herstel samen.</p>
+            <div class="welcome-actions">
+              <button class="primary hero-primary" data-project="webshop" type="button"><svg><use href="#i-play"></use></svg>Doorgaan met Webshop</button>
+              <button class="secondary" id="heroNewProject" type="button"><svg><use href="#i-plus"></use></svg>Nieuw project</button>
+            </div>
+            <div class="hero-proof"><span><svg><use href="#i-lock"></use></svg> Accountloos</span><span><svg><use href="#i-shield"></use></svg> Veilig herstelbaar</span><span><svg><use href="#i-radar"></use></svg> Poortautopilot</span></div>
+          </div>
+          <div class="mission-visual" aria-label="Werkplekgezondheid 100 procent">
+            <div class="mission-top"><span><i></i> LIVE</span><small>Webshop · Laravel</small></div>
+            <div class="stack-core"><span class="core-ring"><b>100<small>%</small></b></span><div><strong>Alles gezond</strong><small>14 controles · 0 blokkades</small></div></div>
+            <div class="mission-stack"><span><i></i>HTTPS <b>vertrouwd</b></span><span><i></i>PHP 8.5 <b>12 ms</b></span><span><i></i>MySQL <b>8 ms</b></span></div>
+          </div>
+        </div>
+
+        <div class="metric-row">
+          <article><span class="metric-icon violet"><svg><use href="#i-grid"></use></svg></span><div><strong id="metricProjects">3</strong><small>Projecten</small></div><em>1 actief</em></article>
+          <article><span class="metric-icon cyan"><svg><use href="#i-cpu"></use></svg></span><div><strong id="metricServices">5</strong><small>Services actief</small></div><em>142 MB</em></article>
+          <article><span class="metric-icon green"><svg><use href="#i-shield"></use></svg></span><div><strong>100%</strong><small>Local Guard</small></div><em>Schoon</em></article>
+          <article><span class="metric-icon amber"><svg><use href="#i-clock"></use></svg></span><div><strong>1,8 s</strong><small>Smart start</small></div><em>Geoptimaliseerd</em></article>
+        </div>
+
+        <section class="focus-deck">
+          <div class="focus-copy"><span>STARTPROFIEL</span><strong id="profileTitle">Slim gebalanceerd</strong><small id="profileDetail">Start alleen onderdelen die je actieve projecten nodig hebben.</small></div>
+          <div class="profile-switcher" id="profileSwitcher">
+            <button data-profile="focus" type="button"><svg><use href="#i-spark"></use></svg><span>Focus<small>Minimaal</small></span></button>
+            <button class="active" data-profile="balanced" type="button"><svg><use href="#i-layers"></use></svg><span>Gebalanceerd<small>Aanbevolen</small></span></button>
+            <button data-profile="full" type="button"><svg><use href="#i-cpu"></use></svg><span>Full stack<small>Alles paraat</small></span></button>
+          </div>
+          <button class="profile-launch" id="applyProfile" type="button"><svg><use href="#i-play"></use></svg>Profiel toepassen</button>
+        </section>
+
+        <div class="section-heading launch-heading">
+          <div><span>DIRECT BESCHIKBAAR</span><h2>Je ontwikkelstudio</h2></div>
+          <button class="text-button" data-go="studio" type="button">Open Dev Studio <svg><use href="#i-arrow"></use></svg></button>
+        </div>
+        <div class="quick-launch-grid">
+          <button data-tool="database" type="button"><span class="metric-icon violet"><svg><use href="#i-database"></use></svg></span><div><strong>Database Studio</strong><small>Schema, data en veilige SQL</small></div><em>OPEN</em></button>
+          <button data-tool="mail" type="button"><span class="metric-icon cyan"><svg><use href="#i-mail"></use></svg></span><div><strong>Mail Center</strong><small>Inbox, adressen en SMTP</small></div><b>2</b></button>
+          <button data-tool="terminal" type="button"><span class="metric-icon green"><svg><use href="#i-terminal"></use></svg></span><div><strong>Command Hub</strong><small>Shell zonder DOS-vensters</small></div><em>OPEN</em></button>
+          <button data-tool="api" type="button"><span class="metric-icon amber"><svg><use href="#i-pulse"></use></svg></span><div><strong>API Lab</strong><small>Requests, mocks en replay</small></div><em>OPEN</em></button>
+        </div>
+
+        <div class="section-heading">
+          <div><span>DOORGAAN</span><h2>Je projecten</h2></div>
+          <button class="text-button" data-go="projects" type="button">Alle projecten <svg><use href="#i-arrow"></use></svg></button>
+        </div>
+        <div class="project-grid" id="dashboardProjects"></div>
+
+        <div class="dashboard-lower">
+          <article class="panel environment-panel">
+            <div class="panel-heading"><div><span>ACTIEVE OMGEVING</span><h3>Webshop</h3></div><button class="icon-button tiny" type="button"><svg><use href="#i-more"></use></svg></button></div>
+            <div class="service-flow">
+              <div class="flow-node online"><span><svg><use href="#i-globe"></use></svg></span><strong>Apache</strong><small>:443</small></div>
+              <i></i>
+              <div class="flow-node online"><span><svg><use href="#i-code"></use></svg></span><strong>PHP 8.5</strong><small>FastCGI</small></div>
+              <i></i>
+              <div class="flow-node online"><span><svg><use href="#i-database"></use></svg></span><strong>MySQL</strong><small>:3306</small></div>
+            </div>
+            <div class="mini-services">
+              <span><i class="green-dot"></i> Redis <b>actief</b></span>
+              <span><i class="green-dot"></i> Mail <b>2 nieuw</b></span>
+              <span><i class="green-dot"></i> Queue <b>rustig</b></span>
+            </div>
+            <button class="wide-button" data-project="webshop" type="button">Open Project Cockpit <svg><use href="#i-arrow"></use></svg></button>
+          </article>
+
+          <article class="panel attention-panel">
+            <div class="panel-heading"><div><span>SLIMME CONTROLE</span><h3>Aandacht gevraagd</h3></div><b class="count-badge">2</b></div>
+            <div class="issue-list">
+              <button data-analyze="php" type="button"><span class="issue-icon amber"><svg><use href="#i-alert"></use></svg></span><div><strong>PHP 8.2 nadert einde ondersteuning</strong><small>Voorbeeldblog · veilig upgradepad beschikbaar</small></div><svg><use href="#i-chevron"></use></svg></button>
+              <button data-analyze="query" type="button"><span class="issue-icon violet"><svg><use href="#i-pulse"></use></svg></span><div><strong>Trage query gedetecteerd</strong><small>Webshop · checkout duurde 684 ms</small></div><svg><use href="#i-chevron"></use></svg></button>
+            </div>
+            <button class="assistant-button" id="openAssistant" type="button"><svg><use href="#i-spark"></use></svg><span><strong>Vraag LocalDeck Assistent</strong><small>Analyse blijft volledig lokaal</small></span><svg><use href="#i-arrow"></use></svg></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" data-page="projects">
+        <div class="page-hero compact-hero">
+          <div><span class="eyebrow-pill"><svg><use href="#i-grid"></use></svg> PROJECTEN</span><h2>Alles begint bij je project</h2><p>Start, beheer en controleer complete omgevingen vanuit één overzicht.</p></div>
+          <div class="hero-buttons"><button class="secondary" id="importProject" type="button"><svg><use href="#i-folder"></use></svg>Bestaande map</button><button class="primary new-project-trigger" type="button"><svg><use href="#i-plus"></use></svg>Nieuw project</button></div>
+        </div>
+        <div class="filterbar"><div class="segmented" id="projectFilters"><button class="active" data-filter="all">Alle</button><button data-filter="running">Actief</button><button data-filter="stopped">Gestopt</button><button data-filter="favorite">Favorieten</button></div><label><svg><use href="#i-search"></use></svg><input id="projectSearch" placeholder="Project zoeken"></label></div>
+        <div class="projects-list" id="projectsList"></div>
+      </section>
+
+      <section class="view" data-page="timeline">
+        <div class="page-hero timeline-hero">
+          <div><span class="eyebrow-pill"><svg><use href="#i-pulse"></use></svg> DEVELOPER TIMELINE</span><h2>Van request tot resultaat</h2><p>Requests, PHP, SQL, queues, API-calls en testmail op één lokale tijdlijn.</p></div>
+          <div class="live-indicator"><i></i><span><strong>Live volgen</strong><small>Webshop</small></span><label class="switch"><input id="liveToggle" type="checkbox" checked><span></span></label></div>
+        </div>
+        <div class="timeline-toolbar"><div class="segmented" id="timelineFilters"><button class="active" data-kind="all">Alles</button><button data-kind="http">HTTP</button><button data-kind="sql">SQL</button><button data-kind="php">PHP</button><button data-kind="mail">Mail</button><button data-kind="queue">Queue</button></div><button class="secondary compact" id="clearTimeline" type="button"><svg><use href="#i-trash"></use></svg>Wissen</button></div>
+        <div class="timeline-layout">
+          <div class="timeline-list" id="timelineList"></div>
+          <aside class="trace-detail" id="traceDetail"></aside>
+        </div>
+      </section>
+
+      <section class="view" data-page="runtime">
+        <div class="page-hero compact-hero runtime-hero">
+          <div><span class="eyebrow-pill"><svg><use href="#i-layers"></use></svg> RUNTIME</span><h2>Alle onderdelen, één betrouwbare engine</h2><p>LocalDeck start alleen wat actieve projecten nodig hebben.</p></div>
+          <button class="secondary" id="inspectPorts" type="button"><svg><use href="#i-radar"></use></svg>Poorten controleren</button>
+        </div>
+        <div class="runtime-summary"><article><span>Engine</span><strong><i></i> Verbonden</strong><small>Named Pipe · 4 ms</small></article><article><span>Uitvoermodus</span><strong>App-modus</strong><small>Stopt bij volledig afsluiten</small></article><article><span>Geheugen</span><strong>142 MB</strong><small>5 actieve processen</small></article></div>
+        <div class="runtime-list" id="runtimeList"></div>
+      </section>
+
+      <section class="view" data-page="studio">
+        <div class="page-hero studio-hero">
+          <div><span class="eyebrow-pill"><svg><use href="#i-spark"></use></svg> DEV STUDIO</span><h2>Alle gereedschappen. Eén context.</h2><p>Geen losse tabbladen of consolevensters: elk hulpmiddel opent direct voor het geselecteerde project.</p></div>
+          <div class="studio-context"><span>ACTIEF PROJECT</span><strong>Webshop</strong><small>Laravel · PHP 8.5 · webshop.localhost</small></div>
+        </div>
+        <div class="studio-grid">
+          <button class="studio-card featured" data-tool="database" type="button"><span><svg><use href="#i-database"></use></svg></span><div><em>DATA</em><h3>Database Studio</h3><p>Blader door data, vergelijk schema’s, importeer en test SQL altijd met een herstelpunt.</p></div><b>MySQL · verbonden</b></button>
+          <button class="studio-card" data-tool="mail" type="button"><span><svg><use href="#i-mail"></use></svg></span><div><em>MAIL</em><h3>Mail Center</h3><p>Admin-overzicht, lokale adressen, inboxen, HTML-preview en spamcontrole.</p></div><b>2 nieuwe berichten</b></button>
+          <button class="studio-card" data-tool="terminal" type="button"><span><svg><use href="#i-terminal"></use></svg></span><div><em>AUTOMATION</em><h3>Command Hub</h3><p>Composer, Artisan, WP-CLI en eigen taken zonder opflitsend consolevenster.</p></div><b>8 slimme taken</b></button>
+          <button class="studio-card" data-tool="api" type="button"><span><svg><use href="#i-pulse"></use></svg></span><div><em>HTTP</em><h3>API Lab</h3><p>OpenAPI importeren, requests bewaren, testdata maken en problemen lokaal replayen.</p></div><b>3 collecties</b></button>
+          <button class="studio-card" data-tool="logs" type="button"><span><svg><use href="#i-eye"></use></svg></span><div><em>OBSERVE</em><h3>Live Logs</h3><p>Apache, PHP, database en applicatielogs automatisch bij elkaar en doorzoekbaar.</p></div><b>Live volgen</b></button>
+          <button class="studio-card" data-tool="share" type="button"><span><svg><use href="#i-globe"></use></svg></span><div><em>PREVIEW</em><h3>Secure Share</h3><p>Deel tijdelijk een lokale preview met duidelijke looptijd en één klik om in te trekken.</p></div><b>Uitgeschakeld</b></button>
+        </div>
+        <article class="studio-preview" id="studioPreview"><div class="preview-terminal"><span></span><span></span><span></span><code>localdeck&gt; project:inspect webshop<br><b>✓</b> Runtime afgestemd &nbsp; <b>✓</b> HTTPS vertrouwd &nbsp; <b>✓</b> Database bereikbaar</code></div><div><span>SLIMME CONTEXT</span><h3>Open een studio zonder opnieuw te configureren</h3><p>LocalDeck kent project, runtime, database en domein al. Daardoor kom je meteen op de juiste plek binnen.</p><button class="primary" data-tool="database" type="button"><svg><use href="#i-database"></use></svg>Database Studio openen</button></div></article>
+      </section>
+
+      <section class="view" data-page="security">
+        <div class="security-hero">
+          <div class="security-score"><div><strong id="guardScore">100</strong><small>/100</small></div><span>LOCAL GUARD</span></div>
+          <div><span class="eyebrow-pill"><svg><use href="#i-shield"></use></svg> SECURITY BY DEFAULT</span><h2>Lokaal hoort ook veilig te zijn.</h2><p>Local Guard controleert automatisch certificaten, bindings, componentintegriteit, geheimen en projectconfiguratie—zonder gegevens te versturen.</p><button class="primary" id="runGuardScan" type="button"><svg><use href="#i-radar"></use></svg>Volledige scan uitvoeren</button></div>
+          <div class="guard-summary"><span><i></i><strong>Geen internetpoorten open</strong></span><span><i></i><strong>Alle pakketten integer</strong></span><span><i></i><strong>HTTPS-certificaten vertrouwd</strong></span></div>
+        </div>
+        <div class="guard-grid">
+          <article><span class="metric-icon green"><svg><use href="#i-lock"></use></svg></span><div><strong>Trusted HTTPS</strong><small>3 projectcertificaten · automatisch vernieuwd</small></div><em>GESLAAGD</em></article>
+          <article><span class="metric-icon green"><svg><use href="#i-radar"></use></svg></span><div><strong>Netwerkgrenzen</strong><small>Alle services alleen op localhost gebonden</small></div><em>GESLAAGD</em></article>
+          <article><span class="metric-icon green"><svg><use href="#i-shield"></use></svg></span><div><strong>Componentintegriteit</strong><small>13 pakketten · hashes komen overeen</small></div><em>GESLAAGD</em></article>
+          <article><span class="metric-icon green"><svg><use href="#i-code"></use></svg></span><div><strong>Secret scan</strong><small>Geen sleutels in projectmappen gevonden</small></div><em>GESLAAGD</em></article>
+          <article><span class="metric-icon violet"><svg><use href="#i-history"></use></svg></span><div><strong>Herstelgereedheid</strong><small>Laatste herstelproef vandaag voltooid</small></div><em>GEREED</em></article>
+          <article><span class="metric-icon cyan"><svg><use href="#i-layers"></use></svg></span><div><strong>SBOM &amp; updates</strong><small>Alle lokale componenten inzichtelijk per versie</small></div><em>ACTUEEL</em></article>
+        </div>
+        <article class="guard-footer"><div><span>PRIVACYBELOFTE</span><h3>Geen login. Geen activatie. Geen telemetry.</h3><p>Updatecontrole is transparant en uit te schakelen. Diagnosegegevens verlaten je computer nooit zonder een bewuste export.</p></div><button class="secondary" data-guard-report type="button"><svg><use href="#i-eye"></use></svg>Controleverslag bekijken</button></article>
+      </section>
+
+      <section class="view" data-page="backups">
+        <div class="page-hero backups-hero">
+          <div><span class="eyebrow-pill"><svg><use href="#i-history"></use></svg> TIME MACHINE</span><h2>Herstellen zonder verrassingen</h2><p>Bestanden, databases, configuratie en testmail vormen samen één controleerbaar herstelpunt.</p></div>
+          <button class="primary" id="createSnapshot" type="button"><svg><use href="#i-plus"></use></svg>Herstelpunt maken</button>
+        </div>
+        <div class="backup-stats"><article><strong>4</strong><span>Herstelpunten</span></article><article><strong>1,8 GB</strong><span>Totale omvang</span></article><article><strong>42%</strong><span>Bespaard door deduplicatie</span></article><article><strong>Vandaag</strong><span>Laatste controle</span></article></div>
+        <div class="snapshot-list" id="snapshotList"></div>
+      </section>
+
+      <section class="view" data-page="settings">
+        <div class="settings-layout">
+          <div class="settings-intro"><span class="eyebrow-pill"><svg><use href="#i-settings"></use></svg> INSTELLINGEN</span><h2>Rustig en voorspelbaar</h2><p>Alleen instellingen die het gedrag van je werkplek echt veranderen.</p><div class="settings-score"><span>Privacy</span><strong>100%</strong><small>Accountloos · lokaal · updatecontrole uit</small></div></div>
+          <div class="settings-cards">
+            <article><div class="setting-icon violet"><svg><use href="#i-window"></use></svg></div><div><strong>Venster en systeemvak</strong><small>LocalDeck blijft actief bij het rode kruis</small></div><label class="switch"><input type="checkbox" checked><span></span></label></article>
+            <article><div class="setting-icon cyan"><svg><use href="#i-play"></use></svg></div><div><strong>Projecten automatisch hervatten</strong><small>Herstel alleen projecten die vóór een crash actief waren</small></div><label class="switch"><input type="checkbox" checked><span></span></label></article>
+            <article><div class="setting-icon green"><svg><use href="#i-lock"></use></svg></div><div><strong>Automatisch lokaal HTTPS</strong><small>Maak een vertrouwd certificaat per project</small></div><label class="switch"><input type="checkbox" checked><span></span></label></article>
+            <article><div class="setting-icon amber"><svg><use href="#i-spark"></use></svg></div><div><strong>Lokale assistent</strong><small>Alleen gebruiken wanneer een lokaal model beschikbaar is</small></div><label class="switch"><input id="assistantSetting" type="checkbox"><span></span></label></article>
+            <article class="select-setting"><div class="setting-icon violet"><svg><use href="#i-globe"></use></svg></div><div><strong>Taal</strong><small>Interface en lokale beheerpagina’s</small></div><select><option>Nederlands</option><option>English</option></select></article>
+            <article class="select-setting"><div class="setting-icon cyan"><svg><use href="#i-cpu"></use></svg></div><div><strong>Standaard uitvoermodus</strong><small>Kan per installatie worden gewijzigd</small></div><select><option>App-modus</option><option>Windows-services</option></select></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="view cockpit-view" data-page="cockpit">
+        <div id="cockpitContent"></div>
+      </section>
+    </main>
+  </div>
+
+  <aside class="activity-drawer" id="activityDrawer" aria-hidden="true">
+    <div class="drawer-head"><div><span>ACTIVITY CENTER</span><h2>Acties en voortgang</h2></div><button class="icon-button" data-close-drawer type="button"><svg><use href="#i-close"></use></svg></button></div>
+    <div class="operation-list" id="operationList"></div>
+    <div class="drawer-foot"><svg><use href="#i-shield"></use></svg><p><strong>Veilige wijzigingen</strong><span>LocalDeck maakt vóór risicovolle acties automatisch een herstelpunt.</span></p></div>
+  </aside>
+  <div class="scrim" id="drawerScrim"></div>
+
+  <dialog id="projectDialog" class="modal wizard-modal">
+    <form method="dialog" id="projectForm">
+      <div class="modal-head"><div><span>NIEUW PROJECT</span><h2>Waar gaan we aan werken?</h2></div><button class="icon-button" value="cancel" type="submit"><svg><use href="#i-close"></use></svg></button></div>
+      <div class="wizard-steps"><span class="active"><b>1</b>Type</span><i></i><span><b>2</b>Omgeving</span><i></i><span><b>3</b>Controleren</span></div>
+      <div class="template-grid">
+        <button class="template active" data-template="PHP" type="button"><span>PHP</span><strong>Leeg PHP-project</strong><small>Snel en volledig offline</small></button>
+        <button class="template" data-template="WordPress" type="button"><span>W</span><strong>WordPress</strong><small>Database en WP-CLI</small></button>
+        <button class="template" data-template="Laravel" type="button"><span>L</span><strong>Laravel</strong><small>Artisan, queue en mail</small></button>
+        <button class="template" data-template="Bestaand" type="button"><span><svg><use href="#i-folder"></use></svg></span><strong>Bestaande map</strong><small>Automatisch herkennen</small></button>
+      </div>
+      <div class="form-grid">
+        <label class="full"><span>Projectnaam</span><input id="newProjectName" required value="Mijn nieuwe website" autocomplete="off"></label>
+        <label><span>Lokale domeinnaam</span><div class="input-suffix"><input id="newProjectDomain" value="mijn-nieuwe-website" pattern="[a-z0-9-]+"><b>.localhost</b></div></label>
+        <label><span>PHP-versie</span><select id="newProjectPhp"><option>8.5</option><option>8.4</option><option>8.3</option></select></label>
+      </div>
+      <div class="creation-summary"><svg><use href="#i-spark"></use></svg><div><strong>LocalDeck regelt de complete omgeving</strong><p>Projectmap, PHP 8.5, database, HTTPS-certificaat, lokale mail en Project Capsule.</p></div></div>
+      <div class="modal-actions"><button class="secondary" value="cancel" type="submit">Annuleren</button><button class="primary" id="createProjectButton" value="default" type="submit"><svg><use href="#i-spark"></use></svg>Project voorbereiden</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="safeDialog" class="modal safe-modal">
+    <form method="dialog">
+      <div class="safe-visual"><span><svg><use href="#i-shield"></use></svg></span><i></i><b><svg><use href="#i-check"></use></svg></b></div>
+      <span class="center-label">VEILIGE WIJZIGING</span>
+      <h2 id="safeTitle">PHP-versie wijzigen</h2>
+      <p id="safeDescription">LocalDeck controleert afhankelijkheden, maakt een herstelpunt en test de website na de wijziging.</p>
+      <div class="change-preview"><div><span>Huidig</span><strong id="safeFrom">PHP 8.4</strong></div><svg><use href="#i-arrow"></use></svg><div><span>Nieuw</span><strong id="safeTo">PHP 8.5</strong></div></div>
+      <label class="confirm-row"><input id="safeSnapshot" type="checkbox" checked><span><strong>Automatisch herstelpunt maken</strong><small>Terugdraaien blijft 24 uur beschikbaar</small></span></label>
+      <div class="modal-actions"><button class="secondary" value="cancel">Annuleren</button><button class="primary" id="confirmSafe" value="default"><svg><use href="#i-check"></use></svg>Veilig toepassen</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="commandDialog" class="command-dialog">
+    <div class="command-search"><svg><use href="#i-search"></use></svg><input id="commandInput" placeholder="Typ een project, pagina of actie…" autocomplete="off"><kbd>Esc</kbd></div>
+    <div class="command-results" id="commandResults"></div>
+    <footer><span><kbd>↑</kbd><kbd>↓</kbd> navigeren</span><span><kbd>Enter</kbd> openen</span><small>LocalDeck Command Center</small></footer>
+  </dialog>
+
+  <aside class="assistant-panel" id="assistantPanel" aria-hidden="true">
+    <div class="assistant-head"><span><svg><use href="#i-spark"></use></svg></span><div><small>VOLLEDIG LOKAAL</small><strong>LocalDeck Assistent</strong></div><button class="icon-button" id="closeAssistant" type="button"><svg><use href="#i-close"></use></svg></button></div>
+    <div class="assistant-body">
+      <div class="assistant-intro"><span><svg><use href="#i-shield"></use></svg></span><p>Ik analyseer alleen de geselecteerde lokale diagnosegegevens. Er wordt niets verstuurd.</p></div>
+      <div class="chat user"><p>Waarom reageerde de checkout zo langzaam?</p></div>
+      <div class="chat assistant"><div class="typing"><i></i><i></i><i></i></div><div class="answer"><p>De request duurde <strong>742 ms</strong>. Daarvan werd 684 ms besteed aan één SQL-query zonder passende index.</p><div class="evidence"><span>BEWIJS</span><code>SELECT * FROM orders WHERE customer_email = ?</code><small>684 ms · 18.420 rijen onderzocht</small></div><p>Mijn voorstel is eerst een testsnapshot te maken en daarna een index op <code>customer_email</code> te proberen.</p><button class="secondary" id="previewAiFix" type="button"><svg><use href="#i-eye"></use></svg>Veilige wijziging bekijken</button></div></div>
+    </div>
+    <div class="assistant-input"><input placeholder="Vraag iets over deze omgeving…"><button type="button"><svg><use href="#i-arrow-up"></use></svg></button></div>
+  </aside>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1H4.1A1.1 1.1 0 0 1 3 19.9Z"/><path d="M9 21v-7h6v7"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2.2-7 4.1 14 2.5-7H21"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.4 4.6L18 9l-4.6 1.4L12 15l-1.4-4.6L6 9l4.6-1.4ZM19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7Z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M18 9h4M2 15h4M18 15h4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 4.1 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.1a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="m12 12 6-6M12 3v2M3 12h2M12 19v2M19 12h2"/></symbol>
+    <symbol id="i-window" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 5v14"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 8A7 7 0 0 1 18 6l2 6M17.9 16A7 7 0 0 1 6 18l-2-6"/></symbol>
+  </svg>
+
+  <script src="app.js"></script>
+</body>
+</html>

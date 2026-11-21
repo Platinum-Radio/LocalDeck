@@ -10,7 +10,7 @@ $ErrorActionPreference='Stop';$ProgressPreference='SilentlyContinue';[Console]::
 if([Environment]::Is64BitOperatingSystem-ne$true){throw 'LocalDeck ondersteunt alleen 64-bit Windows 10/11.'}
 $temp=Join-Path $InstallDir 'staging';$logDir=Join-Path $InstallDir 'logs';New-Item -ItemType Directory -Force $InstallDir,$temp,$logDir|Out-Null
 $installLog=Join-Path $logDir ("runtime-install-{0}.log" -f (Get-Date -Format 'yyyyMMdd-HHmmss'));Start-Transcript -LiteralPath $installLog -Force|Out-Null;Write-Host "[log]      $installLog" -ForegroundColor DarkGray
-$requiredPackages=@('apache.zip','php.zip','php-8.2.zip','php-8.3.zip','php-8.4.zip','mysql.zip','phpmyadmin.zip','mailpit.zip','redis.zip','WinSW.NET4.exe','composer.phar','vc_redist.x64.exe','mkcert.exe')
+$requiredPackages=@('apache.zip','php.zip','php-8.2.zip','php-8.3.zip','php-8.4.zip','php-8.6.zip','mysql.zip','phpmyadmin.zip','mailpit.zip','redis.zip','WinSW.NET4.exe','composer.phar','vc_redist.x64.exe','mkcert.exe')
 function Assert-PackageSet {
   if(!(Test-Path -LiteralPath $PackageDir)){throw "De ingebouwde runtimepakketten ontbreken: $PackageDir"}
   $manifestFile=Join-Path $PackageDir 'offline-runtime.json';if(!(Test-Path -LiteralPath $manifestFile)){throw 'Het ingebouwde runtime-manifest ontbreekt.'}
@@ -72,7 +72,7 @@ Write-Host 'LocalDeck Windows Runtime installeren' -ForegroundColor Magenta
 Assert-PackageSet;Install-VCRuntime;if($PrerequisitesOnly){Write-Host 'Ingebouwde prerequisites zijn gereed.' -ForegroundColor Green;Stop-Transcript|Out-Null;exit 0}
 $apacheStage=Get-Package 'apache';$apacheRoot=Find-Root $apacheStage 'httpd.exe';Copy-Tree $apacheRoot (Join-Path $InstallDir 'apache')
 $phpStage=Get-Package 'php';$phpExe=Get-ChildItem $phpStage -Recurse -Filter 'php.exe'|Where-Object{!$_.PSIsContainer}|Select-Object -First 1;$phpRoot=$phpExe.Directory.FullName;Copy-Tree $phpRoot (Join-Path $InstallDir 'php')
-$phpMatrix=@('8.2','8.3','8.4');Copy-Tree (Join-Path $InstallDir 'php') (Join-Path $InstallDir 'php-8.5');foreach($v in $phpMatrix){$stage=Get-Package "php-$v";$exe=Get-ChildItem $stage -Recurse -Filter php.exe|Where-Object{!$_.PSIsContainer}|Select-Object -First 1;Copy-Tree $exe.Directory.FullName (Join-Path $InstallDir "php-$v")}
+$phpMatrix=@('8.2','8.3','8.4','8.6');foreach($v in $phpMatrix){$stage=Get-Package "php-$v";$exe=Get-ChildItem $stage -Recurse -Filter php.exe|Where-Object{!$_.PSIsContainer}|Select-Object -First 1;Copy-Tree $exe.Directory.FullName (Join-Path $InstallDir "php-$v")}
 $mysqlStage=Get-Package 'mysql';$mysqlRoot=Find-Root $mysqlStage 'mysqld.exe';Copy-Tree $mysqlRoot (Join-Path $InstallDir 'mysql')
 $pmaStage=Get-Package 'phpmyadmin';$pmaIndex=Get-ChildItem $pmaStage -Recurse -Filter 'index.php'|Where-Object{!$_.PSIsContainer-and$_.Directory.Name-like'phpMyAdmin*'}|Select-Object -First 1;if(!$pmaIndex){throw 'phpMyAdmin index.php ontbreekt.'};Copy-Tree $pmaIndex.Directory.FullName (Join-Path $InstallDir 'phpmyadmin')
 $mailStage=Get-Package 'mailpit';$mailExe=Get-ChildItem $mailStage -Recurse -Filter 'mailpit.exe'|Select-Object -First 1;New-Item -ItemType Directory -Force (Join-Path $InstallDir 'mailpit')|Out-Null;Copy-Item $mailExe.FullName (Join-Path $InstallDir 'mailpit\mailpit.exe') -Force
@@ -85,7 +85,6 @@ $apacheDir=Join-Path $InstallDir 'apache';$apacheSlash=$apacheDir.Replace('\','/
 $httpd=@"
 ServerRoot "$apacheSlash"
 Listen 80
-Listen 443
 LoadModule dir_module modules/mod_dir.so
 LoadModule actions_module modules/mod_actions.so
 LoadModule cgi_module modules/mod_cgi.so
@@ -121,6 +120,7 @@ port=3306
 bind-address=127.0.0.1
 character-set-server=utf8mb4
 collation-server=utf8mb4_unicode_ci
+innodb_redo_log_capacity=64M
 [client]
 port=3306
 user=root
@@ -140,7 +140,7 @@ $startpage=Join-Path $PSScriptRoot 'startpage';if(Test-Path $startpage){Copy-Ite
 $toolsDir=Join-Path $InstallDir 'tools';New-Item -ItemType Directory -Force $toolsDir|Out-Null;$mkcert=Join-Path $toolsDir 'mkcert.exe';Copy-Item -LiteralPath (Join-Path $PackageDir 'mkcert.exe') -Destination $mkcert -Force;Write-Host '[offline]  Ingebouwde mkcert voor lokaal HTTPS' -ForegroundColor Cyan;$certs=Join-Path $InstallDir 'certs';New-Item -ItemType Directory -Force $certs|Out-Null;if(!$SkipCertificateTrust){& $mkcert -install|Out-Host;if($LASTEXITCODE-ne0){throw 'Het lokale HTTPS-rootcertificaat kon niet worden vertrouwd.'}};& $mkcert -cert-file (Join-Path $certs 'localdeck.pem') -key-file (Join-Path $certs 'localdeck-key.pem') '*.test' localhost 127.0.0.1 ::1|Out-Host;if($LASTEXITCODE-ne0){throw 'Het lokale HTTPS-certificaat kon niet worden gemaakt.'}
 if(!$SkipCertificateTrust){[ordered]@{trustedAt=(Get-Date).ToString('o');machine=$env:COMPUTERNAME;user=[Security.Principal.WindowsIdentity]::GetCurrent().Name}|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $certs 'local-ca-trusted.json') -Encoding UTF8}
 Write-Host '[offline]  Ingebouwde Composer' -ForegroundColor Cyan;$composer=Join-Path $InstallDir 'composer.phar';Copy-Item -LiteralPath (Join-Path $PackageDir 'composer.phar') -Destination $composer -Force;$composerHash=(Get-FileHash $composer -Algorithm SHA256).Hash;Write-Host "[sha256]  composer $composerHash" -ForegroundColor DarkGray;Set-Content (Join-Path $InstallDir 'composer.bat') "@echo off`r`n`"%~dp0php\php.exe`" `"%~dp0composer.phar`" %*" -Encoding ASCII
-$manifest=[ordered]@{installedAt=(Get-Date).ToString('o');platform='win32-x64';apache='2.4.68';php=@('8.2','8.3','8.4','8.5');mysql='8.4.10';phpmyadmin='5.2.3';mailpit='1.30.7';redis='5.0.14.1';winsw='2.12.0';winswSha256=$wrapperHash;composerSha256=$composerHash;paths=@{apache='apache\bin\httpd.exe';php='php\php-cgi.exe';phpCli='php\php.exe';mysql='mysql\bin\mysqld.exe';mysqlCli='mysql\bin\mysql.exe';phpmyadmin='phpmyadmin';mailpit='mailpit\mailpit.exe';redis='redis\redis-server.exe';winsw='service-wrapper\WinSW.NET4.exe'}};$manifest|ConvertTo-Json -Depth 4|Set-Content (Join-Path $InstallDir 'runtime.json') -Encoding UTF8
+$manifest=[ordered]@{installedAt=(Get-Date).ToString('o');platform='win32-x64';apache='2.4.71';php=@('8.2','8.3','8.4','8.5','8.6');mysql='8.4.13';phpmyadmin='5.2.3';mailpit='1.34.0';redis='8.10.3';winsw='2.12.0';winswSha256=$wrapperHash;composer='2.11.2';composerSha256=$composerHash;paths=@{apache='apache\bin\httpd.exe';php='php\php-cgi.exe';phpCli='php\php.exe';mysql='mysql\bin\mysqld.exe';mysqlCli='mysql\bin\mysql.exe';phpmyadmin='phpmyadmin';mailpit='mailpit\mailpit.exe';redis='redis\redis-server.exe';winsw='service-wrapper\WinSW.NET4.exe'}};$manifest|ConvertTo-Json -Depth 4|Set-Content (Join-Path $InstallDir 'runtime.json') -Encoding UTF8
 if(Test-Path -LiteralPath $temp){Remove-TreeSafe $temp}
 Write-Host "`nGereed. Volledig offline geïnstalleerd in: $InstallDir" -ForegroundColor Green
 Write-Host 'Herstart LocalDeck; simulatiemodus wordt automatisch uitgeschakeld. Er zijn geen onderdelen gedownload.'

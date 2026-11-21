@@ -20,7 +20,11 @@ param(
     [string]$Channel = 'stable',
 
     [string]$Title,
+    [string]$TitleEn,
     [string]$Notes = 'Nieuwe verbeteringen en onderhoudsupdates voor LocalDeck.',
+    [string]$NotesEn = 'New improvements and maintenance updates for LocalDeck.',
+    [string[]]$Changes = @(),
+    [string[]]$ChangesEn = @(),
 
     [switch]$AllowUnsigned
 )
@@ -34,6 +38,7 @@ $catalogPath = Join-Path $downloadsDirectory 'releases.json'
 $feedPath = Join-Path $downloadsDirectory $(if ($Channel -eq 'beta') { 'beta.json' } else { 'windows.json' })
 $BaseUrl = $BaseUrl.TrimEnd('/')
 $Title = if ($Title) { $Title } else { "LocalDeck $Version" }
+$TitleEn = if ($TitleEn) { $TitleEn } else { "LocalDeck $Version" }
 
 if (-not (Test-Path -LiteralPath $catalogPath -PathType Leaf)) {
     throw 'releases.json ontbreekt.'
@@ -100,24 +105,57 @@ $release = [pscustomobject]@{
     published = $true
     signed = $releaseSigned
     title = $Title
+    titleEn = $TitleEn
     notes = $Notes
-    warning = if ($releaseSigned) { $null } else { 'Niet digitaal ondertekend. Windows SmartScreen of Smart App Control kan waarschuwen of blokkeren.' }
+    notesEn = $NotesEn
+    changes = @($Changes)
+    changesEn = @($ChangesEn)
+    warning = if ($Channel -eq 'beta' -and -not $releaseSigned) { 'Windows SmartScreen of Smart App Control kan bij deze testversie waarschuwen of blokkeren.' } else { $null }
     artifacts = $artifacts
 }
 $remaining = @($catalog.releases | Where-Object version -ne $Version)
 $catalog.releases = @($release) + $remaining
 
 $setup = $artifacts | Where-Object id -eq 'setup-x64' | Select-Object -First 1
+$historyCandidates = @($catalog.releases | Where-Object published)
+if ($Channel -eq 'stable') {
+    $historyCandidates = @($historyCandidates | Where-Object { [string]::IsNullOrWhiteSpace([string]$_.channel) -or [string]$_.channel -eq 'stable' })
+}
+$history = @($historyCandidates | Select-Object -First 25 | ForEach-Object {
+    [ordered]@{
+        version = $_.version
+        title = $_.title
+        titleEn = $_.titleEn
+        notes = $_.notes
+        notesEn = $_.notesEn
+        changes = @($_.changes)
+        changesEn = @($_.changesEn)
+        publishedAt = $_.releasedAt
+        channel = $_.channel
+    }
+})
+$previous = $historyCandidates | Where-Object version -ne $Version | Select-Object -First 1
+$previousSetup = if ($previous) { $previous.artifacts | Where-Object id -eq 'setup-x64' | Select-Object -First 1 } else { $null }
 $feed = [ordered]@{
+    schemaVersion = 2
     version = $Version
     title = $Title
+    titleEn = $TitleEn
     notes = $Notes
+    notesEn = $NotesEn
     downloadUrl = "$BaseUrl/download.php?version=$Version&artifact=setup-x64"
+    releaseNotesUrl = "$BaseUrl/updates.php"
     publishedAt = $release.releasedAt
     channel = $Channel
     sha256 = $setup.sha256
     signed = $releaseSigned
     publisher = if ($releaseSigned) { $signatureResults[0].Subject } else { 'Niet digitaal ondertekend' }
+    history = $history
+}
+if ($previous -and $previousSetup -and $previousSetup.sha256) {
+    $feed.rollbackVersion = $previous.version
+    $feed.rollbackUrl = "$BaseUrl/download.php?version=$($previous.version)&artifact=setup-x64"
+    $feed.rollbackSha256 = $previousSetup.sha256
 }
 
 $catalogTemporary = "$catalogPath.tmp"

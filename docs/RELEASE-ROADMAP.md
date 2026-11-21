@@ -1,6 +1,6 @@
 # Publieke Windows-releases
 
-LocalDeck is bewust een Windows-only product. Ondersteuning richt zich op Windows 10 en 11 x64; macOS en Linux vallen buiten de productscope.
+LocalDeck is bewust een Windows-only product. Windows 11 x64 is het primaire ondersteunde platform; Windows 10 22H2 x64 blijft een best-effort compatibiliteitsdoel voor bijgewerkte ESU-systemen. macOS en Linux vallen buiten de productscope.
 
 ## Fase 1 — LocalDeck 1.0.0
 
@@ -9,7 +9,7 @@ De desktopervaring, domeinvalidatie, projecten, servicestatussen, logs en instel
 ## Fase 2 — native runtime
 
 - Downloadmanifest met vastgepinde versies en SHA-256-checksums
-- PHP 8.2–8.5 x64, Apache 2.4, MySQL 8, Redis, Mailpit en Composer voor Windows
+- PHP 8.2–8.6 x64, Apache 2.4, MySQL 8.4 LTS, Redis, Mailpit en Composer voor Windows
 - Procesbeheer met PID-bestanden, healthchecks, time-outs en gecontroleerd afsluiten
 - Vrije-poortdetectie en begrijpelijke conflictdiagnose
 - Per-project PHP-CGI/FastCGI-pools en uitbreidingen
@@ -17,7 +17,7 @@ De desktopervaring, domeinvalidatie, projecten, servicestatussen, logs en instel
 - Lokale CA installeren na expliciete Windows UAC-toestemming
 - Hosts/DNS-afhandeling zonder permanente, onverklaarde systeemwijzigingen
 
-De volledige basisruntime wordt sinds 0.6.1 met een SHA-256-manifest in elk distributiebestand meegeleverd en heeft een lokale end-to-endtest. Nog vóór een publieke stabiele release: installatie-rollback, automatische Xdebug-binaire selectie per exacte PHP-build en end-to-endtests op schone Windows 10/11-images.
+De volledige basisruntime wordt sinds 0.6.1 met een SHA-256-manifest in elk distributiebestand meegeleverd en heeft een lokale end-to-endtest. Nog vóór een publieke stabiele release: installatie-rollback, automatische Xdebug-binaire selectie per exacte PHP-build en end-to-endtests op de actuele schone Windows 11-testmatrix.
 
 ## Fase 3 — productkwaliteit
 
@@ -26,7 +26,7 @@ De volledige basisruntime wordt sinds 0.6.1 met een SHA-256-manifest in elk dist
 - Crashherstel, traybediening en starten met Windows
 - Import uit XAMPP, Laragon en bestaande projectmappen
 - Back-up/export voor databases en configuratie
-- Integratietests op schone Windows 10- en 11-machines
+- Integratietests op schone ondersteunde Windows 11-machines plus Windows 10-ESU-compatibiliteit
 - Toegankelijkheids-, security- en penetratietest
 
 ## Fase 4 — distributie
@@ -35,7 +35,7 @@ De volledige basisruntime wordt sinds 0.6.1 met een SHA-256-manifest in elk dist
 - Authenticode-code signing plus consequente reputatieopbouw; voor maximale Windows-distributiezekerheid ook Microsoft Store of Microsoft Artifact Signing evalueren
 - Licenties en notices van alle meegeleverde componenten publiceren
 - Privacybeleid, updatebeleid, supportkanaal en kwetsbaarheidsmelding
-- Installer, portable EXE, uitpak-ZIP en SHA-256-bestanden publiceren; Authenticode toevoegen zodra het uitgeverscertificaat beschikbaar is
+- Precies twee downloads publiceren: de installatie-EXE en de uitpak-ZIP, beide met SHA-256; Authenticode toevoegen zodra het uitgeverscertificaat beschikbaar is
 
 ## Architectuurprincipe
 

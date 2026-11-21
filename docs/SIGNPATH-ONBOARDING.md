@@ -12,7 +12,7 @@ This document contains the information and remaining external steps for the Loca
 | Downloads | <https://localdeck.nl/downloads.php?lang=en> |
 | Documentation | <https://localdeck.nl/wiki.php?lang=en> |
 | License | Apache-2.0 |
-| Platform | Windows 10/11 x64 |
+| Platform | Windows 11 x64; Windows 10 22H2 x64 compatibility |
 | Artifact types | NSIS installer EXE and extract-only ZIP |
 | Build system | GitHub Actions, GitHub-hosted Windows runner |
 | Maintainer | <https://github.com/Platinum-Radio> |

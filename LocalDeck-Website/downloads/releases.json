@@ -4,12 +4,76 @@
   "platform": "windows",
   "releases": [
     {
+      "version": "1.1.0",
+      "channel": "stable",
+      "releasedAt": "2026-11-21T11:17:05.0876777Z",
+      "published": true,
+      "signed": false,
+      "title": "LocalDeck 1.1.0",
+      "titleEn": "LocalDeck 1.1.0",
+      "notes": "De officiële LocalDeck 1.1.0-release met PHP 8.6, volledig bijgewerkte runtimes en een uitgebreid gecontroleerde offline Windows-omgeving.",
+      "notesEn": "The official LocalDeck 1.1.0 release with PHP 8.6, fully refreshed runtimes, and a thoroughly verified offline Windows environment.",
+      "changes": [
+        "PHP 8.2 tot en met 8.6 per project beschikbaar; PHP 8.5 blijft de compatibiliteitsstandaard.",
+        "Apache 2.4.71, MySQL 8.4.13 LTS, phpMyAdmin 5.2.3, Mailpit 1.34.0 en Composer 2.11.2.",
+        "Redis for Windows 8.10.3 vervangt de oude Redis 5-build.",
+        "Alle 14 offline runtimepakketten zijn gecontroleerd op inhoud, grootte en SHA-256.",
+        "De EXE-installatie en ZIP om uit te pakken zijn opnieuw gebouwd en volledig getest.",
+        "Het Updatecentrum toont deze stabiele release en behoudt oudere versies in de geschiedenis."
+      ],
+      "changesEn": [
+        "PHP 8.2 through 8.6 are available per project; PHP 8.5 remains the compatibility default.",
+        "Apache 2.4.71, MySQL 8.4.13 LTS, phpMyAdmin 5.2.3, Mailpit 1.34.0, and Composer 2.11.2.",
+        "Redis for Windows 8.10.3 replaces the old Redis 5 build.",
+        "All 14 offline runtime packages were verified for contents, size, and SHA-256.",
+        "The installable EXE and extract-only ZIP were rebuilt and fully tested.",
+        "The Update Center shows this stable release and keeps older versions in its history."
+      ],
+      "warning": null,
+      "artifacts": [
+        {
+          "id": "setup-x64",
+          "label": "LocalDeck installeren — EXE",
+          "file": "downloads/releases/1.1.0/LocalDeck-1.1.0-Windows-Setup-x64.exe",
+          "sizeLabel": "376.9 MB",
+          "sha256": "a1f3b36f1b862f6fcd8fcb2b7bccf82f7d1a21299eaf327c35aaf20abe5c6ee5",
+          "signed": false
+        },
+        {
+          "id": "zip-x64",
+          "label": "Zonder installatie — ZIP uitpakken",
+          "file": "downloads/releases/1.1.0/LocalDeck-1.1.0-Windows-x64.zip",
+          "sizeLabel": "410.8 MB",
+          "sha256": "4063930f748933005326cee318055d21e64ba7e34b102db2adaf6c259fba78f8",
+          "signed": false
+        }
+      ]
+    },
+    {
       "version": "1.1.0-test.1",
       "channel": "beta",
       "releasedAt": "2026-08-18T17:02:29.0491591+02:00",
       "published": true,
       "title": "LocalDeck 1.1.0-test.1",
+      "titleEn": "LocalDeck 1.1.0-test.1",
       "notes": "Publieke Windows-testversie met een eenvoudige en geavanceerde interface, een schaalbare indeling, complete projectlevenscyclus, automatische HTTPS, betere poort- en herstelacties, extra ontwikkelgereedschap en een compactere volledig ingebouwde offline runtime.",
+      "notesEn": "Public Windows test release with simple and advanced interfaces, a responsive layout, complete project lifecycle, automatic HTTPS, improved port and repair actions, additional developer tools, and a smaller fully bundled offline runtime.",
+      "changes": [
+        "Nieuw Updatecentrum in de app met beschikbare versies, wijzigingen, versiegeschiedenis, veilige download en rollback.",
+        "Volledige releasecontrole met opslag-, privacy-, back-up- en ondertekeningsstatus.",
+        "Automatisch werkruimteherstelpunt voordat een update wordt gedownload.",
+        "Privacyveilige diagnose- en supportbundels met regressietests.",
+        "Veilige verwijdering waarbij gegevens standaard bewaard blijven.",
+        "Compactere ingebouwde runtime en responsieve interface voor gangbare Windows-schermen."
+      ],
+      "changesEn": [
+        "New in-app Update Center with available releases, changes, version history, safe download, and rollback.",
+        "Complete release check covering storage, privacy, backups, and signing status.",
+        "Automatic workspace restore point before an update is downloaded.",
+        "Privacy-safe diagnostics and support bundles with regression tests.",
+        "Safe uninstall flow that preserves data by default.",
+        "Smaller bundled runtime and responsive interface for common Windows displays."
+      ],
       "warning": "Dit is een prerelease voor de volgende testronde. LocalDeck 1.0.0 blijft de stabiele versie.",
       "artifacts": [
         {
@@ -34,7 +98,21 @@
       "releasedAt": "2026-08-16T13:33:52.8636493+02:00",
       "published": true,
       "title": "LocalDeck 1.0.0",
+      "titleEn": "LocalDeck 1.0.0",
       "notes": "Eerste publieke Windows-release met een volledig ingebouwde offline runtime, PHP 8.2–8.5, Apache, MySQL, phpMyAdmin, Mailbeheer, Redis, lokaal HTTPS en Nederlands/Engels.",
+      "notesEn": "First public Windows release with a fully bundled offline runtime, PHP 8.2–8.5, Apache, MySQL, phpMyAdmin, Mail Management, Redis, local HTTPS, and Dutch/English interfaces.",
+      "changes": [
+        "Volledig ingebouwde Windows-runtime zonder verplichte downloads of account.",
+        "Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit en Redis apart te beheren.",
+        "App-modus en zelfstandige Windows-servicemodus.",
+        "Lokale projecten, databases, HTTPS, mail en poortbeheer vanuit één dashboard."
+      ],
+      "changesEn": [
+        "Fully bundled Windows runtime without required downloads or accounts.",
+        "Independent control of Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit, and Redis.",
+        "App mode and independent Windows service mode.",
+        "Local projects, databases, HTTPS, mail, and port management from one dashboard."
+      ],
       "warning": null,
       "artifacts": [
         {

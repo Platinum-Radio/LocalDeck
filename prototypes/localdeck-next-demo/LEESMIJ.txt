@@ -1,0 +1,41 @@
+LOCALDECK ULTIMATE - INTERACTIEVE PRODUCTDEMO
+==============================================
+
+Starten
+-------
+Dubbelklik op "Start LocalDeck Next Demo.vbs".
+
+Als Windows scripts op deze computer blokkeert, dubbelklik dan rechtstreeks op
+"index.html". De demo opent dan in je standaardbrowser.
+
+Wat kun je testen?
+------------------
+- Navigeren door het nieuwe LocalDeck Command Deck.
+- Projecten starten, stoppen, openen en als favoriet markeren.
+- Een nieuw project maken via de conceptwizard.
+- Slimme startprofielen testen: Focus, Gebalanceerd en Full stack.
+- Dev Studio openen met Database Studio, Mail Center, Command Hub, API Lab,
+  Live Logs en Secure Share.
+- Local Guard uitvoeren voor HTTPS, poorten, hashes, secrets en herstelbaarheid.
+- De Developer Timeline en details van requests, SQL, PHP, mail en queues.
+- Losse runtimes starten en stoppen.
+- Poortcontrole, herstelpunten en het Activity Center.
+- Een veilige PHP- of uitvoermoduswijziging met voorcontrole en herstelpunt.
+- De volledig lokale LocalDeck Assistent-conceptweergave.
+- Donker en licht thema en verschillende vensterformaten.
+- Ctrl+K voor het Command Center.
+
+Belangrijk
+----------
+Dit is uitsluitend een interface- en interactiedemo. Er worden geen echte
+Windows-services gestart, geen poorten gewijzigd, geen databases gemaakt en geen
+projectbestanden aangepast. Alle demostatus blijft alleen in de lokale
+browseropslag. Gebruik "Demo herstellen" bovenaan om opnieuw te beginnen.
+
+Ontwerpuitgangspunten
+---------------------
+- Geen account, activatie of verplichte cloudverbinding.
+- Geen losse DOS-vensters voor taken of services.
+- Projectcontext staat centraal: runtime, database, mail, logs en herstel horen
+  bij elkaar.
+- Risicovolle acties tonen altijd eerst wat er gaat veranderen.

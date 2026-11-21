@@ -1,3 +1,104 @@
+.version-picker {
+    display: grid;
+    gap: 11px;
+    justify-self: stretch;
+    padding: 18px;
+    border: 1px solid #2d3850;
+    border-radius: 22px;
+    background: linear-gradient(150deg, #151b2d, #0e1320);
+    box-shadow: var(--shadow);
+}
+
+.version-picker-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 2px 4px 8px;
+}
+
+.version-picker-heading span {
+    color: #8190a8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.35px;
+}
+
+.version-picker-heading small {
+    color: #657289;
+    font-size: 10px;
+}
+
+.version-choice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 17px 18px;
+    border: 1px solid #29364c;
+    border-radius: 15px;
+    background: #101725;
+    transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+
+.version-choice:hover {
+    transform: translateY(-2px);
+    border-color: #536588;
+    background: #131c2d;
+}
+
+.version-choice.current {
+    border-color: rgba(106, 89, 255, .48);
+    background: linear-gradient(100deg, rgba(120, 73, 255, .13), rgba(25, 200, 237, .05));
+}
+
+.version-choice-copy {
+    display: grid;
+    gap: 2px;
+}
+
+.version-choice-copy small {
+    color: #78869d;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.version-choice-copy strong {
+    font-size: clamp(22px, 2.5vw, 31px);
+    line-height: 1.1;
+    letter-spacing: -1.1px;
+}
+
+.version-choice.current .version-choice-copy strong {
+    background: linear-gradient(100deg, #bc8aff, #23c8ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.version-choice-format {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex: 0 0 auto;
+    color: #aebad0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .75px;
+}
+
+.version-choice-format i {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    border: 1px solid #394963;
+    border-radius: 9px;
+    color: var(--cyan);
+    font-style: normal;
+}
+
 .archive-heading {
     display: flex;
     align-items: end;
@@ -232,6 +333,10 @@
 }
 
 @media (max-width: 760px) {
+    .version-picker {
+        padding: 14px;
+    }
+
     .archive-heading {
         align-items: flex-start;
         flex-direction: column;
@@ -270,6 +375,17 @@
 }
 
 @media (max-width: 480px) {
+    .version-picker-heading,
+    .version-choice {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .version-choice-format {
+        width: 100%;
+        justify-content: space-between;
+    }
+
     .archive-release summary {
         grid-template-columns: 32px 1fr;
     }

@@ -3,7 +3,7 @@
 ## Verplicht vóór publieke uitgave
 
 1. Een officiële stabiele uitgave moet een geldige Authenticode-handtekening hebben. Gebruik na toelating de vertrouwde GitHub/SignPath-route uit `CODE_SIGNING_POLICY.md`, of gebruik een eigen publiek vertrouwd RSA-codecertificaat via `CSC_LINK` en waar nodig `CSC_KEY_PASSWORD`.
-2. Bouw en test de NSIS-installer op schone Windows 10- en Windows 11-machines.
+2. Bouw en test de NSIS-installer en uitpak-ZIP op schone Windows 11 24H2-, 25H2- en 26H1-machines. Test Windows 10 22H2 met ESU afzonderlijk als compatibiliteitsdoel.
 3. Voer `scripts\Test-SignPathReadiness.ps1` uit en controleer alle componentversies, vaste bronlinks, bron- en distributiehashes en licenties.
 4. Publiceer uitsluitend de EXE-installer en uitpakbare map-ZIP via HTTPS.
 5. Laat `Publish-LocalDeck.ps1` de HTTPS-updatefeed, installer-SHA-256, uitgever en beschikbare rollback automatisch vastleggen.
@@ -16,6 +16,7 @@
 12. Test alle gebruikte PHP-versiepools, Git-worktrees, webbeheer, MCP/CLI en LAN-delen met Windows Firewall actief.
 13. Maak SHA-256-waarden en releasefeeds pas nadat alle signingstappen zijn afgerond; ondertekenen wijzigt het bestand.
 14. Controleer dat `Get-AuthenticodeSignature` voor ieder verplicht eigen uitvoerbaar bestand `Valid` toont, met de verwachte uitgever en een geldige tijdstempel.
+15. Bewaar per verplichte Windows-rij OS-build, schermschaal, testtijd, tester, artifact-hashes, Authenticode-uitgever en SmartScreen-uitkomst bij het releasearchief.
 
 Een bewust ongetekende build is uitsluitend toegestaan als duidelijk gemarkeerde testbuild. SHA-256, de volledige runtime- en rooktest en een zichtbare Windows-waarschuwing blijven verplicht. De updatefeed krijgt `signed: false`; een ongetekende build bevat geen rollbackverwijzing die ten onrechte een handtekening afdwingt. Een nieuwe stabiele release mag niet via deze uitzonderingsroute worden gepubliceerd.
 

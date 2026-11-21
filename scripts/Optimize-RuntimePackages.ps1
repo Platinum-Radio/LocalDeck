@@ -18,7 +18,11 @@ function Test-RemoveEntry([string]$Package,[string]$Name){
   $normalized=$Name.Replace('\','/')
   switch($Package){
     'mysql.zip' {
-      return $normalized-match'(?i)(\.pdb$|\.lib$|(^|/)include/|/lib/plugin/debug/|/bin/[^/]+-debug\.dll$)'
+      return $normalized-match'(?i)(\.pdb$|\.lib$|(^|/)include/|/lib/plugin/debug/|/bin/[^/]+-debug\.dll$|/bin/libmecab\.dll$|/lib/mecab/|/lib/plugin/libpluginmecab\.dll$)'
+    }
+    'phpmyadmin.zip' {
+      $locale=[regex]::Match($normalized,'(?i)/locale/([^/]+)/')
+      return $locale.Success-and$locale.Groups[1].Value-notin@('en_GB','nl')
     }
     'redis.zip' {
       return $normalized-match'(?i)\.pdb$'
@@ -33,6 +37,7 @@ function Test-RemoveEntry([string]$Package,[string]$Name){
 function Get-RequiredMarkers([string]$Package){
   switch($Package){
     'mysql.zip' {return @('bin/mysqld.exe','bin/mysql.exe','bin/mysqladmin.exe','bin/mysqldump.exe')}
+    'phpmyadmin.zip' {return @('index.php','vendor/autoload.php','locale/en_GB/LC_MESSAGES/phpmyadmin.mo','locale/nl/LC_MESSAGES/phpmyadmin.mo')}
     'redis.zip' {return @('redis-server.exe','redis-cli.exe')}
     'apache.zip' {return @('bin/httpd.exe','modules/mod_ssl.so','modules/mod_proxy_fcgi.so')}
     default {return @()}
@@ -92,7 +97,7 @@ function Optimize-Zip([string]$Name){
   return $before
 }
 
-$targets=@('mysql.zip','redis.zip','apache.zip')
+$targets=@('mysql.zip','phpmyadmin.zip','redis.zip','apache.zip')
 $sourceSizes=@{}
 foreach($target in $targets){$sourceSizes[$target]=Optimize-Zip $target}
 
@@ -111,7 +116,7 @@ if(Test-Path -LiteralPath $manifestFile){
       if($package.PSObject.Properties['packaging']-and$package.packaging-eq'windows-x64-runtime-only'){$package.PSObject.Properties.Remove('packaging')}
     }
   }
-  $manifest|Add-Member -NotePropertyName optimization -NotePropertyValue ([ordered]@{profile='windows-x64-runtime-only';rulesVersion=1;optimizedAt=(Get-Date).ToString('o')}) -Force
+  $manifest|Add-Member -NotePropertyName optimization -NotePropertyValue ([ordered]@{profile='windows-x64-runtime-only';rulesVersion=2;optimizedAt=(Get-Date).ToString('o')}) -Force
   $manifest|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $manifestFile -Encoding UTF8
 }
 

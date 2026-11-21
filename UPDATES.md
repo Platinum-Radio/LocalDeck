@@ -2,6 +2,14 @@
 
 This page highlights the most important user-facing changes. For the complete technical history, see the [changelog](CHANGELOG.md).
 
+## 1.1.0 — November 21, 2026
+
+- Apache 2.4.71, MySQL 8.4.13 LTS, Mailpit 1.34.0, Composer 2.11.2, and the latest security patch for every bundled PHP line.
+- PHP 8.6.0 is available per project while PHP 8.5 remains the compatibility default.
+- Redis 5 has been replaced with the maintained Redis for Windows 8.10.3 build.
+- The offline bundle now contains 14 pinned packages with exact byte sizes and SHA-256 hashes.
+- The installable EXE and extract-only ZIP are rebuilt and fully validated before publication.
+
 ## 1.1.0-test.1 — August 18, 2026
 
 This prerelease is ready for early Windows testing. It keeps the fully offline runtime of LocalDeck 1.0 while making the application easier to use, more responsive, and substantially more capable.

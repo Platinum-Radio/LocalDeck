@@ -17,9 +17,9 @@
 </p>
 
 <p align="center">
-  <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%26%2011-1677ff?style=flat-square&logo=windows11&logoColor=white">
-  <img alt="PHP 8.2 through 8.5" src="https://img.shields.io/badge/PHP-8.2%E2%80%938.5-777bb4?style=flat-square&logo=php&logoColor=white">
-  <img alt="LocalDeck 1.1.0 test 1" src="https://img.shields.io/badge/prerelease-1.1.0--test.1-7c5cff?style=flat-square">
+  <img alt="Windows 11; Windows 10 compatibility" src="https://img.shields.io/badge/Windows-11%20%7C%2010%20compatibility-1677ff?style=flat-square&logo=windows11&logoColor=white">
+  <img alt="PHP 8.2 through 8.6" src="https://img.shields.io/badge/PHP-8.2%E2%80%938.6-777bb4?style=flat-square&logo=php&logoColor=white">
+  <img alt="LocalDeck 1.1.0" src="https://img.shields.io/badge/release-1.1.0-22c55e?style=flat-square">
   <img alt="Offline-first" src="https://img.shields.io/badge/runtime-offline--first-18bfe8?style=flat-square">
   <a href="LICENSE"><img alt="Apache License 2.0" src="https://img.shields.io/badge/license-Apache--2.0-2ea44f?style=flat-square"></a>
 </p>
@@ -42,7 +42,7 @@ The complete runtime is included. The standard setup requires no LocalDeck accou
 | Component | What it provides |
 | --- | --- |
 | Apache | Local web server and virtual hosts |
-| PHP 8.2–8.5 | Side-by-side runtimes and isolated FastCGI pools per project |
+| PHP 8.2–8.6 | Side-by-side runtimes and isolated FastCGI pools per project; PHP 8.5 remains the compatibility default and PHP 8.6 is selectable per project |
 | MySQL | Local relational databases, users, backups, imports, and exports |
 | phpMyAdmin | Browser-based database management with automatic local sign-in |
 | Mailpit + LocalDeck Mail Management | SMTP capture, virtual test inboxes, search, source view, and retention controls |
@@ -108,7 +108,7 @@ For a concise, human-readable overview of every notable change, see [Latest upda
 
 ## Requirements
 
-- Windows 10 or Windows 11, 64-bit
+- Windows 11, 64-bit (primary); Windows 10 22H2 x64 remains a best-effort compatibility target
 - Enough free disk space for the application, bundled runtime, databases, and projects
 - Administrator approval only when Windows itself requires it, such as service registration, trusted certificate installation, or system DNS/hosts changes
 

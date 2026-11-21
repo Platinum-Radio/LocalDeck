@@ -9,7 +9,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\install-runtime.ps1
 ```
 
-De installatie komt uitsluitend in `%APPDATA%\LocalDeck\runtime`. Een bestaande XAMPP-, Apache- of MySQL-installatie wordt niet aangepast. Alle 13 runtimepakketten zijn ingebouwd; tijdens de runtime-installatie wordt niets gedownload. Daarom zijn de distributiebestanden groter dan eerdere previews.
+De installatie komt uitsluitend in `%APPDATA%\LocalDeck\runtime`. Een bestaande XAMPP-, Apache- of MySQL-installatie wordt niet aangepast. Alle 14 runtimepakketten zijn ingebouwd; tijdens de runtime-installatie wordt niets gedownload. Daarom zijn de distributiebestanden groter dan eerdere previews.
 
 ## Installeren of uitpakken
 

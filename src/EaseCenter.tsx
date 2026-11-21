@@ -39,7 +39,7 @@ interface ProjectWorkspaceProps extends EaseProps {
   openProject: () => void;
 }
 
-export type EasePage = 'dashboard' | 'projects' | 'studio' | 'services' | 'automation' | 'actions' | 'quality' | 'api' | 'databases' | 'snapshots' | 'tasks' | 'mail' | 'doctor' | 'security' | 'catalog' | 'runtime' | 'inspector' | 'logs' | 'settings';
+export type EasePage = 'dashboard' | 'projects' | 'studio' | 'services' | 'automation' | 'actions' | 'quality' | 'api' | 'databases' | 'snapshots' | 'tasks' | 'mail' | 'doctor' | 'updates' | 'security' | 'catalog' | 'runtime' | 'inspector' | 'logs' | 'settings';
 
 function ProjectTool({icon: Icon, title, detail, actionLabel, onClick, tone = ''}: {
   icon: LucideIcon;

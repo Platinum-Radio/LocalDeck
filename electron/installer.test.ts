@@ -23,8 +23,8 @@ describe('offline Windows-installer',()=>{
   expect(secretScript).not.toMatch(/(?<!System\.)Security\.Cryptography\.ProtectedData/);
  });
 
- it('controleert alle dertien runtimeonderdelen en hun SHA-256',()=>{
-  for(const name of['apache.zip','php.zip','php-8.2.zip','php-8.3.zip','php-8.4.zip','mysql.zip','phpmyadmin.zip','mailpit.zip','redis.zip','WinSW.NET4.exe','composer.phar','vc_redist.x64.exe','mkcert.exe'])expect(script).toContain(`'${name}'`);
+ it('controleert alle veertien runtimeonderdelen en hun SHA-256',()=>{
+  for(const name of['apache.zip','php.zip','php-8.2.zip','php-8.3.zip','php-8.4.zip','php-8.6.zip','mysql.zip','phpmyadmin.zip','mailpit.zip','redis.zip','WinSW.NET4.exe','composer.phar','vc_redist.x64.exe','mkcert.exe'])expect(script).toContain(`'${name}'`);
   expect(script).toContain('Get-FileHash -LiteralPath $file -Algorithm SHA256');
   expect(script).toContain('Get-Command tar.exe');
   expect(script).not.toContain('Expand-Archive -LiteralPath $zip');

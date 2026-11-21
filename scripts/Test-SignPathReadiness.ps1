@@ -34,7 +34,7 @@ $requiredFiles=@(
   'licenses\mkcert-BSD-3-Clause.txt',
   'licenses\node-qrcode-MIT.txt',
   'licenses\React-MIT.txt',
-  'licenses\Redis-for-Windows-BSD-3-Clause.txt',
+  'licenses\Redis-for-Windows-Apache-2.0.txt',
   'licenses\WinSW-MIT.txt',
   'licenses\yaml-ISC.txt',
   'runtime-packages\runtime-sources.json',
@@ -73,8 +73,8 @@ if((Test-Path -LiteralPath $sourceLockFile)-and(Test-Path -LiteralPath $runtimeM
   $runtimeManifest=Get-Content -LiteralPath $runtimeManifestFile -Raw|ConvertFrom-Json
   $sources=@($sourceLock.packages)
   $runtimePackages=@($runtimeManifest.packages)
-  if($sources.Count-ne13){Add-Failure "De bron-lock bevat $($sources.Count) in plaats van 13 pakketten."}
-  if($runtimePackages.Count-ne13){Add-Failure "Het runtime-manifest bevat $($runtimePackages.Count) in plaats van 13 pakketten."}
+  if($sources.Count-ne14){Add-Failure "De bron-lock bevat $($sources.Count) in plaats van 14 pakketten."}
+  if($runtimePackages.Count-ne14){Add-Failure "Het runtime-manifest bevat $($runtimePackages.Count) in plaats van 14 pakketten."}
   if((@($sources.id|Sort-Object -Unique)).Count-ne$sources.Count){Add-Failure 'De bron-lock bevat dubbele pakket-id''s.'}
   if((@($sources.name|Sort-Object -Unique)).Count-ne$sources.Count){Add-Failure 'De bron-lock bevat dubbele bestandsnamen.'}
   foreach($source in $sources){

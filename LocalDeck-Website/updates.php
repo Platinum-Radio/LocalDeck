@@ -3,60 +3,64 @@ declare(strict_types=1);
 require __DIR__ . '/inc/bootstrap.php';
 
 $pageKey = 'updates';
-$pageTitle = t('Laatste updates', 'Latest updates') . ' — LocalDeck';
-$pageDescription = t('Bekijk wat er nieuw en verbeterd is in de nieuwste LocalDeck-versies voor Windows.', 'See what is new and improved in the latest LocalDeck versions for Windows.');
+$pageTitle = t('Updatesysteem', 'Update system') . ' — LocalDeck';
+$pageDescription = t('Bekijk beschikbare LocalDeck-versies, wijzigingen, updatekanalen en veilige downloadinformatie.', 'View available LocalDeck versions, changes, update channels, and safe download information.');
+$releases = published_releases();
+$latest = $releases[0] ?? [];
+$latestVersion = (string) ($latest['version'] ?? LOCALDECK_SITE_VERSION);
+$latestChannel = (string) ($latest['channel'] ?? 'stable');
 require __DIR__ . '/inc/header.php';
 ?>
 <section class="page-hero updates-hero">
     <div class="shell updates-hero-grid">
         <div>
-            <span class="eyebrow"><i></i><?= e(t('PRODUCTUPDATE', 'PRODUCT UPDATE')) ?></span>
-            <h1><?= e(t('Laatste updates', 'Latest updates')) ?></h1>
-            <p><?= e(t('Een helder overzicht van nieuwe functies, verbeteringen en belangrijke technische wijzigingen in LocalDeck.', 'A clear overview of new features, improvements, and important technical changes in LocalDeck.')) ?></p>
+            <span class="eyebrow"><i></i><?= e(t('LOCALDECK UPDATESYSTEEM', 'LOCALDECK UPDATE SYSTEM')) ?></span>
+            <h1><?= e(t('Alle updates op één plek.', 'Every update in one place.')) ?></h1>
+            <p><?= e(t('LocalDeck toont beschikbare versies, veranderingen, veilige downloads en herstelmogelijkheden nu rechtstreeks in het programma. Deze pagina en de updatefeeds gebruiken dezelfde releasebron.', 'LocalDeck now shows available versions, changes, safe downloads, and recovery options directly inside the application. This page and the update feeds use the same release source.')) ?></p>
             <div class="updates-actions">
-                <a class="button primary" href="<?= e(with_language('downloads.php')) ?>"><?= e(t('Testversie downloaden', 'Download test release')) ?></a>
-                <a class="button secondary" href="<?= e(LOCALDECK_GITHUB_URL) ?>/blob/main/UPDATES.md" target="_blank" rel="noopener"><?= e(t('Updates op GitHub', 'Updates on GitHub')) ?> ↗</a>
+                <a class="button primary" href="<?= e(with_language('downloads.php')) ?>"><?= e(t('Downloads bekijken', 'View downloads')) ?></a>
+                <a class="button secondary" href="downloads/beta.json" target="_blank" rel="noopener"><?= e(t('Bètafeed bekijken', 'View beta feed')) ?> ↗</a>
             </div>
         </div>
         <aside class="update-version-panel">
-            <span><?= e(t('NIEUWSTE TESTVERSIE', 'LATEST TEST RELEASE')) ?></span>
-            <strong>1.1.0-test.1</strong>
-            <i><?= e(t('PRERELEASE · WINDOWS X64', 'PRERELEASE · WINDOWS X64')) ?></i>
-            <small>18 <?= e(t('augustus', 'August')) ?> 2026</small>
+            <span><?= e(t('NIEUWSTE BESCHIKBARE VERSIE', 'LATEST AVAILABLE VERSION')) ?></span>
+            <strong><?= e($latestVersion) ?></strong>
+            <i><?= e(strtoupper($latestChannel)) ?> · WINDOWS X64</i>
+            <small><?= e(format_release_date($latest['releasedAt'] ?? null)) ?></small>
         </aside>
     </div>
 </section>
 
-<section class="section shell update-release featured">
-    <header class="update-release-heading">
-        <div><span class="eyebrow"><i></i>1.1.0-test.1</span><h2><?= e(t('Klaar voor de volgende testronde.', 'Ready for the next testing round.')) ?></h2></div>
-        <span class="update-channel"><?= e(t('Testversie', 'Prerelease')) ?></span>
-    </header>
-    <p class="update-lead"><?= e(t('Deze versie behoudt de volledig offline LocalDeck-runtime en maakt het programma eenvoudiger, beter schaalbaar en veel completer voor dagelijks Windows-ontwikkelwerk.', 'This version keeps LocalDeck’s fully offline runtime while making the application easier, more responsive, and much more complete for everyday Windows development.')) ?></p>
-
-    <div class="updates-summary-grid">
-        <article><span>01</span><h3><?= e(t('Rustiger en schaalbaar', 'Simpler and responsive')) ?></h3><p><?= e(t('Een eenvoudige en geavanceerde weergave, vernieuwde instellingen en een indeling die netjes werkt vanaf 1280 × 720.', 'Simple and advanced views, reorganized settings, and a layout that works cleanly from 1280 × 720 upward.')) ?></p></article>
-        <article><span>02</span><h3><?= e(t('Volledige projectcyclus', 'Complete project lifecycle')) ?></h3><p><?= e(t('Maak projecten met PHP, database, lokaal domein en automatisch HTTPS. Verwijderen ruimt na een duidelijke bevestiging ook alle gekoppelde onderdelen op.', 'Create projects with PHP, a database, a local domain, and automatic HTTPS. Removal also cleans every linked component after clear confirmation.')) ?></p></article>
-        <article><span>03</span><h3><?= e(t('Betrouwbare servicecontrole', 'Reliable service control')) ?></h3><p><?= e(t('Poortinspectie, Port Autopilot, LocalDeck Fix, preflightcontroles en bruikbare meldingen helpen problemen veilig oplossen.', 'Port inspection, Port Autopilot, LocalDeck Fix, preflight checks, and actionable notifications help resolve problems safely.')) ?></p></article>
-        <article><span>04</span><h3><?= e(t('Meer ontwikkelgereedschap', 'More developer tooling')) ?></h3><p><?= e(t('PHP 8.2–8.5 per project, Database Lab, API-tests, webhooks, workers, Xdebug, branches, capsules en snapshots.', 'PHP 8.2–8.5 per project, Database Lab, API tests, webhooks, workers, Xdebug, branches, capsules, and snapshots.')) ?></p></article>
-        <article><span>05</span><h3><?= e(t('Kleiner zonder in te leveren', 'Smaller without compromise')) ?></h3><p><?= e(t('Ongebruikte buildtools en talen zijn verwijderd en runtime-archieven zijn veilig geoptimaliseerd. Alle benodigde programma’s blijven ingebouwd.', 'Unused build tools and languages are removed and runtime archives are safely optimized. Every required program remains bundled.')) ?></p></article>
-        <article><span>06</span><h3><?= e(t('Nederlands en Engels', 'Dutch and English')) ?></h3><p><?= e(t('De desktopapp, lokale startpagina, Webbeheer, Mailbeheer en publieke website zijn in beide talen beschikbaar.', 'The desktop app, local start page, Web Management, Mail Management, and public website are available in both languages.')) ?></p></article>
+<section class="section shell update-system-overview">
+    <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('HOE HET WERKT', 'HOW IT WORKS')) ?></span><h2><?= e(t('Controleren, begrijpen en veilig bijwerken.', 'Check, understand, and update safely.')) ?></h2><p><?= e(t('Het Updatecentrum in LocalDeck blijft accountloos en gebruikt alleen de gekozen HTTPS-updatefeed.', 'The LocalDeck Update Center remains account-free and only uses the selected HTTPS update feed.')) ?></p></div>
+    <div class="updates-summary-grid update-system-grid">
+        <article><span>01</span><h3><?= e(t('Zichtbaar in de app', 'Visible in the app')) ?></h3><p><?= e(t('Een vaste optie Updates toont de huidige versie, beschikbare versie, kanaal, controletijd en volledige versiegeschiedenis.', 'A dedicated Updates option shows the current release, available release, channel, check time, and complete version history.')) ?></p></article>
+        <article><span>02</span><h3><?= e(t('Duidelijke wijzigingen', 'Clear changes')) ?></h3><p><?= e(t('Iedere release bevat Nederlandse en Engelse release notes en een overzicht van de belangrijkste verbeteringen.', 'Every release contains Dutch and English release notes plus a summary of the most important improvements.')) ?></p></article>
+        <article><span>03</span><h3><?= e(t('Veilig gecontroleerd', 'Safely verified')) ?></h3><p><?= e(t('Downloads worden via HTTPS opgehaald en vóór gebruik gecontroleerd met SHA-256 en, zodra beschikbaar, Authenticode.', 'Downloads use HTTPS and are verified with SHA-256 and, when available, Authenticode before use.')) ?></p></article>
+        <article><span>04</span><h3><?= e(t('Herstel vóór update', 'Recovery before update')) ?></h3><p><?= e(t('Bij atomische updates maakt LocalDeck eerst een volledig werkruimteherstelpunt en actuele databaseback-ups.', 'For atomic updates, LocalDeck first creates a complete workspace restore point and current database backups.')) ?></p></article>
     </div>
-
-    <div class="update-checks">
-        <div><strong>59</strong><span><?= e(t('automatische tests geslaagd', 'automated tests passed')) ?></span></div>
-        <div><strong>6/6</strong><span><?= e(t('echte services gecontroleerd', 'real services verified')) ?></span></div>
-        <div><strong>2</strong><span><?= e(t('Windows-downloadvormen', 'Windows download formats')) ?></span></div>
-        <div><strong>100%</strong><span><?= e(t('offline runtime ingebouwd', 'offline runtime bundled')) ?></span></div>
+    <div class="update-feed-links">
+        <div><b><?= e(t('Stabiel kanaal', 'Stable channel')) ?></b><code>https://localdeck.nl/downloads/windows.json</code></div>
+        <div><b><?= e(t('Bètakanaal', 'Beta channel')) ?></b><code>https://localdeck.nl/downloads/beta.json</code></div>
     </div>
-
-    <div class="notice-banner update-notice"><span>i</span><div><b><?= e(t('Dit is een testversie', 'This is a test release')) ?></b><p><?= e(t('Gebruik 1.1.0-test.1 om de nieuwste verbeteringen te controleren en meld bevindingen via Support. LocalDeck 1.0.0 blijft de stabiele versie.', 'Use 1.1.0-test.1 to test the newest improvements and report findings through Support. LocalDeck 1.0.0 remains the stable release.')) ?></p></div></div>
 </section>
 
 <section class="section update-history">
     <div class="shell">
-        <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('Eerdere update', 'Previous update')) ?></span><h2>LocalDeck 1.0.0</h2><p>16 <?= e(t('augustus', 'August')) ?> 2026</p></div>
-        <article class="update-history-card"><div><span>1.0.0</span><h3><?= e(t('De eerste publieke Windows-release', 'The first public Windows release')) ?></h3><p><?= e(t('De complete basis met Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit, Redis, Composer, automatisch lokaal HTTPS en een volledig ingebouwde offline runtime.', 'The complete foundation with Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit, Redis, Composer, automatic local HTTPS, and a fully bundled offline runtime.')) ?></p></div><a class="button secondary" href="<?= e(with_language('downloads.php')) ?>#older-releases"><?= e(t('Bekijk downloads', 'View downloads')) ?></a></article>
+        <div class="section-heading"><span class="eyebrow"><i></i><?= e(t('VERSIEGESCHIEDENIS', 'VERSION HISTORY')) ?></span><h2><?= e(t('Gepubliceerde LocalDeck-updates', 'Published LocalDeck updates')) ?></h2><p><?= e(t('De nieuwste versie staat altijd bovenaan. Oudere downloads blijven via het downloadarchief beschikbaar.', 'The newest version is always listed first. Older downloads remain available through the download archive.')) ?></p></div>
+        <div class="website-update-timeline">
+            <?php foreach ($releases as $index => $release): ?>
+                <?php $changes = release_changes($release); ?>
+                <article class="update-history-card<?= $index === 0 ? ' featured-release' : '' ?>" id="version-<?= e((string) ($release['version'] ?? '')) ?>">
+                    <div class="website-update-version"><span><?= e((string) ($release['version'] ?? '')) ?></span><small><?= e(strtoupper((string) ($release['channel'] ?? 'stable'))) ?></small></div>
+                    <div class="website-update-content">
+                        <div class="website-update-heading"><div><h3><?= e(release_text($release, 'title')) ?></h3><time><?= e(format_release_date($release['releasedAt'] ?? null)) ?></time></div><a class="button secondary" href="<?= e(with_language('downloads.php')) ?>#older-releases"><?= e(t('Downloads', 'Downloads')) ?></a></div>
+                        <p><?= e(release_text($release, 'notes')) ?></p>
+                        <?php if ($changes !== []): ?><ul><?php foreach ($changes as $change): ?><li><span>✓</span><?= e($change) ?></li><?php endforeach; ?></ul><?php endif; ?>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 <?php require __DIR__ . '/inc/footer.php'; ?>

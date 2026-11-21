@@ -1,9 +1,41 @@
 {
+  "schemaVersion": 2,
   "version": "1.1.0-test.1",
   "title": "LocalDeck 1.1.0-test.1 is beschikbaar",
+  "titleEn": "LocalDeck 1.1.0-test.1 is available",
   "notes": "Publieke Windows-testversie met een eenvoudiger interface, complete projectlevenscyclus, betere herstelacties en een compactere volledig ingebouwde offline runtime.",
+  "notesEn": "Public Windows test release with a simpler interface, complete project lifecycle, improved recovery actions, and a smaller fully bundled offline runtime.",
   "downloadUrl": "https://localdeck.nl/download.php?version=1.1.0-test.1&artifact=setup-x64",
+  "releaseNotesUrl": "https://localdeck.nl/updates.php",
   "publishedAt": "2026-08-18T17:02:29.0491591+02:00",
   "channel": "beta",
-  "sha256": "57da12e8751c1988fcad130572475461933d838dd93507aa520b5159662b7030"
+  "sha256": "57da12e8751c1988fcad130572475461933d838dd93507aa520b5159662b7030",
+  "signed": false,
+  "rollbackVersion": "1.0.0",
+  "rollbackUrl": "https://localdeck.nl/download.php?version=1.0.0&artifact=setup-x64",
+  "rollbackSha256": "991330615cd9e250bdf50536dc87b946a5864f36d1f9cb51182c8510e3787b30",
+  "history": [
+    {
+      "version": "1.1.0-test.1",
+      "title": "Een completere en rustigere LocalDeck",
+      "titleEn": "A more complete and streamlined LocalDeck",
+      "notes": "Nieuwe dagelijkse bediening, herstel en releasecontrole vanuit één Windows-app.",
+      "notesEn": "New daily controls, recovery, and release verification in one Windows app.",
+      "changes": ["Nieuw Updatecentrum met versiegeschiedenis en veilige acties.", "Volledige releasecontrole en automatisch updateherstelpunt.", "Privacyveilige supportbundels en veilige verwijdering.", "Compactere offline runtime en responsieve interface."],
+      "changesEn": ["New Update Center with version history and safe actions.", "Complete release verification and automatic update restore point.", "Privacy-safe support bundles and safe uninstall.", "Smaller offline runtime and responsive interface."],
+      "publishedAt": "2026-08-18T17:02:29.0491591+02:00",
+      "channel": "beta"
+    },
+    {
+      "version": "1.0.0",
+      "title": "De eerste publieke Windows-release",
+      "titleEn": "The first public Windows release",
+      "notes": "De complete offline basis voor lokale PHP-ontwikkeling op Windows.",
+      "notesEn": "The complete offline foundation for local PHP development on Windows.",
+      "changes": ["Volledig ingebouwde runtime zonder account.", "Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit en Redis.", "App-modus en Windows-servicemodus.", "Projecten, databases, HTTPS, mail en poorten vanuit één dashboard."],
+      "changesEn": ["Fully bundled runtime without an account.", "Apache, PHP 8.2–8.5, MySQL, phpMyAdmin, Mailpit, and Redis.", "App mode and Windows service mode.", "Projects, databases, HTTPS, mail, and ports from one dashboard."],
+      "publishedAt": "2026-08-16T13:33:52.8636493+02:00",
+      "channel": "stable"
+    }
+  ]
 }

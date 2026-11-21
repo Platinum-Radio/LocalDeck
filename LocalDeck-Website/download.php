@@ -65,13 +65,12 @@ if (!$artifact || empty($artifact['file'])) {
     fail_download(404, 'Dit releasebestand bestaat niet.');
 }
 
-$absoluteFile = realpath(LOCALDECK_SITE_ROOT . '/' . ltrim((string) $artifact['file'], '/\\'));
-if (!release_artifact_is_available($release, $artifact) || $absoluteFile === false) {
+$redirectUrl = release_artifact_public_url($release, $artifact);
+if ($redirectUrl === null) {
     fail_download(404, 'Dit releasebestand is nog niet beschikbaar.');
 }
 
 record_download_start($version, $artifactId);
-$relativeUrl = str_replace(DIRECTORY_SEPARATOR, '/', substr($absoluteFile, strlen(LOCALDECK_SITE_ROOT) + 1));
 header('Cache-Control: no-store');
-header('Location: ' . implode('/', array_map('rawurlencode', explode('/', $relativeUrl))), true, 302);
+header('Location: ' . $redirectUrl, true, 302);
 exit;

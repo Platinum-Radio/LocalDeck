@@ -9,7 +9,7 @@ $OutputDir=[IO.Path]::GetFullPath($OutputDir)
 $sourceLockFile=Join-Path $root 'runtime-packages\runtime-sources.json'
 if(!(Test-Path -LiteralPath $sourceLockFile)){throw 'De vastgezette runtimebronlijst ontbreekt.'}
 $sourceLock=Get-Content -LiteralPath $sourceLockFile -Raw|ConvertFrom-Json
-if($sourceLock.schemaVersion-ne1-or@($sourceLock.packages).Count-ne13){throw 'De runtimebronlijst heeft een onbekend formaat of onjuist pakketaantal.'}
+if($sourceLock.schemaVersion-ne1-or@($sourceLock.packages).Count-ne14){throw 'De runtimebronlijst heeft een onbekend formaat of onjuist pakketaantal.'}
 New-Item -ItemType Directory -Path $OutputDir -Force|Out-Null
 
 $existingManifestFile=Join-Path $OutputDir 'offline-runtime.json'
@@ -80,5 +80,4 @@ if([IO.Path]::GetFullPath($targetSourceLock)-ne[IO.Path]::GetFullPath($sourceLoc
 }
 
 & (Join-Path $PSScriptRoot 'Optimize-RuntimePackages.ps1') -PackageDirectory $OutputDir
-if($LASTEXITCODE-ne0){throw 'De offline runtime kon niet compact worden gemaakt.'}
-Write-Host "Offline runtime gereed uit 13 vastgezette en gecontroleerde bronnen: $OutputDir" -ForegroundColor Green
+Write-Host "Offline runtime gereed uit $($packages.Count) vastgezette en gecontroleerde bronnen: $OutputDir" -ForegroundColor Green

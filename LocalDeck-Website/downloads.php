@@ -10,6 +10,10 @@ $artifactPresentation = [
     'setup-x64' => [t('LocalDeck installeren — EXE', 'Install LocalDeck — EXE'), t('Start het EXE-bestand en doorloop de Windows-installatiewizard.', 'Run the EXE file and follow the Windows installation wizard.'), '↓', 'EXE · INSTALLEREN'],
     'zip-x64' => [t('Zonder installatie — ZIP uitpakken', 'No installation — extract ZIP'), t('Pak het ZIP-bestand uit in een map naar keuze en start daarna LocalDeck.exe.', 'Extract the ZIP file to any folder and then start LocalDeck.exe.'), '◇', 'ZIP · UITPAKKEN'],
 ];
+$releaseAnchor = static function (array $release): string {
+    $version = strtolower((string) ($release['version'] ?? 'onbekend'));
+    return 'release-' . trim((string) preg_replace('/[^a-z0-9]+/i', '-', $version), '-');
+};
 
 $pageKey = 'downloads';
 $pageTitle = 'LocalDeck Downloads — Windows';
@@ -23,16 +27,20 @@ require __DIR__ . '/inc/header.php';
             <h1><?= e(t('Download met zekerheid.', 'Download with confidence.')) ?></h1>
             <p><?= e(t('Kies uit precies twee bestanden: de EXE om LocalDeck te installeren of de ZIP om uit te pakken en direct te starten. De nieuwste versie staat altijd bovenaan en bij ieder bestand staat de SHA-256-hash.', 'Choose from exactly two files: the EXE to install LocalDeck or the ZIP to extract and run directly. The newest version is always shown first and every file includes its SHA-256 hash.')) ?></p>
         </div>
-        <div class="version-card">
-            <span><?= e(t('NIEUWSTE VERSIE', 'LATEST VERSION')) ?></span>
-            <strong><?= e((string) $latest['version']) ?></strong>
-            <i class="preview-badge"><?= e(($latest['published'] ?? false) ? ($latestIsPrerelease ? t('TESTVERSIE', 'PRERELEASE') : t('ACTUEEL', 'CURRENT')) : t('NIET BESCHIKBAAR', 'UNAVAILABLE')) ?></i>
-            <small><?= e(format_release_date($latest['releasedAt'] ?? null)) ?></small>
-        </div>
+        <aside class="version-picker" aria-label="<?= e(t('Beschikbare LocalDeck-versies', 'Available LocalDeck versions')) ?>">
+            <div class="version-picker-heading"><span><?= e(t('KIES JE VERSIE', 'CHOOSE YOUR VERSION')) ?></span><small><?= e((string) count($releases)) ?> <?= e(t('versies beschikbaar', 'versions available')) ?></small></div>
+            <?php foreach ($releases as $index => $release): ?>
+                <?php $channel = (string) ($release['channel'] ?? 'stable'); ?>
+                <a class="version-choice<?= $index === 0 ? ' current' : '' ?>" href="#<?= e($releaseAnchor($release)) ?>">
+                    <span class="version-choice-copy"><small><?= e($channel === 'stable' ? t('STABIELE VERSIE', 'STABLE VERSION') : t('TESTVERSIE', 'TEST VERSION')) ?></small><strong><?= e((string) ($release['version'] ?? '—')) ?></strong></span>
+                    <span class="version-choice-format">EXE + ZIP <i aria-hidden="true">↓</i></span>
+                </a>
+            <?php endforeach; ?>
+        </aside>
     </div>
 </section>
 
-<section class="section shell">
+<section class="section shell" id="<?= e($releaseAnchor($latest)) ?>">
     <?php $totalDownloads = (int) (download_statistics()['total'] ?? 0); ?>
     <div class="download-summary<?= $totalDownloads === 0 ? ' new-release' : '' ?>">
         <?php if ($totalDownloads > 0): ?><div><span class="download-stat"><b><?= e((string) download_count((string) $latest['version'])) ?></b><?= e(t('gestarte downloads van deze versie', 'downloads initiated for this version')) ?></span><span class="download-stat"><b><?= e((string) $totalDownloads) ?></b><?= e(t('gestarte downloads in totaal', 'downloads initiated in total')) ?></span></div><?php else: ?><div class="new-release-label"><span>✦</span><b><?= e(t('Nieuwe publieke release', 'New public release')) ?></b></div><?php endif; ?>
@@ -73,7 +81,7 @@ require __DIR__ . '/inc/header.php';
         <?php endforeach; ?>
     </div>
 
-    <div class="release-notes-panel"><div><span class="eyebrow"><i></i><?= e(t('Release notes', 'Release notes')) ?></span><h2><?= e(t('Nieuw in LocalDeck ', 'New in LocalDeck ')) ?><?= e((string) $latest['version']) ?></h2><p><?= e((string) ($latest['notes'] ?? '')) ?></p></div><a class="button secondary" href="<?= e(with_language('updates.php')) ?>"><?= e(t('Alle updates', 'All updates')) ?> →</a></div>
+    <div class="release-notes-panel"><div><span class="eyebrow"><i></i><?= e(t('Release notes', 'Release notes')) ?></span><h2><?= e(t('Nieuw in LocalDeck ', 'New in LocalDeck ')) ?><?= e((string) $latest['version']) ?></h2><p><?= e(release_text($latest, 'notes')) ?></p></div><a class="button secondary" href="<?= e(with_language('updates.php')) ?>"><?= e(t('Alle updates', 'All updates')) ?> →</a></div>
 
     <div class="requirements-panel"><div><span>▣</span><b>Windows 11 x64</b><small><?= e(t('Windows 10 x64 blijft compatibel', 'Windows 10 x64 remains compatible')) ?></small></div><div><span>◫</span><b><?= e(t('Minimaal 4 GB vrij', 'At least 4 GB free')) ?></b><small><?= e(t('Voor runtime en tijdelijke extractie', 'For runtime and temporary extraction')) ?></small></div><div><span>○</span><b><?= e(t('Geen account nodig', 'No account required')) ?></b><small><?= e(t('Geen activatie of licentiesleutel', 'No activation or license key')) ?></small></div><div><span>↻</span><b><?= e(t('Eenmalige eerste start', 'One-time first start')) ?></b><small><?= e(t('Configuratie en certificaatvertrouwen', 'Configuration and certificate trust')) ?></small></div></div>
 
@@ -81,7 +89,7 @@ require __DIR__ . '/inc/header.php';
 
     <div class="notice-banner download-help"><span>?</span><div><b><?= e(t('Windows toont een beveiligingsmelding?', 'Windows shows a security notice?')) ?></b><p><?= e(t('Controleer eerst of het bestand van LocalDeck.nl komt en of de SHA-256 klopt. Bekijk daarna de stappen voor Windows-beveiliging in de wiki.', 'First verify that the file came from LocalDeck.nl and that its SHA-256 matches. Then review the Windows security steps in the wiki.')) ?></p><a href="<?= e(with_language('wiki.php?article=windows-beveiliging')) ?>"><?= e(t('Open de veilige uitleg', 'Open the security guide')) ?> →</a></div></div>
 
-    <div class="notice-banner download-help"><span>✓</span><div><b><?= e(t('Open-source ondertekeningsbeleid', 'Open-source signing policy')) ?></b><p>Free code signing provided by SignPath.io, certificate by SignPath Foundation. <?= e(t('De aanvraag is in voorbereiding; deze vermelding betekent nog niet dat de huidige testrelease ondertekend is.', 'The application is being prepared; this notice does not mean that the current test release is already signed.')) ?></p><a href="<?= e(with_language('code-signing.php')) ?>"><?= e(t('Bekijk status en verificatie', 'View status and verification')) ?> →</a></div></div>
+    <div class="notice-banner download-help"><span>✓</span><div><b><?= e(t('Open-source ondertekeningsbeleid', 'Open-source signing policy')) ?></b><p>Free code signing provided by SignPath.io, certificate by SignPath Foundation. <?= e(t('De aanvraag wordt nog beoordeeld; bekijk de statuspagina voor de actuele ondertekeningsstatus.', 'The application is still under review; see the status page for the current signing status.')) ?></p><a href="<?= e(with_language('code-signing.php')) ?>"><?= e(t('Bekijk status en verificatie', 'View status and verification')) ?> →</a></div></div>
 
     <div class="integrity-grid">
         <article><span>1</span><div><b><?= e(t('Bestand aanwezig', 'File present')) ?></b><p><?= e(t('De teller weigert ontbrekende of onbekende bestanden.', 'The counter rejects missing or unknown files.')) ?></p></div></article>
@@ -95,8 +103,8 @@ require __DIR__ . '/inc/header.php';
         <div class="section-heading archive-heading">
             <div>
                 <span class="eyebrow"><i></i><?= e(t('Downloadarchief', 'Download archive')) ?></span>
-                <h2><?= e(t('Oudere versies', 'Older versions')) ?></h2>
-                <p><?= e(t('Kies een eerdere versie als EXE-installatie of als ZIP om uit te pakken. De nieuwste oudere versie staat steeds bovenaan.', 'Choose an earlier version as an EXE installer or as a ZIP to extract. The newest previous version is always listed first.')) ?></p>
+                <h2><?= e(t('Andere beschikbare versies', 'Other available versions')) ?></h2>
+                <p><?= e(t('Alle gepubliceerde versies blijven zichtbaar. Kies hieronder direct de EXE-installatie of de ZIP om uit te pakken.', 'Every published version remains visible. Choose the EXE installer or the ZIP to extract directly below.')) ?></p>
             </div>
             <span class="archive-count"><?= e((string) count($olderReleases)) ?> <?= e(t('oudere versies', 'older versions')) ?></span>
         </div>
@@ -117,7 +125,7 @@ require __DIR__ . '/inc/header.php';
                     $artifacts = array_values(array_filter($release['artifacts'] ?? [], 'is_array'));
                     $availableCount = count(array_filter($artifacts, static fn(array $artifact): bool => release_artifact_is_available($release, $artifact)));
                     ?>
-                    <details class="archive-release">
+                    <details class="archive-release" id="<?= e($releaseAnchor($release)) ?>" open>
                         <summary>
                             <span class="archive-chevron" aria-hidden="true">›</span>
                             <span class="archive-version"><b>LocalDeck <?= e($version) ?></b><small><?= e(format_release_date($release['releasedAt'] ?? null)) ?></small></span>
@@ -126,7 +134,7 @@ require __DIR__ . '/inc/header.php';
                             <span class="archive-status <?= $availableCount > 0 ? 'available' : 'unavailable' ?>"><i></i><?= e($availableCount > 0 ? t('Beschikbaar', 'Available') : t('Bestand ontbreekt', 'File missing')) ?></span>
                         </summary>
                         <div class="archive-release-body">
-                            <?php if (!empty($release['notes'])): ?><p class="archive-notes"><?= e((string) $release['notes']) ?></p><?php endif; ?>
+                            <?php if (release_text($release, 'notes') !== ''): ?><p class="archive-notes"><?= e(release_text($release, 'notes')) ?></p><?php endif; ?>
                             <?php if ($artifacts === []): ?>
                                 <p class="archive-no-artifacts"><?= e(t('Voor deze versie zijn geen downloadbestanden geregistreerd.', 'No download files are registered for this version.')) ?></p>
                             <?php else: ?>

@@ -247,7 +247,7 @@ export function SettingsCenter({state, action}: SettingsProps) {
               <article className="settingsCard settingsCardWide">
                 <SettingsCardHeader icon={ShieldCheck} title="Updatevertrouwen" description="Hashes, Windows-handtekeningen en veilig terugdraaien" />
                 <div className="compactToggleGrid">
-                  <CompactToggle label="Atomische updates" description="Bewaart de laatst gezonde versie." checked={state.settings.atomicUpdates} onChange={checked => void action(() => window.localdeck.updateSettings({atomicUpdates: checked}))} />
+                  <CompactToggle label="Atomische updates" description="Maakt vóór het downloaden automatisch een volledig werkruimteherstelpunt." checked={state.settings.atomicUpdates} onChange={checked => void action(() => window.localdeck.updateSettings({atomicUpdates: checked}))} />
                   <CompactToggle label="Alleen ondertekende updates" description="Controleert Authenticode na SHA-256." checked={state.settings.requireSignedUpdates} onChange={checked => void action(() => window.localdeck.updateSettings({requireSignedUpdates: checked}))} />
                 </div>
                 <div className="settingsPublisherGrid">
@@ -282,8 +282,8 @@ export function SettingsCenter({state, action}: SettingsProps) {
               </article>
 
               <article className="settingsCard settingsCardWide websiteSettingsCard">
-                <div><span><Save /></span><div><b>Diagnoserapport</b><small>Exporteer een veilig lokaal rapport zonder geheime waarden.</small></div></div>
-                <button className="ghost" type="button" onClick={() => void action(() => window.localdeck.exportDiagnostics())}><Save />Veilig diagnoserapport exporteren</button>
+                <div><span><Save /></span><div><b>Diagnose en ondersteuning</b><small>Exporteer geschoonde informatie zonder wachtwoorden, websitebestanden of database-inhoud.</small></div></div>
+                <div className="settingsButtonRow"><button className="ghost" type="button" onClick={() => void action(() => window.localdeck.exportDiagnostics())}><Save />Diagnoserapport</button><button className="ghost" type="button" onClick={() => void action(() => window.localdeck.exportSupportBundle())}><ArchiveRestore />Veilige supportbundel</button></div>
               </article>
             </div>
           ) : null}

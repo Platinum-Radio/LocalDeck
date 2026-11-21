@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 const LOCALDECK_SITE_ROOT = __DIR__ . '/..';
-const LOCALDECK_SITE_VERSION = '1.1.0-test.1';
+const LOCALDECK_SITE_VERSION = '1.1.0';
 const LOCALDECK_DOCUMENTATION_VERSION = '1.0.0';
 const LOCALDECK_CONTACT_RECIPIENT = 'chatgpt@platinumradio.nl';
 const LOCALDECK_MAIL_SENDER = 'website@localdeck.nl';
@@ -86,6 +86,20 @@ function release_catalog(): array
     return read_json_file(LOCALDECK_SITE_ROOT . '/downloads/releases.json', ['releases' => []]);
 }
 
+function release_text(array $release, string $field): string
+{
+    global $language;
+    $englishField = $field . 'En';
+    return (string) ($language === 'en' && !empty($release[$englishField]) ? $release[$englishField] : ($release[$field] ?? ''));
+}
+
+function release_changes(array $release): array
+{
+    global $language;
+    $changes = $language === 'en' && !empty($release['changesEn']) ? $release['changesEn'] : ($release['changes'] ?? []);
+    return array_values(array_filter(is_array($changes) ? $changes : [], 'is_string'));
+}
+
 function sorted_releases(array $releases): array
 {
     $indexedReleases = [];
@@ -156,6 +170,22 @@ function release_artifact_is_available(array $release, array $artifact): bool
         && file_exists($absoluteFile)
         && in_array(strtolower(pathinfo($absoluteFile, PATHINFO_EXTENSION)), ['exe', 'zip'], true)
         && str_starts_with(strtolower($absoluteFile), strtolower($downloadsRoot . DIRECTORY_SEPARATOR));
+}
+
+function release_artifact_public_url(array $release, array $artifact): ?string
+{
+    if (!release_artifact_is_available($release, $artifact)) {
+        return null;
+    }
+
+    $siteRoot = realpath(LOCALDECK_SITE_ROOT);
+    $absoluteFile = realpath(LOCALDECK_SITE_ROOT . '/' . ltrim((string) ($artifact['file'] ?? ''), '/\\'));
+    if ($siteRoot === false || $absoluteFile === false || !str_starts_with(strtolower($absoluteFile), strtolower($siteRoot . DIRECTORY_SEPARATOR))) {
+        return null;
+    }
+
+    $relativeUrl = str_replace(DIRECTORY_SEPARATOR, '/', substr($absoluteFile, strlen($siteRoot) + 1));
+    return '/' . implode('/', array_map('rawurlencode', explode('/', $relativeUrl)));
 }
 
 function download_statistics(): array

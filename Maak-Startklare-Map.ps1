@@ -60,11 +60,16 @@ try{
     $path=Join-Path $runtime $file
     if(Test-Path -LiteralPath $path){Remove-Item -LiteralPath $path -Force}
   }
-  foreach($directory in @('automation','backups','certs','dev-pages','downloads','logs','snapshots')){
+  foreach($directory in @('backups','certs','dev-pages','downloads','logs','snapshots')){
     $path=Join-Path $runtime $directory
     if(Test-Path -LiteralPath $path){Remove-Item -LiteralPath $path -Recurse -Force}
     New-Item -ItemType Directory -Path $path -Force|Out-Null
   }
+  $secretHelper=Join-Path $runtime 'automation\get-secret.ps1'
+  if(!(Test-Path -LiteralPath $secretHelper)){throw 'De beveiligde MySQL-wachtwoordhelper ontbreekt uit de verplaatsbare map.'}
+  $secretProbe=& powershell.exe -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File $secretHelper -SecretsFile (Join-Path $runtime 'secrets.json')
+  if($LASTEXITCODE-ne0-or[String]::IsNullOrWhiteSpace([string]$secretProbe)){throw 'Het beveiligde MySQL-wachtwoord kan na het opschonen niet meer worden gelezen.'}
+  $secretProbe=$null
   foreach($configuration in @('apache\conf\localdeck-vhosts.conf','apache\conf\localdeck-fastcgi.conf')){
     $path=Join-Path $runtime $configuration
     if(Test-Path -LiteralPath $path){Remove-Item -LiteralPath $path -Force}

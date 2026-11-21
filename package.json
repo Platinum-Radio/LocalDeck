@@ -1,6 +1,6 @@
 {
   "name": "localdeck",
-  "version": "1.1.0-test.1",
+  "version": "1.1.0",
   "private": true,
   "license": "Apache-2.0",
   "description": "A modern local PHP development environment for Windows 10 and 11",
@@ -80,6 +80,9 @@
           "!Optimize-RuntimePackages.ps1",
           "!prepare-offline-runtime.ps1",
           "!Test-ReleaseReadiness.ps1",
+          "!Test-SignPathReadiness.ps1",
+          "!Test-SupportBundlePrivacy.ps1",
+          "!Test-WorkspaceExportPrivacy.ps1",
           "!Update-RuntimeManifest.ps1",
           "!update-feed.example.json",
           "startpage/**/*",
@@ -145,6 +148,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
+      "include": "build/installer.nsh",
       "artifactName": "LocalDeck-${version}-Windows-Setup-${arch}.${ext}"
     }
   }

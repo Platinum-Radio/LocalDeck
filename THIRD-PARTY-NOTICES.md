@@ -10,14 +10,14 @@ Full license texts for standalone binaries and bundled application libraries are
 
 | Component | Version | License | Upstream project/source | Packaging note |
 |---|---:|---|---|---|
-| Apache HTTP Server / Apache Lounge Windows build | 2.4.68 | Apache-2.0 and included notices | [Apache HTTP Server](https://httpd.apache.org/) | Development headers and link libraries are removed; `LICENSE.txt` and `NOTICE.txt` remain. |
-| PHP | 8.2.33, 8.3.33, 8.4.24, 8.5.9 | PHP-3.01 and included notices | [PHP source](https://github.com/php/php-src) | Official Windows binary archives are included without source modification. |
-| MySQL Community Server | 8.4.10 | GPL-2.0-only plus included MySQL notices | [MySQL Community](https://www.mysql.com/products/community/) | Development headers, link libraries, symbols, and debug plug-ins are removed; the license remains. |
+| Apache HTTP Server / Apache Lounge Windows build | 2.4.71 | Apache-2.0 and included notices | [Apache HTTP Server](https://httpd.apache.org/) | Development headers and link libraries are removed; `LICENSE.txt` and `NOTICE.txt` remain. |
+| PHP | 8.2.36, 8.3.37, 8.4.28, 8.5.13, 8.6.0 | PHP-3.01 and included notices | [PHP source](https://github.com/php/php-src) | Official Windows binary archives are included without source modification. |
+| MySQL Community Server | 8.4.13 | GPL-2.0-only plus included MySQL notices | [MySQL Community](https://www.mysql.com/products/community/) | Development headers, link libraries, symbols, and debug plug-ins are removed; the license remains. |
 | phpMyAdmin | 5.2.3 | GPL-2.0-only plus bundled dependency licenses | [phpMyAdmin source](https://github.com/phpmyadmin/phpmyadmin/tree/RELEASE_5_2_3) | The PHP source distribution and its vendor license files remain in the package. |
-| Mailpit | 1.30.7 | MIT | [Mailpit source](https://github.com/axllent/mailpit/tree/v1.30.7) | Official Windows binary and license. |
-| Redis for Windows | 5.0.14.1 | BSD-3-Clause | [Windows fork source](https://github.com/tporadowski/redis/tree/v5.0.14.1) | Debug symbols are removed; copyright and license attribution is reproduced here and in the source link. |
+| Mailpit | 1.34.0 | MIT | [Mailpit source](https://github.com/axllent/mailpit/tree/v1.34.0) | Official Windows binary and license. |
+| Redis for Windows (MSYS2) | 8.10.3 | Apache-2.0 | [Windows port source](https://github.com/redis-windows/redis-windows/tree/8.10.3) | The runtime keeps the MSYS2 DLL dependencies required by the Windows executable; debug symbols are removed. |
 | WinSW | 2.12.0 | MIT | [WinSW source](https://github.com/winsw/winsw/tree/v2.12.0) | Official .NET 4 service-wrapper binary. |
-| Composer | 2.10.2 | MIT | [Composer source](https://github.com/composer/composer/tree/2.10.2) | Official PHAR distribution. |
+| Composer | 2.11.2 | MIT | [Composer source](https://github.com/composer/composer/tree/2.11.2) | Official PHAR distribution. |
 | mkcert | 1.4.4 | BSD-3-Clause | [mkcert source](https://github.com/FiloSottile/mkcert/tree/v1.4.4) | Official Windows binary. |
 | Microsoft Visual C++ Redistributable | 14.51.36247.0 | Microsoft Visual C++ Runtime license | [Microsoft runtime documentation](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) | Proprietary Windows System Library required by upstream Windows binaries; not part of the LocalDeck open-source work. |
 

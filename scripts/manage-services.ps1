@@ -2,7 +2,7 @@
 param(
   [Parameter(Mandatory=$true)][string]$RuntimeDir,
   [ValidateSet('Install','Uninstall','Start','Stop','StartAll','StopAll','Toggle','Refresh','Status')][string]$Action='Status',
-  [ValidateSet('apache','php','php82','php83','php84','php85','mysql','phpmyadmin','mail','redis','dns','control','all')][string]$Service='all',
+  [ValidateSet('apache','php','php82','php83','php84','php85','php86','mysql','phpmyadmin','mail','redis','dns','control','all')][string]$Service='all',
   [string]$AppExe=''
 )
 $ErrorActionPreference='Stop'
@@ -30,7 +30,7 @@ function Mail-Max{if($state.settings.mailMaxMessages){return[int]$state.settings
 function Mail-MaxAge{if($state.settings.mailMaxAgeDays){return"$([int]$state.settings.mailMaxAgeDays)d"};return''}
 function MySql-Password{$script=Join-Path $RuntimeDir 'automation\get-secret.ps1';$secrets=Join-Path $RuntimeDir 'secrets.json';if(!(Test-Path $script)-or!(Test-Path $secrets)){throw 'Het beveiligde MySQL-geheim ontbreekt.'};$password=[string](& $script -SecretsFile $secrets);if(!$password.Trim()){throw 'Het MySQL-wachtwoord kon niet veilig worden gelezen.'};return $password.Trim()}
 function Php-Dir{$version=$state.settings.defaultPhpVersion;$candidate=Join-Path $RuntimeDir "php-$version";if(Test-Path $candidate){return $candidate};return(Join-Path $RuntimeDir 'php')}
-function Php-PoolPort([string]$Version){$base=Port php 9000;if($Version-eq$state.settings.defaultPhpVersion){return $base};$supported=@('8.2','8.3','8.4','8.5');$index=[Array]::IndexOf($supported,$Version);if($index-lt0){$index=0};return($base+10+$index)}
+function Php-PoolPort([string]$Version){$base=Port php 9000;if($Version-eq$state.settings.defaultPhpVersion){return $base};$supported=@('8.2','8.3','8.4','8.5','8.6');$index=[Array]::IndexOf($supported,$Version);if($index-lt0){$index=0};return($base+10+$index)}
 function Service-Definition([string]$Id){
   if($Id-match'^php(\d)(\d)$'){$version="$($Matches[1]).$($Matches[2])";$directory=Join-Path $RuntimeDir "php-$version";return@{Name="PHP $version FastCGI";Exe=Join-Path $directory 'php-cgi.exe';Args="-b 127.0.0.1:$(Php-PoolPort $version)";Env='<env name="PHP_FCGI_CHILDREN" value="2" />'}}
   $php=Php-Dir

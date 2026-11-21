@@ -1,10 +1,13 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 — Officiële Windows-release (21 november 2026)
 
+- Offline runtime bijgewerkt naar Apache 2.4.71, PHP 8.2.36/8.3.37/8.4.28/8.5.13, MySQL 8.4.13 LTS, Mailpit 1.34.0 en Composer 2.11.2.
+- PHP 8.6.0 is als vijfde, per project selecteerbare runtime toegevoegd; PHP 8.5 blijft voorlopig de compatibiliteitsstandaard.
+- De verouderde Redis 5 Windows-fork is vervangen door de onderhouden Redis for Windows 8.10.3 MSYS2-build, inclusief de vereiste runtime-DLL's.
 - LocalDeck-broncode is nu onder Apache-2.0 gepubliceerd met een NOTICE, bijdragebeleid en expliciete licentiemetadata.
 - Openbaar code-signingbeleid, maintainerrollen en een SignPath Foundation-onboardingdossier toegevoegd.
-- Alle 13 offline runtimebronnen zijn vastgezet op exacte versies, HTTPS-adressen, bestandsgroottes, SHA-256-waarden, licenties en broncodelinks.
+- Alle 14 offline runtimebronnen zijn vastgezet op exacte versies, HTTPS-adressen, bestandsgroottes, SHA-256-waarden, licenties en broncodelinks.
 - Dynamische `latest`-downloadlinks zijn uit het runtimevoorbereidingsproces verwijderd.
 - Nieuwe Windows GitHub Actions-controle gebruikt een bevroren pnpm-lock, minimale rechten en op commit vastgezette Actions.
 - CODEOWNERS, pull-requestcontrole, Dependabot en een automatische SignPath-readinesscontrole toegevoegd.
@@ -12,6 +15,12 @@
 - De privacy- en third-partyteksten beschrijven nu precies welke netwerkacties bestaan en onder welke licenties de gebundelde onderdelen worden verspreid.
 - Automatische updatecontrole staat voor nieuwe installaties standaard uit en kan bewust in Instellingen worden aangezet.
 - De afzonderlijke LocalDeck-websitebron bevat een tweetalige code-signingpagina en duidelijke, nog niet als actief gepresenteerde SignPath-status.
+- De volledige gebruikscontrole beoordeelt nu ook opslaglocatie, schrijfrechten, vrije ruimte, back-upbeleid, updateherstel, LAN-delen en ondertekening.
+- Atomische updates maken vóór de download automatisch een volledig werkruimteherstelpunt met actuele databaseback-ups.
+- Supportbundels bevatten alleen minimale systeeminformatie en aantoonbaar geschoonde logs; privacyregressies worden automatisch getest.
+- De Windows-uninstaller bewaart websites, databases, back-ups en certificaten standaard en verwijdert gegevens alleen na een afzonderlijke waarschuwing.
+- De officiële distributie bestaat voortaan exact uit één installatie-EXE en één ZIP om uit te pakken; er wordt geen losse portable EXE meer gebouwd.
+- Nieuw Updatecentrum in de hoofdnavigatie toont huidige en beschikbare versies, tweetalige wijzigingen, versiegeschiedenis, updatekanaal, controlestatus, veilige download en rollback; LocalDeck.nl en de stabiele/bètafeeds gebruiken hetzelfde updateschema.
 
 ## 1.1.0-test.1 — Publieke Windows-testversie
 
@@ -23,7 +32,7 @@
 - Testkopieën, tijdelijke LAN-deellinks en verbeterde Nederlands/Engelse teksten.
 - Responsieve vensterindeling voor gangbare Windows-schermresoluties.
 - Windows-pakketten bevatten geen Vite-, esbuild- of Rollup-buildtools meer; alleen de benodigde Nederlandse en Engelse Electron-talen worden opgenomen.
-- MySQL-, Redis- en Apache-archieven gebruiken een gecontroleerd runtime-only profiel zonder symbolen en SDK-bestanden; phpMyAdmin blijft ongewijzigd voor maximale compatibiliteit.
+- MySQL-, Redis- en Apache-archieven gebruiken een gecontroleerd runtime-only profiel zonder symbolen en SDK-bestanden; phpMyAdmin bevat alleen de benodigde Nederlandse en Engelse talen.
 - De compacte offline runtime blijft volledig ingebouwd en wordt bij iedere validatie op vereiste bestanden, SHA-256 en uitgesloten ballast gecontroleerd.
 - De testversie gebruikt een apart bèta-updatekanaal, zodat de stabiele 1.0-feed ongewijzigd blijft.
 - Een nieuwe tweetalige updatepagina op LocalDeck.nl en `UPDATES.md` op GitHub tonen de belangrijkste wijzigingen per versie.

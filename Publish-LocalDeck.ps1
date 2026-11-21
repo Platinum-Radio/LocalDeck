@@ -71,9 +71,9 @@ try{
   if(!(Test-Path -LiteralPath $setup)){throw 'De definitieve Windows-installatie ontbreekt.'}
   $signature=Get-AuthenticodeSignature -LiteralPath $setup;if($AllowUnsigned){if($signature.Status-ne'NotSigned'){throw "Onverwachte handtekeningstatus voor ${setup}: $($signature.Status)"}}elseif($signature.Status-ne'Valid'-or$signature.SignerCertificate.Subject-notlike"*$Publisher*"){throw "Ongeldige Authenticode-handtekening: $setup"}
 
-  $shot=Join-Path $work 'portable-smoke.png';$profile=Join-Path $work 'portable-profile'
-  $portableProcess=Start-Process -FilePath $appExe -ArgumentList "--user-data-dir=`"$profile`"","--localdeck-screenshot=`"$shot`"","--localdeck-screenshot-delay=1600" -WindowStyle Hidden -PassThru -Wait
-  if($portableProcess.ExitCode-ne0-or!(Test-Path -LiteralPath $shot)){throw 'De portable eindtest is mislukt.'}
+  $shot=Join-Path $work 'folder-smoke.png';$profile=Join-Path $work 'folder-profile'
+  $folderProcess=Start-Process -FilePath $appExe -ArgumentList "--user-data-dir=`"$profile`"","--localdeck-screenshot=`"$shot`"","--localdeck-screenshot-delay=1600" -WindowStyle Hidden -PassThru -Wait
+  if($folderProcess.ExitCode-ne0-or!(Test-Path -LiteralPath $shot)){throw 'De eindtest van de uitpakbare map is mislukt.'}
 
   Copy-Item -LiteralPath $setup -Destination (Join-Path $candidate $setupName)
   $zipStage=Join-Path $work 'zip-stage';New-Item -ItemType Directory -Path $zipStage -Force|Out-Null
@@ -82,15 +82,17 @@ try{
   if($LASTEXITCODE-ne0){throw 'De uitpakbare Windows-ZIP kon niet worden gemaakt.'}
 
   $runtimeManifest=Get-Content -LiteralPath (Join-Path $zipStage "$folderName\resources\installer\packages\offline-runtime.json") -Raw|ConvertFrom-Json
-  if($runtimeManifest.packages.Count-ne13){throw 'De kandidaat bevat niet alle 13 runtimepakketten.'}
+  if($runtimeManifest.packages.Count-ne14){throw 'De kandidaat bevat niet alle 14 runtimepakketten.'}
   foreach($package in $runtimeManifest.packages){$file=Join-Path $zipStage "$folderName\resources\installer\packages\$($package.name)";if((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash-ne$package.sha256){throw "Definitieve pakketcontrole mislukt voor $($package.name)"}}
   $setupHash=(Get-FileHash -LiteralPath (Join-Path $candidate $setupName) -Algorithm SHA256).Hash;$zipHash=(Get-FileHash -LiteralPath (Join-Path $candidate $zipName) -Algorithm SHA256).Hash;$publishedAt=(Get-Date).ToString('o')
   @("$($setupHash.ToLowerInvariant())  $setupName","$($zipHash.ToLowerInvariant())  $zipName")|Set-Content -LiteralPath (Join-Path $candidate 'SHA256SUMS.txt') -Encoding ascii
-  $feed=[ordered]@{version=$version;channel=$releaseChannel;title="LocalDeck $version is beschikbaar";notes=$(if($AllowUnsigned){'Ongetekende Windows-release met SHA-256 en volledig offline gecontroleerde runtime. Windows kan een SmartScreen-waarschuwing tonen.'}else{'Ondertekende Windows-release met volledig offline gecontroleerde runtime.'});downloadUrl="$DownloadBaseUrl/$setupName";publishedAt=$publishedAt;sha256=$setupHash;signed=(-not $AllowUnsigned);publisher=$Publisher}
+  $releaseNotesNl='Nieuwe LocalDeck-versie met een volledig offline gecontroleerde Windows-runtime, veilige updatecontrole en automatisch herstelpunt.'
+  $releaseNotesEn='New LocalDeck release with a fully offline-verified Windows runtime, safe update verification, and an automatic restore point.'
+  $feed=[ordered]@{schemaVersion=2;version=$version;channel=$releaseChannel;title="LocalDeck $version is beschikbaar";titleEn="LocalDeck $version is available";notes=$releaseNotesNl;notesEn=$releaseNotesEn;downloadUrl="$DownloadBaseUrl/$setupName";releaseNotesUrl='https://localdeck.nl/updates.php';publishedAt=$publishedAt;sha256=$setupHash;signed=(-not $AllowUnsigned);publisher=$Publisher;history=@([ordered]@{version=$version;title="LocalDeck $version";titleEn="LocalDeck $version";notes=$releaseNotesNl;notesEn=$releaseNotesEn;changes=@('Veilig gecontroleerde Windows-release.','Automatisch werkruimteherstelpunt vóór downloaden.');changesEn=@('Safely verified Windows release.','Automatic workspace restore point before download.');publishedAt=$publishedAt;channel=$releaseChannel})}
   $previous=Get-ChildItem -LiteralPath $downloads -Directory -ErrorAction SilentlyContinue|Where-Object{$_.Name-ne$version-and$_.Name-match'^\d+\.\d+\.\d+$'}|Sort-Object{[version]$_.Name}|Select-Object -Last 1
   if(!$AllowUnsigned-and$previous){$previousSetup=Get-ChildItem -LiteralPath $previous.FullName -Filter 'LocalDeck-*-Windows-Setup-x64.exe'|Select-Object -First 1;if($previousSetup){$feed.rollbackVersion=$previous.Name;$feed.rollbackUrl="$DownloadBaseUrl/$($previous.Name)/$($previousSetup.Name)";$feed.rollbackSha256=(Get-FileHash -LiteralPath $previousSetup.FullName -Algorithm SHA256).Hash}}
-  $feed|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $candidate 'update-feed.json') -Encoding UTF8
-  [ordered]@{version=$version;channel=$releaseChannel;publishedAt=$publishedAt;packages=13;validation='passed';signed=(-not $AllowUnsigned);publisher=$Publisher;warning=$(if($AllowUnsigned){'Windows SmartScreen of Smart App Control kan deze ongetekende bestanden blokkeren.'}else{$null});artifacts=@([ordered]@{type='installer-exe';file=$setupName;sha256=$setupHash},[ordered]@{type='portable-zip';file=$zipName;sha256=$zipHash});sourceCommit=(git -C $root rev-parse HEAD 2>$null);updateFeed='update-feed.json'}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $candidate 'release.json') -Encoding UTF8
+  $feed|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $candidate 'update-feed.json') -Encoding UTF8
+  [ordered]@{version=$version;channel=$releaseChannel;publishedAt=$publishedAt;packages=14;validation='passed';signed=(-not $AllowUnsigned);publisher=$Publisher;warning=$(if($AllowUnsigned){'Windows SmartScreen of Smart App Control kan deze ongetekende bestanden blokkeren.'}else{$null});artifacts=@([ordered]@{type='installer-exe';file=$setupName;sha256=$setupHash},[ordered]@{type='folder-zip';file=$zipName;sha256=$zipHash});sourceCommit=(git -C $root rev-parse HEAD 2>$null);updateFeed='update-feed.json'}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $candidate 'release.json') -Encoding UTF8
 
   New-Item -ItemType Directory -Path $downloads -Force|Out-Null
   Move-Item -LiteralPath $candidate -Destination $published

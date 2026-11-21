@@ -16,6 +16,7 @@ import {DatabaseUsersPanel, MailRetentionPanel, OperationsCenter} from './Operat
 import {ActionCenterPage, ApiStudioPage, AutomationPage, QualityLabPage} from './EngineeringCenter';
 import {DebugInbox, LocalDeckFix, ProjectWorkspace, type EasePage} from './EaseCenter';
 import {SettingsCenter} from './SettingsCenter';
+import {UpdateCenter} from './UpdateCenter';
 import {installDocumentTranslations, translateText} from './i18n';
 
 type Page = EasePage;
@@ -31,6 +32,7 @@ const navigation: NavigationItem[] = [
   {id: 'databases', label: 'Databases', icon: Database, simple: true},
   {id: 'mail', label: 'E-mail', icon: Mail, simple: true},
   {id: 'doctor', label: 'LocalDeck Fix', icon: Stethoscope, simple: true},
+  {id: 'updates', label: 'Updates', icon: RefreshCw, simple: true},
   {id: 'settings', label: 'Instellingen', icon: Settings, simple: true},
   {id: 'studio', label: 'Project Studio', icon: GitFork, simple: false},
   {id: 'automation', label: 'Automatisering', icon: Network, simple: false},
@@ -60,6 +62,7 @@ const subtitles: Record<Page, string> = {
   tasks: 'Composer-, Node-, test- en eigen projectopdrachten.',
   mail: 'Lokale testadressen, Mailbeheer Pro en configureerbare SMTP-routes.',
   doctor: 'Eén controle- en herstelplek voor LocalDeck en al je projecten.',
+  updates: 'Beschikbare versies, wijzigingen, controle, download en herstel.',
   security: 'Lokale controles, automatisch herstel en updatevertrouwen.',
   catalog: 'Templates, adapters, migratie en overdraagbare profielen.',
   runtime: 'Ingebouwde offline runtime, PHP-versies, extensies en herstel.',
@@ -74,6 +77,7 @@ function badgeFor(id: Page, state: AppState) {
   if (id === 'snapshots') return state.snapshots.length;
   if (id === 'security') return state.securityFindings.filter(item => !item.resolved).length;
   if (id === 'doctor') return state.projectHealth.filter(report => report.status !== 'ok').length;
+  if (id === 'updates') return state.update.status === 'available' ? 1 : 0;
   if (id === 'databases') return state.databases.length;
   if (id === 'inspector') return state.inspectorEvents.filter(item => item.severity !== 'info').length;
   return 0;
@@ -138,7 +142,7 @@ export default function Shell() {
         <div className="sidebarMode" role="group" aria-label="Interfacemodus"><button title="Eenvoudige modus" className={interfaceMode === 'simple' ? 'active' : ''} onClick={() => switchMode('simple')}><Sparkles /><span>Eenvoudig</span></button><button title="Geavanceerde modus" className={interfaceMode === 'advanced' ? 'active' : ''} onClick={() => switchMode('advanced')}><Settings /><span>Geavanceerd</span></button></div>
         <div className="runtime"><span><Radio />Uitvoermodus</span><strong className={state.settings.runtimeMode === 'windows-service' ? 'green' : 'amber'}>{state.settings.runtimeMode === 'windows-service' ? 'WINDOWS-SERVICE' : 'APP-MODUS'}</strong><small>{running}/{state.services.length} services actief{state.settings.folderMode ? ' · mapmodus' : ''}</small></div>
         <button className="sidebarWebsite" type="button" onClick={() => void action(() => window.localdeck.openWebsite())}><Globe2 /><span><b>LocalDeck.nl</b><small>Website & documentatie</small></span><ChevronRight /></button>
-        <div className="version">LocalDeck v1.1.0-test.1 · Windows</div>
+        <div className="version">LocalDeck v1.1.0 · Windows</div>
       </aside>
       <main>
         <header><div><h1>{current.label}</h1><p>{subtitles[page]}</p></div><div className="headerActions"><div className={`health ${running ? 'online' : ''}`}><span />{running ? `${running} actief` : 'Alles gestopt'}</div><button className="ghost commandButton" onClick={() => setPalette(true)}><Command />Ctrl K</button><button className="ghost privacyButton" title="Presentatie-/privacymodus" onClick={() => void action(() => window.localdeck.updateSettings({privacyMode: !state.settings.privacyMode}))}><ShieldCheck /><span>{state.settings.privacyMode ? 'Privacy aan' : 'Privacy'}</span></button><button className="ghost workspaceButton" onClick={() => void window.localdeck.openWorkspace()}><FolderOpen /><span>Websites-map</span></button><button className="ghost webControlButton" onClick={() => void action(() => window.localdeck.openTool('webcontrol'))}>Webbeheer</button><button className="primary" onClick={() => setProjectModal(true)}><Plus /><span>Nieuw project</span></button></div></header>
@@ -156,6 +160,7 @@ export default function Shell() {
         {page === 'tasks' ? <TasksPage state={state} action={action} /> : null}
         {page === 'mail' ? <><ControlMail state={state} action={action} /><MailSettings state={state} action={action} /><MailRetentionPanel state={state} action={action} /></> : null}
         {page === 'doctor' ? <><LocalDeckFix state={state} action={action} />{interfaceMode === 'advanced' ? <details className="advancedDrawer"><summary><Settings />Technische diagnose en overdracht<ChevronRight /></summary><OperationsCenter state={state} action={action} /></details> : null}</> : null}
+        {page === 'updates' ? <UpdateCenter state={state} action={action} /> : null}
         {page === 'security' ? <SecurityPage state={state} action={action} /> : null}
         {page === 'catalog' ? <CatalogPage state={state} action={action} /> : null}
         {page === 'runtime' ? <><ControlRuntime state={state} action={action} /><RuntimeExtras state={state} action={action} /></> : null}
@@ -165,7 +170,7 @@ export default function Shell() {
       </main>
       {projectModal ? <ProjectPopup state={state} action={action} close={() => setProjectModal(false)} /> : null}
       {palette ? <CommandPalette state={state} navigate={next => {setPage(next); setPalette(false);}} action={action} openProject={() => {setProjectModal(true); setPalette(false);}} close={() => setPalette(false)} /> : null}
-      <UpdatePopup update={state.update} action={action} /><FirstRunPopup state={state} action={action} />
+      <UpdatePopup update={state.update} language={state.settings.language} action={action} /><FirstRunPopup state={state} action={action} />
       {notice ? <div className={`actionToast ${notice.tone}`} role={notice.tone === 'error' ? 'alert' : 'status'} aria-live="polite"><div className="actionToastIcon"><NoticeIcon /></div><div><b>{notice.title}</b><p>{notice.message}</p></div><button aria-label="Melding sluiten" onClick={() => setNotice(null)}><X /></button><span className="actionToastTimer" /></div> : null}
     </div>
   );
