@@ -53,18 +53,16 @@ async function serviceCommand(action:'Install'|'Uninstall'|'Start'|'Stop'|'Start
  return runtime.refreshServiceStates();
 }
 
-async function controlRequest(endpoint:string,payload?:unknown){const settings=runtime.snapshot().settings,token=getWebControlToken(settings.dataDirectory),url=`http://127.0.0.1:${settings.webControlPort}${endpoint}${endpoint.includes('?')?'&':'?'}token=${encodeURIComponent(token)}`;const response=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:payload===undefined?undefined:JSON.stringify(payload)});if(!response.ok){let message='Webbeheer kon de serviceopdracht niet uitvoeren.';try{message=(await response.json()as{error?:string}).error||message}catch{}throw new Error(message)}await runtime.refreshServiceStates();return runtime.snapshot()}
-
 async function toggleService(id:ServiceId){
  const before=runtime.snapshot(),service=before.services.find(item=>item.id===id);if(!service)throw new Error('Service niet gevonden.');const starting=service.status!=='running';
  if(starting)for(const dependency of runtime.requiredServices(id)){const required=runtime.snapshot().services.find(item=>item.id===dependency);if(required?.status!=='running')await toggleService(dependency)}
  else for(const dependent of runtime.dependentServices(id)){const consumer=runtime.snapshot().services.find(item=>item.id===dependent);if(consumer?.status==='running')await toggleService(dependent)}
- if(runtime.snapshot().settings.runtimeMode==='windows-service'&&!runtime.snapshot().settings.simulationMode){const result=await controlRequest(`/api/services/${id}/toggle`);runtime.setServiceIntent(id,starting);return result}
+ if(runtime.snapshot().settings.runtimeMode==='windows-service'&&!runtime.snapshot().settings.simulationMode){const result=await serviceCommand('Toggle',id);runtime.setServiceIntent(id,starting);return result}
  return runtime.toggleService(id);
 }
 
 async function toggleAll(start:boolean){
- if(runtime.snapshot().settings.runtimeMode==='windows-service'&&!runtime.snapshot().settings.simulationMode){const result=await controlRequest(`/api/services/all/${start?'start':'stop'}`);runtime.setAllServiceIntent(start);return result}
+ if(runtime.snapshot().settings.runtimeMode==='windows-service'&&!runtime.snapshot().settings.simulationMode){const result=await serviceCommand(start?'StartAll':'StopAll','all');runtime.setAllServiceIntent(start);return result}
  return runtime.toggleAll(start);
 }
 

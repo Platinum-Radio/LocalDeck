@@ -1,0 +1,5 @@
+name: LocalDeck production code
+
+paths-ignore:
+  - prototypes/**
+  - '**/*.test.ts'
